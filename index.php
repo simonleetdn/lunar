@@ -50,11 +50,10 @@ h1, h2, h3, .navbar-brand {
           <a class="nav-link" href="#">關於</a>
         </li>
       </ul>
-      <form class="form-inline ml-auto" method="get">
-        <label class="mr-2 text-light" for="year-month">選擇其他年月份：</label>
-        <input type="month" id="year-month" name="year-month" value="<?php echo $year.'-'.$month; ?>" class="form-control mr-2" />
-        <button type="submit" class="btn btn-warning">確定</button>
-      </form>
+<form class="form-inline ml-auto" id="year-month-form" method="get">
+    <label class="mr-2 text-light" for="year-month">選擇月份：</label>
+    <input type="month" id="year-month" name="year-month" value="<?php echo $year.'-'.$month; ?>" class="form-control mr-2" />
+</form>
     </div>
 	</div>	  
   </nav>
@@ -137,5 +136,10 @@ use com\nlf\calendar\Solar;
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    document.getElementById('year-month').addEventListener('change', function() {
+        document.getElementById('year-month-form').submit();
+    });
+</script>	
 </body>
 </html>

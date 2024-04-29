@@ -60,10 +60,16 @@ for ($month = 1; $month <= 12; $month++) {
         $solar = Solar::fromDate($gregorianDate);
 
         echo "<p>";
+		if ($solar->getWeekInChinese() === '日') {
+			echo '<span class="text-danger">';
+        } else {
+            echo '<span class="text-black">';
+		}
 		echo "【陽曆：";
         echo $solar->getYear()."-";
         echo $solar->getMonth()."-";
-        echo $solar->getDay()."】\n";
+        echo $solar->getDay();
+		echo "星期".$solar->getWeekInChinese()."】</span>\n";
         echo "【農曆：";
         echo $lunar->getYearInChinese()."年";
         echo $lunar->getMonthInChinese()."月";

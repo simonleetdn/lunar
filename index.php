@@ -81,7 +81,7 @@ use com\nlf\calendar\Solar;
 
         $solar = Solar::fromDate($gregorianDate);
 
-        echo "<p>";
+        echo "<hr/><p>";
 		if ($solar->getWeekInChinese() === '日') {
 			echo '<span class="text-danger">';
         } else {

@@ -6,11 +6,27 @@
   <title>2024農民曆</title>
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+	<style>
     /* Add some styles for the dynamically added content */
     .dynamically-added {
       color: red;
     }
+		
+body {
+  font-family: "Noto Serif TC", serif;
+  font-weight: 400;
+  font-style: normal;
+}	
+		
+h1, h2, h3 {
+  font-family: "Noto Serif TC", serif;
+  font-weight: 700;
+  font-style: normal;
+}	
+		
   </style>
 </head>
 <body>

@@ -1,9 +1,16 @@
+<?php
+if(isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
+    list($year, $month) = explode('-', $_GET["year-month"]);
+} else {
+    $year = date("Y");
+    $month = date("m");
+}
+?>
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>2024農民曆</title>
+  <title><?php echo $year."年".$month."月"; ?>農民曆</title>
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,9 +26,10 @@ body {
   font-family: "Noto Serif TC", serif;
   font-weight: 400;
   font-style: normal;
+ padding-top: 70px;
 }	
 		
-h1, h2, h3 {
+h1, h2, h3, .navbar-brand {
   font-family: "Noto Serif TC", serif;
   font-weight: 700;
   font-style: normal;
@@ -30,10 +38,29 @@ h1, h2, h3 {
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1 class="text-center mt-4 mb-5">2024農民曆</h1>
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-danger">
+	  <div class="container-md">
+    <a class="navbar-brand" href="#">農民曆（黃曆）</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="#">關於</a>
+        </li>
+      </ul>
+      <form class="form-inline ml-auto" method="get">
+        <label class="mr-2 text-light" for="year-month">選擇其他年月份：</label>
+        <input type="month" id="year-month" name="year-month" value="<?php echo $year.'-'.$month; ?>" class="form-control mr-2" />
+        <button type="submit" class="btn btn-warning">確定</button>
+      </form>
+    </div>
+	</div>	  
+  </nav>
+	<div class="container">
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-12">	  
 <?php
 
 require 'Lunar.php';
@@ -41,11 +68,7 @@ require 'Lunar.php';
 use com\nlf\calendar\Lunar;
 use com\nlf\calendar\Solar;
 
-$year = 2024;
-
-for ($month = 1; $month <= 12; $month++) {
-    // Loop through each month
-    echo "<h2>{$year}年 {$month}月</h2>";
+    echo "<h2 class='mt-6'>{$year}年 {$month}月</h2>";
 
     // Get the number of days in the current month
     $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
@@ -103,9 +126,9 @@ for ($month = 1; $month <= 12; $month++) {
                 echo "\n"; // Add newline for all items except the last one
             }
         }
-        echo "】<p>";
+        echo "】";
+		echo "【財神：".$lunar->getDayPositionCaiDesc()."】<p>";
     }
-}
 ?>
       </div>
     </div>

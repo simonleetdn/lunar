@@ -52,26 +52,32 @@ for ($month = 1; $month <= 12; $month++) {
         echo $lunar->getYearInChinese()."年";
         echo $lunar->getMonthInChinese()."月";
         echo $lunar->getDayInChinese()."】\n";
-echo "【宜：";
-$yiList = $lunar->getDayYi();
-$yiCount = count($yiList);
-foreach ($yiList as $key => $s) {
-    echo $s;
-    if ($key < $yiCount - 1) {
-        echo "\n"; // Add newline for all items except the last one
-    }
-}
-echo "】\n";
-echo "【忌：";
-$jiList = $lunar->getDayJi();
-$jiCount = count($jiList);
-foreach ($jiList as $key => $s) {
-    echo $s;
-    if ($key < $jiCount - 1) {
-        echo "\n"; // Add newline for all items except the last one
-    }
-}
-echo "】<p>";
+
+        if ($lunar->getJieQi()) {
+            // Display as h3 if it's a solar term day
+            echo "<h3>【".$lunar->getJieQi()."】</h3>";
+        }
+
+        echo "【宜：";
+        $yiList = $lunar->getDayYi();
+        $yiCount = count($yiList);
+        foreach ($yiList as $key => $s) {
+            echo $s;
+            if ($key < $yiCount - 1) {
+                echo "\n"; // Add newline for all items except the last one
+            }
+        }
+        echo "】\n";
+        echo "【忌：";
+        $jiList = $lunar->getDayJi();
+        $jiCount = count($jiList);
+        foreach ($jiList as $key => $s) {
+            echo $s;
+            if ($key < $jiCount - 1) {
+                echo "\n"; // Add newline for all items except the last one
+            }
+        }
+        echo "】<p>";
     }
 }
 ?>

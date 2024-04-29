@@ -80,8 +80,31 @@ use com\nlf\calendar\Solar;
         $lunar = Lunar::fromDate($gregorianDate);
 
         $solar = Solar::fromDate($gregorianDate);
+		
+		echo "<hr/>";
 
-        echo "<hr/><p>";
+		$Festivallist = $lunar->getFestivals();
+		
+		if ($Festivallist || $lunar->getJieQi()) {
+                echo "<h3>";
+        }
+		
+		if ($Festivallist) {
+            foreach ($Festivallist as $s) {
+				echo "【".$s."】";
+			}
+        }
+		
+        if ($lunar->getJieQi()) {
+            // Display as h3 if it's a solar term day
+            echo "【".$lunar->getJieQi()."】";
+        }
+		
+		if ($Festivallist || $lunar->getJieQi()) {
+                echo "</h3>";
+        }
+		
+        echo "<div class='day' id='{$day}'><p>";
 		if ($solar->getWeekInChinese() === '日') {
 			echo '<span class="text-danger">';
         } else {
@@ -93,14 +116,10 @@ use com\nlf\calendar\Solar;
         echo $solar->getDay();
 		echo "星期".$solar->getWeekInChinese()."】</span>\n";
         echo "【農曆：";
-        echo $lunar->getYearInChinese()."年";
+        echo $lunar->getYearInGanZhi()."年";
         echo $lunar->getMonthInChinese()."月";
         echo $lunar->getDayInChinese()."】\n";
-
-        if ($lunar->getJieQi()) {
-            // Display as h3 if it's a solar term day
-            echo "<h3>【".$lunar->getJieQi()."】</h3>";
-        }
+		
 		if (in_array('諸事不宜', $lunar->getDayYi()) || in_array('諸事不宜', $lunar->getDayJi())) {
 			echo '<span class="text-black">';
         } else {
@@ -126,7 +145,16 @@ use com\nlf\calendar\Solar;
             }
         }
         echo "】";
-		echo "【財神：".$lunar->getDayPositionCaiDesc()."】<p>";
+		// 詳細strat
+		echo "<span class='d-none' id='detail{$day}'>";
+		echo "【喜神：".$lunar->getPositionXiDesc()."】";
+		echo "【陽貴神：".$lunar->getPositionYangGuiDesc()."】";
+		echo "【陰貴神：".$lunar->getPositionYinGuiDesc()."】";
+		echo "【福神：".$lunar->getPositionFuDesc()."】";
+		echo "【財神：".$lunar->getDayPositionCaiDesc()."】";
+		echo "</span>";
+		// 詳細end
+		echo "<p></div>";
     }
 ?>
       </div>
@@ -140,6 +168,26 @@ use com\nlf\calendar\Solar;
     document.getElementById('year-month').addEventListener('change', function() {
         document.getElementById('year-month-form').submit();
     });
+	
+  // Function to toggle visibility of detail element
+  function toggleDetailVisibility(day) {
+    var detailElement = document.getElementById('detail' + day);
+    if (detailElement.classList.contains('d-none')) {
+      detailElement.classList.remove('d-none');
+    } else {
+      detailElement.classList.add('d-none');
+    }
+  }
+
+  // Add event listeners to all elements with class 'day'
+  var dayElements = document.getElementsByClassName('day');
+  for (var i = 0; i < dayElements.length; i++) {
+    dayElements[i].addEventListener('click', function() {
+      // Extract the day from the element's ID
+      var day = this.id;
+      toggleDetailVisibility(day);
+    });
+  }
 </script>	
 </body>
 </html>

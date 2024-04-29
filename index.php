@@ -147,11 +147,22 @@ use com\nlf\calendar\Solar;
         echo "】";
 		// 詳細strat
 		echo "<span class='d-none' id='detail{$day}'>";
-		echo "【喜神：".$lunar->getPositionXiDesc()."】";
-		echo "【陽貴神：".$lunar->getPositionYangGuiDesc()."】";
-		echo "【陰貴神：".$lunar->getPositionYinGuiDesc()."】";
-		echo "【福神：".$lunar->getPositionFuDesc()."】";
-		echo "【財神：".$lunar->getDayPositionCaiDesc()."】";
+		echo "【吉神方位：";
+		echo "喜神".$lunar->getPositionXiDesc()."\n";
+		echo "陽貴神".$lunar->getPositionYangGuiDesc()."\n";
+		echo "陰貴神".$lunar->getPositionYinGuiDesc()."\n";
+		echo "福神".$lunar->getPositionFuDesc()."\n";
+		echo "財神".$lunar->getDayPositionCaiDesc();
+		echo "】";
+		
+		echo "【日祿：".$lunar->getDayLu()."】";
+
+		echo "【日沖".$lunar->getDayChongDesc()."\n煞".$lunar->getDaySha()."】";
+		
+		echo "【六曜：".$lunar->getLiuYao()."】";
+		
+		echo "【物候：".$lunar->getWuHou()."】";
+		
 		echo "</span>";
 		// 詳細end
 		echo "<p></div>";

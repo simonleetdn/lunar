@@ -57,7 +57,11 @@ for ($month = 1; $month <= 12; $month++) {
             // Display as h3 if it's a solar term day
             echo "<h3>【".$lunar->getJieQi()."】</h3>";
         }
-
+		if ($lunar->getDayJi()[0] === '诸事不宜') {
+			echo '<span class="text-black">';
+        } else {
+            echo '<span class="text-danger">';
+		}
         echo "【宜：";
         $yiList = $lunar->getDayYi();
         $yiCount = count($yiList);
@@ -67,7 +71,7 @@ for ($month = 1; $month <= 12; $month++) {
                 echo "\n"; // Add newline for all items except the last one
             }
         }
-        echo "】\n";
+        echo "】</span>\n";
         echo "【忌：";
         $jiList = $lunar->getDayJi();
         $jiCount = count($jiList);

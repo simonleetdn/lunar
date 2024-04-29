@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2023農民曆</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Add some styles for the dynamically added content */
+    .dynamically-added {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="text-center mt-4 mb-5">2023農民曆</h1>
+    <div class="row">
+      <div class="col-md-12">
+        <script src="lunar.js"></script>
+        <script>
+          // Your existing JavaScript code here
+
+          // Add scroll event listener
+          window.addEventListener('scroll', function() {
+            var scrollPosition = window.scrollY; // Get the current scroll position
+
+            // Check if the user is scrolling down
+            if (scrollPosition > lastScrollPosition) {
+              // Add dynamically generated content here
+              var newContent = '<div class="dynamically-added">Dynamically added content</div>';
+              document.body.insertAdjacentHTML('beforeend', newContent);
+            }
+
+            lastScrollPosition = scrollPosition; // Update the last scroll position
+          });
+
+          // Specify Gregorian year
+          var year = 2023;
+
+          for (var month = 1; month <= 12; month++) {
+            // Loop through each month
+            document.write("<h2>" + year + "年 " + month + "月</h2>");
+
+            // Get the number of days in the current month
+            var daysInMonth = new Date(year, month, 0).getDate();
+
+            for (var day = 1; day <= daysInMonth; day++) {
+              // Create a Gregorian Date object
+              var gregorianDate = new Date(year, month - 1, day);
+
+              // Convert Gregorian date to lunar date using lunar.js
+              var date = Lunar.fromDate(gregorianDate);
+
+              // Create a unique ID for each day
+              var dayID = "day_" + year + "_" + month + "_" + day;
+
+              // Display lunar date information with a link
+              document.write('<p><class id="' + dayID + '">');
+              document.write('【陽曆：' + date.getSolar() + '】');
+              document.write('【農曆：' + date.getYearInChinese() + '年' + date.getMonthInChinese() + '月' + date.getDayInChinese() + '】');
+              document.write('【宜：' + date.getDayYi() + '】');
+              document.write('【忌：' + date.getDayJi() + '】');
+              document.write('</class></p>');
+            }
+          }
+
+          // Add click event listeners to each day link
+          var links = document.getElementsByTagName("class");
+          for (var i = 0; i < links.length; i++) {
+            links[i].addEventListener("click", function() {
+              var dayID = this.id; // Get the unique ID of the clicked link
+              var dayDate = Lunar.fromDate(new Date(year, parseInt(dayID.split("_")[2]) - 1, parseInt(dayID.split("_")[3]))); // Parse the year, month, and day from the ID
+              var fullDate = dayDate.toFullString(); // Get the full lunar date string
+
+              // Create a paragraph element to display the full date
+              var paragraph = document.createElement("p");
+              paragraph.innerHTML = fullDate;
+
+              // Insert the paragraph element below the clicked link
+              this.parentNode.insertBefore(paragraph, this.nextSibling);
+            });
+          }
+        </script>
+      </div>
+    </div>
+  </div>
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

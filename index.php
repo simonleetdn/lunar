@@ -40,14 +40,14 @@ h1, h2, h3, .navbar-brand {
 <body>
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-danger">
 	  <div class="container-md">
-    <a class="navbar-brand" href="#">農民曆（黃曆）</a>
+    <a class="navbar-brand" href="/">農民曆（黃曆）</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="#">關於</a>
+          <a id="exall" class="nav-link" href="#">全部展開</a>
         </li>
       </ul>
 <form class="form-inline ml-auto" id="year-month-form" method="get">
@@ -332,6 +332,21 @@ function changeMonth(offset) {
   window.location.href = newUrl;
 }
 
+//全部展開
+// 获取全部展开按钮元素
+const expandBtn = document.querySelector('#exall');
+
+// 获取需要展开的元素集合
+const elementsToExpand = document.querySelectorAll('.d-none');
+
+// 监听展开按钮点击事件
+expandBtn.addEventListener('click', function(event) {
+  // 遍历需要展开的元素集合，并移除所有元素的 d-none 类
+  elementsToExpand.forEach(element => {
+    element.classList.remove('d-none');
+  });
+});
+	
 </script>	
 </body>
 </html>

@@ -39,7 +39,7 @@ class HolidayUtil
    * 節假日名稱（元旦0，春節1，清明2，勞動3，端午4，中秋5，國慶6，國慶中秋7，抗戰勝利日8）
    * @var array
    */
-  public static $NAMES = array('元旦節', '春節', '清明節', '勞動節', '端午節', '中秋節', '國慶節', '國慶中秋', '抗戰勝利日');
+  public static $NAMES = array('元旦', '春節', '清明節', '勞動節', '端午節', '中秋節', '國慶節', '國慶中秋', '抗戰勝利日');
 
   /**
    * 節假日數據，日期YYYYMMDD+名稱下標+是否調休+對應節日YYYYMMDD
@@ -673,102 +673,538 @@ class TaoUtil
   private static function init()
   {
     self::$FESTIVAL = array(
-      '1-1' => array(new TaoFestival('天臘之辰', '天臘，此日五帝會於東方九炁青天')),
-      '1-3' => array(new TaoFestival('郝真人聖誕'), new TaoFestival('孫真人聖誕')),
-      '1-5' => array(new TaoFestival('孫祖清靜元君誕')),
-      '1-7' => array(new TaoFestival('舉遷賞會', '此日上元賜福，天官同地水二官考校罪福')),
-      '1-9' => array(new TaoFestival('玉皇上帝聖誕')),
-      '1-13' => array(new TaoFestival('關聖帝君飛升')),
-      '1-15' => array(new TaoFestival('上元天官聖誕'), new TaoFestival('老祖天師聖誕')),
-      '1-19' => array(new TaoFestival('長春邱真人(邱處機)聖誕')),
-      '1-28' => array(new TaoFestival('許真君(許遜天師)聖誕')),
-      '2-1' => array(new TaoFestival('勾陳天皇大帝聖誕'), new TaoFestival('長春劉真人(劉淵然)聖誕')),
-      '2-2' => array(new TaoFestival('土地正神誕'), new TaoFestival('姜太公聖誕')),
-      '2-3' => array(new TaoFestival('文昌梓潼帝君聖誕')),
-      '2-6' => array(new TaoFestival('東華帝君聖誕')),
-      '2-13' => array(new TaoFestival('度人無量葛真君聖誕')),
-      '2-15' => array(new TaoFestival('太清道德天尊(太上老君)聖誕')),
-      '2-19' => array(new TaoFestival('慈航真人聖誕')),
-      '3-1' => array(new TaoFestival('譚祖(譚處端)長真真人聖誕')),
-      '3-3' => array(new TaoFestival('玄天上帝聖誕')),
-      '3-6' => array(new TaoFestival('眼光娘娘聖誕')),
-      '3-15' => array(new TaoFestival('天師張大真人聖誕'), new TaoFestival('財神趙公元帥聖誕')),
-      '3-16' => array(new TaoFestival('三茅真君得道之辰'), new TaoFestival('中岳大帝聖誕')),
-      '3-18' => array(new TaoFestival('王祖(王處一)玉陽真人聖誕'), new TaoFestival('後土娘娘聖誕')),
-      '3-19' => array(new TaoFestival('太陽星君聖誕')),
-      '3-20' => array(new TaoFestival('子孫娘娘聖誕')),
-      '3-23' => array(new TaoFestival('天後媽祖聖誕')),
-      '3-26' => array(new TaoFestival('鬼谷先師誕')),
-      '3-28' => array(new TaoFestival('東岳大帝聖誕')),
-      '4-1' => array(new TaoFestival('長生譚真君成道之辰')),
-      '4-10' => array(new TaoFestival('何仙姑聖誕')),
-      '4-14' => array(new TaoFestival('呂祖純陽祖師聖誕')),
-      '4-15' => array(new TaoFestival('鐘離祖師聖誕')),
-      '4-18' => array(new TaoFestival('北極紫微大帝聖誕'), new TaoFestival('泰山聖母碧霞元君誕'), new TaoFestival('華佗神醫先師誕')),
-      '4-20' => array(new TaoFestival('眼光聖母娘娘誕')),
-      '4-28' => array(new TaoFestival('神農先帝誕')),
-      '5-1' => array(new TaoFestival('南極長生大帝聖誕')),
-      '5-5' => array(new TaoFestival('地臘之辰', '地臘，此日五帝會於南方三炁丹天'), new TaoFestival('南方雷祖聖誕'), new TaoFestival('地祗溫元帥聖誕'), new TaoFestival('雷霆鄧天君聖誕')),
-      '5-11' => array(new TaoFestival('城隍爺聖誕')),
-      '5-13' => array(new TaoFestival('關聖帝君降神'), new TaoFestival('關平太子聖誕')),
-      '5-18' => array(new TaoFestival('張天師聖誕')),
-      '5-20' => array(new TaoFestival('馬祖丹陽真人聖誕')),
-      '5-29' => array(new TaoFestival('紫青白祖師聖誕')),
-      '6-1' => array(new TaoFestival('南鬥星君下降')),
-      '6-2' => array(new TaoFestival('南鬥星君下降')),
-      '6-3' => array(new TaoFestival('南鬥星君下降')),
-      '6-4' => array(new TaoFestival('南鬥星君下降')),
-      '6-5' => array(new TaoFestival('南鬥星君下降')),
-      '6-6' => array(new TaoFestival('南鬥星君下降')),
-      '6-10' => array(new TaoFestival('劉海蟾祖師聖誕')),
-      '6-15' => array(new TaoFestival('靈官王天君聖誕')),
-      '6-19' => array(new TaoFestival('慈航(觀音)成道日')),
-      '6-23' => array(new TaoFestival('火神聖誕')),
-      '6-24' => array(new TaoFestival('南極大帝中方雷祖聖誕'), new TaoFestival('關聖帝君聖誕')),
-      '6-26' => array(new TaoFestival('二郎真君聖誕')),
-      '7-7' => array(new TaoFestival('道德臘之辰', '道德臘，此日五帝會於西方七炁素天'), new TaoFestival('慶生中會', '此日中元赦罪，地官同天水二官考校罪福')),
-      '7-12' => array(new TaoFestival('西方雷祖聖誕')),
-      '7-15' => array(new TaoFestival('中元地官大帝聖誕')),
-      '7-18' => array(new TaoFestival('王母娘娘聖誕')),
-      '7-20' => array(new TaoFestival('劉祖(劉處玄)長生真人聖誕')),
-      '7-22' => array(new TaoFestival('財帛星君文財神增福相公李詭祖聖誕')),
-      '7-26' => array(new TaoFestival('張三豐祖師聖誕')),
-      '8-1' => array(new TaoFestival('許真君飛升日')),
-      '8-3' => array(new TaoFestival('九天司命竈君誕')),
-      '8-5' => array(new TaoFestival('北方雷祖聖誕')),
-      '8-10' => array(new TaoFestival('北岳大帝誕辰')),
-      '8-15' => array(new TaoFestival('太陰星君誕')),
-      '9-1' => array(new TaoFestival('北鬥九皇降世之辰')),
-      '9-2' => array(new TaoFestival('北鬥九皇降世之辰')),
-      '9-3' => array(new TaoFestival('北鬥九皇降世之辰')),
-      '9-4' => array(new TaoFestival('北鬥九皇降世之辰')),
-      '9-5' => array(new TaoFestival('北鬥九皇降世之辰')),
-      '9-6' => array(new TaoFestival('北鬥九皇降世之辰')),
-      '9-7' => array(new TaoFestival('北鬥九皇降世之辰')),
-      '9-8' => array(new TaoFestival('北鬥九皇降世之辰')),
-      '9-9' => array(new TaoFestival('北鬥九皇降世之辰'), new TaoFestival('鬥姥元君聖誕'), new TaoFestival('重陽帝君聖誕'), new TaoFestival('玄天上帝飛升'), new TaoFestival('酆都大帝聖誕')),
-      '9-22' => array(new TaoFestival('增福財神誕')),
-      '9-23' => array(new TaoFestival('薩翁真君聖誕')),
-      '9-28' => array(new TaoFestival('五顯靈官馬元帥聖誕')),
-      '10-1' => array(new TaoFestival('民歲臘之辰', '民歲臘，此日五帝會於北方五炁黑天'), new TaoFestival('東皇大帝聖誕')),
-      '10-3' => array(new TaoFestival('三茅應化真君聖誕')),
-      '10-6' => array(new TaoFestival('天曹諸司五岳五帝聖誕')),
-      '10-15' => array(new TaoFestival('下元水官大帝聖誕'), new TaoFestival('建生大會', '此日下元解厄，水官同天地二官考校罪福')),
-      '10-18' => array(new TaoFestival('地母娘娘聖誕')),
-      '10-19' => array(new TaoFestival('長春邱真君飛升')),
-      '10-20' => array(new TaoFestival('虛靖天師(即三十代天師弘悟張真人)誕')),
-      '11-6' => array(new TaoFestival('西岳大帝聖誕')),
-      '11-9' => array(new TaoFestival('湘子韓祖聖誕')),
-      '11-11' => array(new TaoFestival('太乙救苦天尊聖誕')),
-      '11-26' => array(new TaoFestival('北方五道聖誕')),
-      '12-8' => array(new TaoFestival('王侯臘之辰', '王侯臘，此日五帝會於上方玄都玉京')),
-      '12-16' => array(new TaoFestival('南岳大帝聖誕'), new TaoFestival('福德正神誕')),
-      '12-20' => array(new TaoFestival('魯班先師聖誕')),
-      '12-21' => array(new TaoFestival('天猷上帝聖誕')),
-      '12-22' => array(new TaoFestival('重陽祖師聖誕')),
-      '12-23' => array(new TaoFestival('祭竈王', '最適宜謝舊年太歲，開啟拜新年太歲')),
-      '12-25' => array(new TaoFestival('玉帝巡天'), new TaoFestival('天神下降')),
-      '12-29' => array(new TaoFestival('清靜孫真君(孫不二)成道'))
+'1-1' => array(
+    new TaoFestival('天臘之辰', '天臘，此日五帝會於東方九炁青天'),
+    new TaoFestival('元始天尊萬壽'),
+    new TaoFestival('盤古聖祖聖壽'),
+    new TaoFestival('彌勒尊佛佛辰'),
+),
+'1-3' => array(
+    new TaoFestival('郝真人聖誕'),
+    new TaoFestival('孫真人聖誕'),
+),
+'1-4' => array(
+    new TaoFestival('孫天醫真人千秋'),
+    new TaoFestival('接神日'),
+),
+'1-5' => array(
+    new TaoFestival('孫祖清靜元君誕'),
+    new TaoFestival('迎財神'),
+),
+'1-6' => array(
+    new TaoFestival('清水祖師佛辰'),
+),
+'1-7' => array(
+    new TaoFestival('舉遷賞會', '此日上元賜福，天官同地水二官考校罪福'),
+),
+'1-8' => array(
+    new TaoFestival('五殿閰羅王聖誕'),
+),
+'1-9' => array(
+    new TaoFestival('玉皇上帝聖誕'),
+    new TaoFestival('萬教帝君聖寿'),
+    new TaoFestival('玄穹高上帝萬壽'),
+),
+'1-12' => array(
+    new TaoFestival('五年千歲‧羅千歲千秋'),
+),
+'1-13' => array(
+    new TaoFestival('關聖帝君飛升'),
+),
+'1-15' => array(
+    new TaoFestival('上元天官聖誕'),
+    new TaoFestival('老祖天師聖誕'),
+    new TaoFestival('門神戶尉千秋'),
+    new TaoFestival('臨水夫人陳靖姑千秋'),
+),
+'1-16' => array(
+    new TaoFestival('郭府大元帥聖誕'),
+),
+'1-19' => array(
+    new TaoFestival('長春邱真人(邱處機)聖誕'),
+),
+'1-20' => array(
+    new TaoFestival('招財童子聖誕'),
+),
+'1-21' => array(
+    new TaoFestival('水德星君千秋'),
+),
+'1-22' => array(
+    new TaoFestival('武德尊侯沈祖公聖誕'),
+),
+'1-24' => array(
+    new TaoFestival('雷都光耀大帝聖誕'),
+),
+'1-28' => array(
+    new TaoFestival('許真君(許遜天師)聖誕'),
+),
+
+'2-1' => array(
+    new TaoFestival('勾陳天皇大帝聖誕'),
+    new TaoFestival('長春劉真人(劉淵然)聖誕'),
+    new TaoFestival('一殿秦廣王千秋'),
+),
+'2-2' => array(
+    new TaoFestival('土地正神誕'),
+    new TaoFestival('姜太公聖誕'),
+    new TaoFestival('濟公菩薩佛辰'),
+    new TaoFestival('福德正神千秋'),
+),
+'2-3' => array(
+    new TaoFestival('文昌梓潼帝君聖誕'),
+),
+'2-4' => array(
+    new TaoFestival('八仙曹國舅聖誕'),
+),
+'2-5' => array(
+    new TaoFestival('八仙藍采和聖誕'),
+),
+'2-6' => array(
+    new TaoFestival('東華帝君聖誕'),
+),
+'2-8' => array(
+    new TaoFestival('三殿宋帝王千秋'),
+),
+'2-8' => array(
+    new TaoFestival('台北府城隍夫人媽聖誕'),
+),
+'2-13' => array(
+    new TaoFestival('度人無量葛真君聖誕'),
+),
+'2-15' => array(
+    new TaoFestival('太清道德天尊(太上老君)聖誕'),
+    new TaoFestival('太上老君道德天尊聖壽'),
+    new TaoFestival('九天玄女娘娘聖誕'),
+    new TaoFestival('精忠岳王千秋'),
+    new TaoFestival('三山國王千秋'),
+),
+'2-16' => array(
+    new TaoFestival('開漳聖王千秋'),
+),
+'2-18' => array(
+    new TaoFestival('四殿五官王千秋'),
+),
+'2-19' => array(
+    new TaoFestival('慈航真人聖誕'),
+    new TaoFestival('南宮趙真君聖誕'),
+),
+'2-21' => array(
+    new TaoFestival('普賢菩薩佛辰'),
+),
+
+      '3-1' => array(
+    new TaoFestival('譚祖(譚處端)長真真人聖誕'),
+    new TaoFestival('二殿楚江王千秋'),
+),
+'3-3' => array(
+    new TaoFestival('玄天上帝聖誕'),
+    new TaoFestival('玄天上帝萬壽'),
+    new TaoFestival('軒轅聖帝萬壽'),
+    new TaoFestival('五年千歲˙吳千歲千秋'),
+),
+'3-4' => array(
+    new TaoFestival('五年千歲˙張千歲千秋'),
+),
+'3-6' => array(
+    new TaoFestival('眼光娘娘聖誕'),
+),
+'3-7' => array(
+    new TaoFestival('三天主考聖誕'),
+),
+'3-8' => array(
+    new TaoFestival('堪輿祖師楊公聖誕'),
+    new TaoFestival('六殿卞城王千秋'),
+    new TaoFestival('五年千歲˙趙千歲千秋'),
+),
+'3-15' => array(
+    new TaoFestival('無極老母娘聖誕'),
+    new TaoFestival('保生大帝聖誕'),
+    new TaoFestival('中路財神趙元帥聖誕'),
+),
+'3-16' => array(
+    new TaoFestival('準提菩薩佛辰'),
+),
+'3-18' => array(
+    new TaoFestival('土地婆聖誕'),
+    new TaoFestival('南天廖將軍聖誕'),
+),
+'3-19' => array(
+    new TaoFestival('太陽星君聖誕'),
+),
+'3-20' => array(
+    new TaoFestival('子孫娘娘聖誕'),
+),
+'3-23' => array(
+    new TaoFestival('天上聖母（媽祖）聖誕'),
+),
+'3-26' => array(
+    new TaoFestival('鬼谷先師誕'),
+    new TaoFestival('鬼谷先師千秋'),
+),
+'3-27' => array(
+    new TaoFestival('七殿泰山王千秋'),
+),
+'3-28' => array(
+    new TaoFestival('東岳大帝聖誕'),
+    new TaoFestival('倉頡先師聖誕'),
+),
+
+      '4-1' => array(
+    new TaoFestival('長生譚真君成道之辰'),
+    new TaoFestival('八殿都市王千秋'),
+),
+'4-4' => array(
+    new TaoFestival('文殊菩薩佛辰'),
+),
+'4-8' => array(
+    new TaoFestival('釋迦佛祖萬壽'),
+    new TaoFestival('九殿平等王千秋'),
+    new TaoFestival('白主公聖誕'),
+),
+'4-10' => array(
+    new TaoFestival('何仙姑聖誕'),
+),
+'4-12' => array(
+    new TaoFestival('朱、邢、李三千歲千秋'),
+    new TaoFestival('蘇府王爺千秋'),
+),
+'4-14' => array(
+    new TaoFestival('呂祖純陽祖師聖誕'),
+),
+'4-15' => array(
+    new TaoFestival('鐘離祖師聖誕'),
+),
+'4-17' => array(
+    new TaoFestival('十殿輪轉王千秋'),
+),
+'4-18' => array(
+    new TaoFestival('北極紫微大帝聖誕'),
+    new TaoFestival('華陀神醫先師千秋'),
+),
+'4-21' => array(
+    new TaoFestival('李托塔天王聖誕'),
+),
+'4-25' => array(
+    new TaoFestival('武安尊王千秋'),
+),
+'4-26' => array(
+    new TaoFestival('五穀先帝（神農大帝）聖誕'),
+    new TaoFestival('南鯤鯓李王爺千秋'),
+),
+'4-27' => array(
+    new TaoFestival('南鯤鯓范五王爺千秋'),
+    new TaoFestival('藥王扁鵲聖誕'),
+),
+'4-28' => array(
+    new TaoFestival('神農先帝誕'),
+    new TaoFestival('神農先帝萬壽'),
+),
+'5-1' => array(
+    new TaoFestival('南極長生大帝聖誕'),
+),
+'5-5' => array(
+    new TaoFestival('地臘之辰', '地臘，此日五帝會於南方三炁丹天'),
+    new TaoFestival('南方雷祖聖誕'),
+    new TaoFestival('地祗溫元帥聖誕'),
+    new TaoFestival('雷霆鄧天君聖誕'),
+),
+'5-11' => array(
+    new TaoFestival('城隍爺聖誕'),
+),
+'5-13' => array(
+    new TaoFestival('關聖帝君降神'),
+    new TaoFestival('關平太子聖誕'),
+),
+'5-17' => array(
+    new TaoFestival('蕭府王爺千秋 （蕭太傅）'),
+),
+'5-18' => array(
+    new TaoFestival('呂洞賓得道日*'),
+    new TaoFestival('張天師聖誕'),
+    new TaoFestival('蓮生活佛聖誕'),
+),
+'5-19' => array(
+    new TaoFestival('九天馬恩師聖誕'),
+),
+'6-1' => array(
+    new TaoFestival('南無彌勒佛陀成佛日*'),
+    new TaoFestival('南極長生帝君千秋'),
+),
+'6-3' => array(
+    new TaoFestival('韋馱護法佛誕*'),
+),
+'6-6' => array(
+    new TaoFestival('虎爺聖誕'),
+    new TaoFestival('九天李恩師聖誕'),
+    new TaoFestival('彭祖聖誕'),
+),
+'6-7' => array(
+    new TaoFestival('八仙韓湘子聖誕'),
+),
+'6-10' => array(
+    new TaoFestival('劉海蟾祖師聖誕'),
+),
+'6-11' => array(
+    new TaoFestival('田都元帥千秋'),
+),
+'6-12' => array(
+    new TaoFestival('莫府千歲名莫英千秋'),
+),
+'6-15' => array(
+    new TaoFestival('無極驪山老母聖誕'),
+    new TaoFestival('護國軍師劉伯溫聖誕'),
+    new TaoFestival('王靈天君聖誕'),
+),
+'6-16' => array(
+    new TaoFestival('先天王靈官聖誕'),
+),
+'6-18' => array(
+    new TaoFestival('南鯤鯓池二王爺千秋'),
+),
+'6-19' => array(
+    new TaoFestival('觀世音菩薩得道紀念'),
+    new TaoFestival('周倉大將軍聖誕'),
+),
+'6-23' => array(
+    new TaoFestival('火神聖誕'),
+),
+'6-24' => array(
+    new TaoFestival('南極大帝中方雷祖聖誕'),
+    new TaoFestival('關聖帝君聖誕'),
+),
+'6-26' => array(
+    new TaoFestival('二郎真君聖誕'),
+),
+
+      '7-1' => array(
+    new TaoFestival('太上老君旦'),
+),
+'7-7' => array(
+    new TaoFestival('道德臘之辰', '道德臘，此日五帝會於西方七炁素天'),
+    new TaoFestival('慶生中會', '此日中元赦罪，地官同天水二官考校罪福'),
+    new TaoFestival('七星娘娘千秋'),
+    new TaoFestival('大成魁星聖誕'),
+    new TaoFestival('衛房聖母聖誕'),
+),
+'7-10' => array(
+    new TaoFestival('八仙鐵拐李聖誕'),
+),
+'7-11' => array(
+    new TaoFestival('驪山姥姆聖誕千秋'),
+),
+'7-12' => array(
+    new TaoFestival('西方雷祖聖誕'),
+),
+'7-13' => array(
+    new TaoFestival('大勢至菩薩佛辰'),
+),
+'7-14' => array(
+    new TaoFestival('開基恩主千秋'),
+),
+'7-15' => array(
+    new TaoFestival('中元地官聖誕'),
+),
+'7-18' => array(
+    new TaoFestival('王母娘娘聖誕'),
+    new TaoFestival('瑤池王母娘娘聖誕'),
+),
+'7-19' => array(
+    new TaoFestival('太白金星聖誕'),
+    new TaoFestival('天然古佛佛誕'),
+    new TaoFestival('值年太歲星君千秋'),
+),
+'7-21' => array(
+    new TaoFestival('菩庵菩薩佛辰'),
+),
+'7-23' => array(
+    new TaoFestival('南宮柳星君聖誕'),
+    new TaoFestival('諸葛武侯千秋'),
+    new TaoFestival('法主聖君千秋'),
+),
+'7-24' => array(
+    new TaoFestival('鄭延平邵王千秋'),
+),
+'7-25' => array(
+    new TaoFestival('武德侯沈祖公千秋'),
+),
+'7-30' => array(
+    new TaoFestival('地藏王菩薩佛辰'),
+),
+
+      '8-1' => array(
+    new TaoFestival('許真君飛升日'),
+),
+'8-3' => array(
+    new TaoFestival('北斗星君聖誕'),
+    new TaoFestival('九天司命灶君千秋'),
+    new TaoFestival('五年千歲˙徐千歲千秋'),
+    new TaoFestival('姜相子牙千秋'),
+),
+'8-5' => array(
+    new TaoFestival('雷聲普化天尊聖誕'),
+),
+'8-10' => array(
+    new TaoFestival('北岳大帝誕辰'),
+),
+'8-15' => array(
+    new TaoFestival('福德正神成道日'),
+    new TaoFestival('太陰星君聖誕'),
+    new TaoFestival('南宮孔恩師聖誕'),
+    new TaoFestival('月下老人聖誕'),
+    new TaoFestival('天然古佛成道日'),
+),
+'9-1' => array(
+    new TaoFestival('北鬥九皇降世之辰'),
+),
+'9-2' => array(
+    new TaoFestival('北鬥九皇降世之辰'),
+),
+'9-3' => array(
+    new TaoFestival('北鬥九皇降世之辰'),
+),
+'9-4' => array(
+    new TaoFestival('北鬥九皇降世之辰'),
+),
+'9-5' => array(
+    new TaoFestival('北鬥九皇降世之辰'),
+),
+'9-6' => array(
+    new TaoFestival('北鬥九皇降世之辰'),
+),
+'9-7' => array(
+    new TaoFestival('北鬥九皇降世之辰'),
+),
+'9-8' => array(
+    new TaoFestival('北鬥九皇降世之辰'),
+),
+'9-9' => array(
+    new TaoFestival('鬥姥元君聖誕'),
+    new TaoFestival('重陽帝君聖誕'),
+    new TaoFestival('玄天上帝飛升'),
+    new TaoFestival('酆都大帝聖誕'),
+),
+'9-22' => array(
+    new TaoFestival('增福財神誕'),
+),
+'9-23' => array(
+    new TaoFestival('薩翁真君聖誕'),
+),
+'9-28' => array(
+    new TaoFestival('五顯靈官馬元帥聖誕'),
+),
+
+      '10-1' => array(
+    new TaoFestival('民歲臘之辰', '民歲臘，此日五帝會於北方五炁黑天'),
+    new TaoFestival('東皇大帝聖誕'),
+    new TaoFestival('台北府城隍聖誕'),
+    new TaoFestival('陰陽公聖誕'),
+),
+'10-3' => array(
+    new TaoFestival('三茅應化真君聖誕'),
+),
+'10-5' => array(
+    new TaoFestival('達摩祖師佛辰'),
+),
+'10-6' => array(
+    new TaoFestival('天曹諸司五岳五帝聖誕'),
+),
+'10-10' => array(
+    new TaoFestival('八仙張果老聖誕'),
+),
+'10-15' => array(
+    new TaoFestival('下元水官大帝聖誕'),
+    new TaoFestival('建生大會', '此日下元解厄，水官同天地二官考校罪福'),
+),
+'10-18' => array(
+    new TaoFestival('地母娘娘聖誕'),
+),
+'10-19' => array(
+    new TaoFestival('長春邱真君飛升'),
+),
+'10-20' => array(
+    new TaoFestival('虛靖天師(即三十代天師弘悟張真人)誕'),
+),
+'10-22' => array(
+    new TaoFestival('青山靈安尊王千秋'),
+),
+'10-23' => array(
+    new TaoFestival('周倉將軍爺千秋'),
+),
+'10-25' => array(
+    new TaoFestival('感天大帝許真人千秋'),
+),
+'10-27' => array(
+    new TaoFestival('紫薇星君聖誕'),
+),
+'10-29' => array(
+    new TaoFestival('鄔府千歲聖誕'),
+),
+'11-1' => array(
+    new TaoFestival('溫府千歲聖誕'),
+),
+'11-4' => array(
+    new TaoFestival('安南尊王千秋'),
+),
+'11-11' => array(
+    new TaoFestival('太乙救苦天尊聖誕'),
+),
+'11-15' => array(
+    new TaoFestival('無極老母娘聖誕'),
+),
+'11-17' => array(
+    new TaoFestival('阿彌陀佛佛辰'),
+),
+'11-19' => array(
+    new TaoFestival('九蓮菩薩佛辰'),
+),
+'11-23' => array(
+    new TaoFestival('張仙大帝聖誕'),
+),
+'11-27' => array(
+    new TaoFestival('董公真仙聖誕日'),
+),
+'12-1' => array(
+    new TaoFestival('五年千歲˙譚千歲千秋'),
+),
+'12-4' => array(
+    new TaoFestival('三代祖師聖誕'),
+),
+'12-6' => array(
+    new TaoFestival('普庵祖師聖誕'),
+),
+'12-8' => array(
+    new TaoFestival('釋迦文佛成道'),
+    new TaoFestival('王侯臘之辰', '王侯臘，此日五帝會於上方玄都玉京'),
+),
+'12-16' => array(
+    new TaoFestival('尾牙酬謝福德正神'),
+    new TaoFestival('南岳大帝聖誕'),
+),
+'12-20' => array(
+    new TaoFestival('魯班先師聖誕'),
+),
+'12-21' => array(
+    new TaoFestival('天猷上帝聖誕'),
+),
+'12-22' => array(
+    new TaoFestival('重陽祖師聖誕'),
+),
+'12-23' => array(
+    new TaoFestival('祭竈王', '最適宜謝舊年太歲，開啟拜新年太歲'),
+    new TaoFestival('華陀仙翁聖誕'),
+),
+'12-24' => array(
+    new TaoFestival('送神日'),
+),
+'12-25' => array(
+    new TaoFestival('玉帝巡天'),
+    new TaoFestival('天神下降接玉皇'),
+),
+'12-29' => array(
+    new TaoFestival('南斗北斗星君下降'),
+    new TaoFestival('華嚴菩薩佛誕'),
+)
+
     );
   }
 
@@ -2472,7 +2908,7 @@ class SolarUtil
    * @var array
    */
   public static $FESTIVAL = array(
-    '1-1' => '元旦節',
+    '1-1' => '元旦',
     '2-14' => '情人節',
     '3-8' => '婦女節',
     '3-12' => '植樹節',
@@ -2481,8 +2917,8 @@ class SolarUtil
     '5-1' => '勞動節',
     '5-4' => '青年節',
     '6-1' => '兒童節',
-    '7-1' => '建黨節',
-    '8-1' => '建軍節',
+    //'7-1' => '建黨節',
+    //'8-1' => '建軍節',
     '9-10' => '教師節',
     '10-1' => '國慶節',
     '10-31' => '萬聖節前夜',
@@ -2496,7 +2932,7 @@ class SolarUtil
    * @var array
    */
   public static $WEEK_FESTIVAL = array(
-    '3-0-1' => '全國中小學生安全教育日',
+    //'3-0-1' => '全國中小學生安全教育日',
     '5-2-0' => '母親節',
     '6-3-0' => '父親節',
     '11-4-4' => '感恩節'

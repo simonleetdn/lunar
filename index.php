@@ -64,6 +64,10 @@ h1, h2, h3, .navbar-brand {
 
 require 'Lunar.php';
 
+use com\nlf\calendar\Foto;
+use com\nlf\calendar\Tao;		  
+use com\nlf\calendar\LunarYear;
+use com\nlf\calendar\util\HolidayUtil;
 use com\nlf\calendar\Lunar;
 use com\nlf\calendar\Solar;
 
@@ -78,9 +82,9 @@ use com\nlf\calendar\Solar;
 
         // Convert Gregorian date to lunar date using Lunar.php
         $lunar = Lunar::fromDate($gregorianDate);
-
         $solar = Solar::fromDate($gregorianDate);
-		
+		$foto = Foto::fromLunar($lunar);
+		$tao = Tao::fromLunar($lunar);
 		echo "<hr/>";
 
 		$Festivallist = $lunar->getFestivals();
@@ -114,11 +118,40 @@ use com\nlf\calendar\Solar;
         echo $solar->getYear()."-";
         echo $solar->getMonth()."-";
         echo $solar->getDay();
-		echo "星期".$solar->getWeekInChinese()."】</span>\n";
+		echo "星期".$solar->getWeekInChinese()."】</span>";
         echo "【農曆：";
-        echo $lunar->getYearInGanZhi()."年";
-        echo $lunar->getMonthInChinese()."月";
-        echo $lunar->getDayInChinese()."】\n";
+		$ly = $lunar->getYearInGanZhi();
+        $lm = $lunar->getMonthInChinese();
+        $ld = $lunar->getDayInChinese();
+        echo $ly."年";
+        echo $lm."月";
+        echo $ld."】";
+
+		$sf = $solar->getFestivals();
+		if ($sf){
+			$sfc = count($sf);
+			echo "【";
+			foreach ($sf as $s) {
+  				echo $s;
+				    if ($s < $sfc - 1) {
+                		echo "\n";
+					}
+			}
+			echo "】";
+		}
+		
+		$ff = $lunar->getOtherFestivals();
+		if ($ff){
+			$ffc = count($ff);
+			echo "【";
+			foreach ($ff as $f) {
+  				echo $f;
+				    if ($f < $ffc - 1) {
+                		echo "\n";
+					}
+			}
+			echo "】";
+		}
 		
 		if (in_array('諸事不宜', $lunar->getDayYi()) || in_array('諸事不宜', $lunar->getDayJi())) {
 			echo '<span class="text-black">';
@@ -147,6 +180,38 @@ use com\nlf\calendar\Solar;
         echo "】";
 		// 詳細strat
 		echo "<span class='d-none' id='detail{$day}'>";
+		
+								//echo "【佛曆：".$foto."】";
+		
+//$ftl = $foto->getOtherFestivals();;
+//if ($ftl){
+//    $ftlc = count($ftl);
+//    echo "【";
+//    foreach ($ftl as $key => $f) {
+//        echo $f;
+//        if ($key != $ftlc - 1) {
+//            echo "\n"; 
+//        }
+//    }
+//    echo "】";
+//}
+		
+						//echo "【道曆：".$tao."】";
+		
+$ttl = $tao->getFestivals();
+if ($ttl){
+    $ttlc = count($ttl);
+    echo '<span class="text-danger">【';
+    foreach ($ttl as $key => $f) {
+        echo $f;
+        if ($key != $ttlc - 1) {
+            echo "\n";
+        }
+    }
+    echo "】</span>";
+}
+		
+		
 		echo "【吉神方位：";
 		echo "喜神".$lunar->getPositionXiDesc()."\n";
 		echo "陽貴神".$lunar->getPositionYangGuiDesc()."\n";
@@ -162,7 +227,7 @@ use com\nlf\calendar\Solar;
 		echo "【六曜：".$lunar->getLiuYao()."】";
 		
 		echo "【物候：".$lunar->getWuHou()."】";
-		
+			
 		echo "</span>";
 		// 詳細end
 		echo "<p></div>";
@@ -199,6 +264,41 @@ use com\nlf\calendar\Solar;
       toggleDetailVisibility(day);
     });
   }
+	
+	// 左右切換月份
+	// 获取当前 URL 中的 year-month 参数值
+const urlParams = new URLSearchParams(window.location.search);
+const currentYearMonth = urlParams.get('year-month');
+
+// 将当前年月字符串转换为 JavaScript Date 对象
+const currentDate = new Date(currentYearMonth);
+
+// 创建函数用于增减月份
+function changeMonth(offset) {
+  // 添加指定月份的偏移量
+  currentDate.setMonth(currentDate.getMonth() + offset);
+  
+  // 格式化新的年月字符串
+  const newYear = currentDate.getFullYear();
+  const newMonth = currentDate.getMonth() + 1; // 月份从 0 开始计数，需要加 1
+  const newYearMonth = `${newYear}-${newMonth.toString().padStart(2, '0')}`;
+  
+  // 构建新的 URL 并跳转
+  const newUrl = `http://localhost/lunar/?year-month=${newYearMonth}`;
+  window.location.href = newUrl;
+}
+
+// 监听左右滑动事件
+document.addEventListener('keydown', function(event) {
+  if (event.keyCode === 37) {
+    // 左箭头键，调用 changeMonth 函数向左滑动
+    changeMonth(-1);
+  } else if (event.keyCode === 39) {
+    // 右箭头键，调用 changeMonth 函数向右滑动
+    changeMonth(1);
+  }
+});
+
 </script>	
 </body>
 </html>

@@ -130,31 +130,16 @@ use com\nlf\calendar\Solar;
         echo $lm."月";
         echo $ld."】";
 
-		$sf = $solar->getFestivals();
-		if ($sf){
-			$sfc = count($sf);
-			echo "【";
-			foreach ($sf as $s) {
-  				echo $s;
-				    if ($s < $sfc - 1) {
-                		echo "\n";
-					}
-			}
-			echo "】";
-		}
-		
-		$ff = $lunar->getOtherFestivals();
-		if ($ff){
-			$ffc = count($ff);
-			echo "【";
-			foreach ($ff as $f) {
-  				echo $f;
-				    if ($f < $ffc - 1) {
-                		echo "\n";
-					}
-			}
-			echo "】";
-		}
+$sf = $solar->getFestivals();
+if (!empty($sf)) {
+    echo "【" . implode("\n", $sf) . "】";
+}
+
+$ff = $lunar->getOtherFestivals();
+if (!empty($ff)) {
+    echo "【" . implode("\n", $ff) . "】";
+}
+
 		
 		$sanfu = $lunar->getFu();
 		$shujiu = $lunar->getShuJiu();
@@ -162,31 +147,16 @@ use com\nlf\calendar\Solar;
 			echo "【".$sanfu.$shujiu."】";
 		}
 		
-		if (in_array('諸事不宜', $lunar->getDayYi()) || in_array('諸事不宜', $lunar->getDayJi())) {
-			echo '<span class="text-black">';
-        } else {
-            echo '<span class="text-danger">';
-		}
-        echo "【宜：";
-        $yiList = $lunar->getDayYi();
-        $yiCount = count($yiList);
-        foreach ($yiList as $key => $s) {
-            echo $s;
-            if ($key < $yiCount - 1) {
-                echo "\n"; // Add newline for all items except the last one
-            }
-        }
-        echo "】</span>\n";
-        echo "【忌：";
-        $jiList = $lunar->getDayJi();
-        $jiCount = count($jiList);
-        foreach ($jiList as $key => $s) {
-            echo $s;
-            if ($key < $jiCount - 1) {
-                echo "\n"; // Add newline for all items except the last one
-            }
-        }
-        echo "】";
+		$yiList = $lunar->getDayYi();
+$jiList = $lunar->getDayJi();
+
+// Determine the text color based on the presence of '諸事不宜' in the lists
+$textColor = (in_array('諸事不宜', $yiList) || in_array('諸事不宜', $jiList)) ? 'text-black' : 'text-danger';
+
+// Output "宜" and "忌" with their respective lists
+echo "<span class='$textColor'>【宜：" . implode("\n", $yiList) . "】</span>\n";
+echo "【忌：" . implode("\n", $jiList) . "】";
+
 		// 詳細strat
 		
 		echo "<span class='d-none' id='detail{$day}'>";
@@ -209,19 +179,11 @@ use com\nlf\calendar\Solar;
 						//echo "【道曆：".$tao."】";
 		
 $ttl = $tao->getFestivals();
-if ($ttl){
-    $ttlc = count($ttl);
-    echo '<span class="text-danger">【';
-    foreach ($ttl as $key => $f) {
-        echo $f;
-        if ($key != $ttlc - 1) {
-            echo "\n";
-        }
-    }
-    echo "】</span>";
+
+if (!empty($ttl)) {
+    echo '<span class="text-danger">【' . implode("\n", $ttl) . '】</span>';
 }
-		
-		
+
 		echo "【吉神方位：";
 		echo "喜神".$lunar->getPositionXiDesc()."\n";
 		echo "陽貴神".$lunar->getPositionYangGuiDesc()."\n";
@@ -233,23 +195,16 @@ if ($ttl){
 		echo "【胎神方位：".$lunar->getDayPositionTai()."】";
 		
 		echo "【太歲方位：".$lunar->getDayPositionTaiSuiDesc()."】";
-		echo "【吉神宜趨：";
 		
-		$l = $lunar->getDayJiShen();
-foreach ($l as $s) {
-  echo $s . "\n";
-}
-
-		echo "】";
-		
-		echo "【凶神宜忌：";
-			
-$l = $lunar->getDayXiongSha();
-foreach ($l as $s) {
-  echo $s . "\n";
+		$jsyq = $lunar->getDayJiShen();
+if (!empty($jsyq)) {
+    echo "【吉神宜趨：" . implode("\n", $jsyq) . "】";
 }
 		
-		echo "】";
+		$xsyq = $lunar->getDayXiongSha();
+if (!empty($xsyq)) {
+    echo "【凶神宜忌：" . implode("\n", $xsyq) . "】";
+}
 		
 		echo "【日祿：".$lunar->getDayLu()."】";
 
@@ -261,7 +216,7 @@ foreach ($l as $s) {
 		
 		echo "【日納音：".$lunar->getDayNaYin()."】";
 		
-		echo "【".$lunar->getGong()."\n".$lunar->getShou()."】";
+		echo "【四宮神獸：".$lunar->getGong().$lunar->getShou()."】";
 		
 		echo "【彭祖百忌：".$lunar->getPengZuGan()."\n".$lunar->getPengZuZhi()."】";
 		

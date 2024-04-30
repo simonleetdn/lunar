@@ -266,9 +266,17 @@ if ($ttl){
   }
 	
 	// 左右切換月份
-// 获取当前 URL 中的 year-month 参数值
+// 获取 URL 中的 year-month 参数值，如果没有则使用当前年月
 const urlParams = new URLSearchParams(window.location.search);
-const currentYearMonth = urlParams.get('year-month');
+let currentYearMonth = urlParams.get('year-month');
+
+if (!currentYearMonth) {
+  // 如果没有 year-month 参数，则使用当前年月
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth() + 1; // 月份从 0 开始计数，需要加 1
+  currentYearMonth = `${currentYear}-${currentMonth.toString().padStart(2, '0')}`;
+}
 
 // 将当前年月字符串转换为 JavaScript Date 对象
 const currentDate = new Date(currentYearMonth);
@@ -320,7 +328,7 @@ function changeMonth(offset) {
   const newYearMonth = `${newYear}-${newMonth.toString().padStart(2, '0')}`;
   
   // 构建新的 URL 并跳转
-  const newUrl = `?year-month=${newYearMonth}`;
+  const newUrl = `http://localhost/lunar/?year-month=${newYearMonth}`;
   window.location.href = newUrl;
 }
 

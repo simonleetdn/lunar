@@ -328,7 +328,7 @@ function changeMonth(offset) {
   const newYearMonth = `${newYear}-${newMonth.toString().padStart(2, '0')}`;
   
   // 构建新的 URL 并跳转
-  const newUrl = `http://localhost/lunar/?year-month=${newYearMonth}`;
+  const newUrl = `?year-month=${newYearMonth}`;
   window.location.href = newUrl;
 }
 

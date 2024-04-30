@@ -34,7 +34,10 @@ h1, h2, h3, .navbar-brand {
   font-weight: 700;
   font-style: normal;
 }	
-		
+	
+.nav-link {
+  cursor: pointer;
+}
   </style>
 </head>
 <body>
@@ -47,7 +50,7 @@ h1, h2, h3, .navbar-brand {
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a id="exall" class="nav-link" href="#">全部展開</a>
+          <a id="exall" class="nav-link">全部展開</a>
         </li>
       </ul>
 <form class="form-inline ml-auto" id="year-month-form" method="get">
@@ -118,7 +121,7 @@ use com\nlf\calendar\Solar;
         echo $solar->getYear()."-";
         echo $solar->getMonth()."-";
         echo $solar->getDay();
-		echo "星期".$solar->getWeekInChinese()."】</span>";
+		echo "\n星期".$solar->getWeekInChinese()."】</span>";
         echo "【農曆：";
 		$ly = $lunar->getYearInGanZhi();
         $lm = $lunar->getMonthInChinese();
@@ -153,6 +156,12 @@ use com\nlf\calendar\Solar;
 			echo "】";
 		}
 		
+		$sanfu = $lunar->getFu();
+		$shujiu = $lunar->getShuJiu();
+		if($sanfu || $shujiu){
+			echo "【".$sanfu.$shujiu."】";
+		}
+		
 		if (in_array('諸事不宜', $lunar->getDayYi()) || in_array('諸事不宜', $lunar->getDayJi())) {
 			echo '<span class="text-black">';
         } else {
@@ -179,6 +188,7 @@ use com\nlf\calendar\Solar;
         }
         echo "】";
 		// 詳細strat
+		
 		echo "<span class='d-none' id='detail{$day}'>";
 		
 								//echo "【佛曆：".$foto."】";
@@ -227,6 +237,8 @@ if ($ttl){
 		echo "【六曜：".$lunar->getLiuYao()."】";
 		
 		echo "【物候：".$lunar->getWuHou()."】";
+		
+		echo "【日納音：".$lunar->getDayNaYin()."】";
 			
 		echo "</span>";
 		// 詳細end

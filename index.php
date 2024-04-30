@@ -266,12 +266,48 @@ if ($ttl){
   }
 	
 	// 左右切換月份
-	// 获取当前 URL 中的 year-month 参数值
+// 获取当前 URL 中的 year-month 参数值
 const urlParams = new URLSearchParams(window.location.search);
 const currentYearMonth = urlParams.get('year-month');
 
 // 将当前年月字符串转换为 JavaScript Date 对象
 const currentDate = new Date(currentYearMonth);
+
+// 记录触摸起始位置和滑动起始位置
+let touchStartX = 0;
+let startX = 0;
+
+// 监听触摸开始事件
+document.addEventListener('touchstart', function(event) {
+  touchStartX = event.touches[0].clientX;
+});
+
+// 监听触摸结束事件
+document.addEventListener('touchend', function(event) {
+  const touchEndX = event.changedTouches[0].clientX;
+  const deltaX = touchEndX - touchStartX;
+  
+  if (Math.abs(deltaX) > 50) {
+    if (deltaX > 0) {
+      // 向右滑动，调用 changeMonth 函数向右跳转一个月份
+      changeMonth(1);
+    } else {
+      // 向左滑动，调用 changeMonth 函数向左跳转一个月份
+      changeMonth(-1);
+    }
+  }
+});
+
+// 监听键盘左右箭头键事件
+document.addEventListener('keydown', function(event) {
+  if (event.keyCode === 37) {
+    // 左箭头键，调用 changeMonth 函数向左滑动
+    changeMonth(-1);
+  } else if (event.keyCode === 39) {
+    // 右箭头键，调用 changeMonth 函数向右滑动
+    changeMonth(1);
+  }
+});
 
 // 创建函数用于增减月份
 function changeMonth(offset) {
@@ -288,16 +324,6 @@ function changeMonth(offset) {
   window.location.href = newUrl;
 }
 
-// 监听左右滑动事件
-document.addEventListener('keydown', function(event) {
-  if (event.keyCode === 37) {
-    // 左箭头键，调用 changeMonth 函数向左滑动
-    changeMonth(-1);
-  } else if (event.keyCode === 39) {
-    // 右箭头键，调用 changeMonth 函数向右滑动
-    changeMonth(1);
-  }
-});
 
 </script>	
 </body>

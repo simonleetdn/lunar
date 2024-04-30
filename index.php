@@ -230,6 +230,27 @@ if ($ttl){
 		echo "財神".$lunar->getDayPositionCaiDesc();
 		echo "】";
 		
+		echo "【胎神方位：".$lunar->getDayPositionTai()."】";
+		
+		echo "【太歲方位：".$lunar->getDayPositionTaiSuiDesc()."】";
+		echo "【吉神宜趨：";
+		
+		$l = $lunar->getDayJiShen();
+foreach ($l as $s) {
+  echo $s . "\n";
+}
+
+		echo "】";
+		
+		echo "【凶神宜忌：";
+			
+$l = $lunar->getDayXiongSha();
+foreach ($l as $s) {
+  echo $s . "\n";
+}
+		
+		echo "】";
+		
 		echo "【日祿：".$lunar->getDayLu()."】";
 
 		echo "【日沖".$lunar->getDayChongDesc()."\n煞".$lunar->getDaySha()."】";
@@ -239,7 +260,11 @@ if ($ttl){
 		echo "【物候：".$lunar->getWuHou()."】";
 		
 		echo "【日納音：".$lunar->getDayNaYin()."】";
-			
+		
+		echo "【".$lunar->getGong()."\n".$lunar->getShou()."】";
+		
+		echo "【彭祖百忌：".$lunar->getPengZuGan()."\n".$lunar->getPengZuZhi()."】";
+		
 		echo "</span>";
 		// 詳細end
 		echo "<p></div>";

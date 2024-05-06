@@ -7,12 +7,32 @@ if(isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="zh-TW"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="在這裡查詢每個月的農曆日期！我們提供精確的農民曆資訊，幫助您掌握日常生活和重要節日的日期。">
+    <meta name="keywords" content="農民曆, 黃曆, 農曆日期, 每月農民曆">
+	<meta name="author" content="Simon Lee">
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="每月農民曆查詢 | 精確、可靠的農曆日期資訊">
+    <meta property="og:description" content="在這裡查詢每個月的農曆日期！我們提供精確的農民曆資訊，幫助您掌握日常生活和重要節日的日期。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lunar.ioi.tw/">
+    <meta property="og:image" content="https://lunar.ioi.tw/farmer.jpg">
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "WebSite",
+        "name": "農民曆",
+        "url": "https://lunar.ioi.tw/",
+        "description": "在這裡查詢每個月的農曆日期！我們提供精確的農民曆資訊，幫助您掌握日常生活和重要節日的日期。",
+        "image": "https://lunar.ioi.tw/farmer.jpg"
+    }
+    </script>
   <title><?php echo $year."年".$month."月"; ?>農民曆</title>
   <!-- Bootstrap CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
@@ -75,7 +95,7 @@ use com\nlf\calendar\Lunar;
 use com\nlf\calendar\Solar;
 
     echo "<h2 class='mt-6'>{$year}年 {$month}月</h2>";
-
+echo '<div class="alert alert-warning" role="alert">歡迎使用本網站查詢農民曆。以下簡單說明操作方式：點擊列表的日期以顯示更多當日資訊，鍵盤左/右鍵切換上/下月份，手機左/右滑切換上/下月份，右上角的選單可以直接選擇其他的年份月份。</div>';  
     // Get the number of days in the current month
     $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 
@@ -151,7 +171,7 @@ if (!empty($ff)) {
 $jiList = $lunar->getDayJi();
 
 // Determine the text color based on the presence of '諸事不宜' in the lists
-$textColor = (in_array('諸事不宜', $yiList) || in_array('諸事不宜', $jiList)) ? 'text-black' : 'text-danger';
+$textColor = (in_array('諸事不宜', $yiList) || in_array('諸事不宜', $jiList) || in_array('嫁娶', $jiList)) ? 'text-black' : 'text-danger';
 
 // Output "宜" and "忌" with their respective lists
 echo "<span class='$textColor'>【宜：" . implode("\n", $yiList) . "】</span>\n";
@@ -340,5 +360,17 @@ expandBtn.addEventListener('click', function(event) {
 });
 	
 </script>	
-</body>
+    <footer class="bg-danger text-light py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>網站設計：Simon Lee，Email: <a href="mailto:simon@ioi.tw">simon@ioi.tw</a></p>
+                </div>
+                <div class="col-md-6">
+                    <p>程式API來源: <a href="https://6tail.cn/calendar/api.html" target="_blank">Lunar</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>	
+</body>	
 </html>

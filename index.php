@@ -59,6 +59,8 @@ h1, h2, h3, .navbar-brand {
   cursor: pointer;
 }
   </style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2428072621366113"
+     crossorigin="anonymous"></script>	
 </head>
 <body>
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-danger">

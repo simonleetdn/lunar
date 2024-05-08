@@ -136,7 +136,7 @@ if ($counter % 2 == 1) {
     var yi = '<?php echo $yi; ?>'; // 這裡直接使用 PHP 的 $yi 變量
 
     // 構建新的網址
-    var newUrl = '/lunar/yidate.php?year-yi=' + year + '-' + yi;
+    var newUrl = '/yidate.php?year-yi=' + year + '-' + yi;
 
     // 跳轉到新的網址
     window.location.href = newUrl;

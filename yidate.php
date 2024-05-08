@@ -50,7 +50,7 @@ $menuItems = [
         </a>
         <div class="dropdown-menu" aria-labelledby="<?php echo strtolower($category); ?>Dropdown">
             <?php foreach ($items as $item) : ?>
-                <a class="dropdown-item" href="/lunar/yidate.php?year-yi=<?php echo $year."-".$item ?>"><?php echo $item; ?></a>
+                <a class="dropdown-item" href="/yidate.php?year-yi=<?php echo $year."-".$item ?>"><?php echo $item; ?></a>
             <?php endforeach; ?>
         </div>
     </li>
@@ -63,7 +63,7 @@ $menuItems = [
   
       </ul>
 <form class="form-inline ml-auto" id="year-form" method="get">
-    <label class="mr-2 text-light" for="year">選擇年份：</label>
+    <label class="mr-2 text-light" for="year">選擇年份</label>
     <input type="number" id="year" name="year" value="<?php echo $year; ?>" class="form-control mr-2" />
 </form>		
     </div>
@@ -127,7 +127,22 @@ if ($counter % 2 == 1) {
     echo '</div>'; // 結束 row
 }
 ?>
-		</div></div></div>	  
+		</div></div></div>
+<script>
+  // 監聽年份輸入框的變化事件
+  document.getElementById('year').addEventListener('change', function() {
+    // 獲取年份和宜嫁娶資訊
+    var year = document.getElementById('year').value;
+    var yi = '<?php echo $yi; ?>'; // 這裡直接使用 PHP 的 $yi 變量
+
+    // 構建新的網址
+    var newUrl = '/lunar/yidate.php?year-yi=' + year + '-' + yi;
+
+    // 跳轉到新的網址
+    window.location.href = newUrl;
+  });
+</script>
+	
 <?php include 'footer.php'; ?>	    	
 </body>	
 </html>

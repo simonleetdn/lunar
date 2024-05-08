@@ -12,7 +12,7 @@ if(isset($_GET["year-yi"]) && !empty($_GET["year-yi"])) {
 <body>
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-danger">
 	  <div class="container-md">
-    <a class="navbar-brand" href="/">農民曆（黃曆）</a>
+    <a class="navbar-brand" href="/lunardate.php">農民曆（黃曆）</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -128,17 +128,6 @@ if ($counter % 2 == 1) {
 }
 ?>
 		</div></div></div>	  
-    <footer class="bg-danger text-light py-3">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <p>網站設計：Simon Lee，Email: <a href="mailto:simon@ioi.tw">simon@ioi.tw</a></p>
-                </div>
-                <div class="col-md-6">
-                    <p>程式API來源: <a href="https://6tail.cn/calendar/api.html" target="_blank">Lunar</a></p>
-                </div>
-            </div>
-        </div>
-    </footer>	
+<?php include 'footer.php'; ?>	    	
 </body>	
 </html>

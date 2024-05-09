@@ -14,7 +14,7 @@ if(isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
 <body>
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-danger">
 	  <div class="container-md">
-    <a class="navbar-brand" href="/lunardate.php">農民曆（黃曆）</a>
+    <a class="navbar-brand" href="lunardate.php">農民曆（黃曆）</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -201,10 +201,6 @@ if (!empty($xsyq)) {
       </div>
     </div>
   </div>
-  <!-- Bootstrap JS and dependencies -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
     document.getElementById('year-month').addEventListener('change', function() {
         document.getElementById('year-month-form').submit();
@@ -215,8 +211,10 @@ if (!empty($xsyq)) {
     var detailElement = document.getElementById('detail' + day);
     if (detailElement.classList.contains('d-none')) {
       detailElement.classList.remove('d-none');
+      document.getElementById(day).classList.add('bg-warning');
     } else {
       detailElement.classList.add('d-none');
+      document.getElementById(day).classList.remove('bg-warning');
     }
   }
 

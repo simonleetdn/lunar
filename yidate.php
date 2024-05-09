@@ -12,7 +12,7 @@ if(isset($_GET["year-yi"]) && !empty($_GET["year-yi"])) {
 <body>
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-danger">
 	  <div class="container-md">
-    <a class="navbar-brand" href="/lunardate.php">農民曆（黃曆）</a>
+    <a class="navbar-brand" href="lunardate.php">農民曆（黃曆）</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -50,7 +50,7 @@ $menuItems = [
         </a>
         <div class="dropdown-menu" aria-labelledby="<?php echo strtolower($category); ?>Dropdown">
             <?php foreach ($items as $item) : ?>
-                <a class="dropdown-item" href="/yidate.php?year-yi=<?php echo $year."-".$item ?>"><?php echo $item; ?></a>
+                <a class="dropdown-item" href="yidate.php?year-yi=<?php echo $year."-".$item ?>"><?php echo $item; ?></a>
             <?php endforeach; ?>
         </div>
     </li>
@@ -136,7 +136,7 @@ if ($counter % 2 == 1) {
     var yi = '<?php echo $yi; ?>'; // 這裡直接使用 PHP 的 $yi 變量
 
     // 構建新的網址
-    var newUrl = '/yidate.php?year-yi=' + year + '-' + yi;
+    var newUrl = 'yidate.php?year-yi=' + year + '-' + yi;
 
     // 跳轉到新的網址
     window.location.href = newUrl;

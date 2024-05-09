@@ -25,6 +25,14 @@ h1, h2, h3, .navbar-brand, .card-title {
 .nav-link {
   cursor: pointer;
 }
+	
+.bg-warning {
+    border-radius: 4px;
+    padding-bottom: 1px;
+padding-left: 20px;
+padding-right: 20px;
+padding-top: 15px;
+}	
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2428072621366113"
      crossorigin="anonymous"></script>

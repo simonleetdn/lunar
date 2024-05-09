@@ -84,25 +84,27 @@ echo '<div class="alert alert-warning" role="alert">歡迎使用本網站查詢�
 		if ($Festivallist || $lunar->getJieQi()) {
                 echo "</h3>";
         }
-		
-        echo "<div class='day' id='{$day}'><p>";
+		$sy = $solar->getYear();
+        $sm = $solar->getMonth();
+        $sd = $solar->getDay();
+		$td = date('Ynj');
+		echo "<div class='day";
+		if ($sy.$sm.$sd === $td) {
+			echo " bg-warning";
+        }
+		echo "' id='{$day}'><p>";
 		if ($solar->getWeekInChinese() === '日') {
 			echo '<span class="text-danger">';
         } else {
             echo '<span class="text-black">';
 		}
-		echo "【陽曆：";
-        echo $solar->getYear()."-";
-        echo $solar->getMonth()."-";
-        echo $solar->getDay();
+        echo "【陽曆：".$sy."年".$sm."月".$sd."日";
 		echo "\n星期".$solar->getWeekInChinese()."】</span>";
-        echo "【農曆：";
 		$ly = $lunar->getYearInGanZhi();
+		$ls = $lunar->getYearShengXiao();
         $lm = $lunar->getMonthInChinese();
         $ld = $lunar->getDayInChinese();
-        echo $ly."年";
-        echo $lm."月";
-        echo $ld."】";
+        echo "【農曆：".$ly."(".$ls.")"."年".$lm."月".$ld."】";
 
 $sf = $solar->getFestivals();
 if (!empty($sf)) {
@@ -133,9 +135,11 @@ echo "【忌：" . implode("\n", $jiList) . "】";
 echo "【日沖".$lunar->getDayChongDesc()."\n煞".$lunar->getDaySha()."】";
 	
 		// 詳細strat
-		
+		if ($sy.$sm.$sd === $td) {
+		echo "<span class='' id='detail{$day}'>";
+        }else{		
 		echo "<span class='d-none' id='detail{$day}'>";
-		
+		}
 								//echo "【佛曆：".$foto."】";
 		
 //$ftl = $foto->getOtherFestivals();;

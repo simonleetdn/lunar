@@ -7,7 +7,7 @@ if(isset($_GET["year-yi"]) && !empty($_GET["year-yi"])) {
 }
 ?>
 <?php include 'metaseo.php'; ?>
-  <title><?php echo $year."年農民曆宜".$yi."的日子"; ?></title>
+  <title>農民曆<?php echo $year."年宜".$yi."的日子"; ?></title>
 <?php include 'head.php'; ?>
 <body>
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-danger">
@@ -79,7 +79,7 @@ require 'Lunar.php';
 use com\nlf\calendar\Lunar;
 use com\nlf\calendar\Solar;
 
-echo "<h2>【".$year."年農民曆宜".$yi."的日子】</h2>";
+echo "<h2>【".$year."年宜".$yi."的日子】</h2>";
 // 開始日期
 $startDate = new DateTime("$year-01-01");
 
@@ -110,7 +110,7 @@ while ($currentDate <= $endDate) {
         $ly = $lunar->getYearInGanZhi();
         $lm = $lunar->getMonthInChinese();
         $ld = $lunar->getDayInChinese();
-        echo $ly."年";
+        echo $ly."(".$lunar->getYearShengXiao().")年";
         echo $lm."月";
         echo $ld."】";
         echo '</div>'; // 結束 col-md-6

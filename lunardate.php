@@ -92,7 +92,7 @@ echo '<div class="alert alert-warning" role="alert">歡迎使用本網站查詢�
 		if ($sy.$sm.$sd === $td) {
 			echo " bg-warning";
         }
-		echo "' id='{$day}'><p>";
+		echo "' id='{$day}'>";
 		if ($solar->getWeekInChinese() === '日') {
 			echo '<span class="text-danger">';
         } else {
@@ -199,7 +199,7 @@ if (!empty($xsyq)) {
 		
 		echo "</span>";
 		// 詳細end
-		echo "<p></div>";
+		echo "</div>";
     }
 ?>
       </div>

@@ -32,6 +32,7 @@ h1, h2, h3, .navbar-brand, .card-title {
 padding-left: 20px;
 padding-right: 20px;
 padding-top: 15px;
+padding-bottom: 15px;
 }	
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2428072621366113"

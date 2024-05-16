@@ -773,7 +773,6 @@ class TaoUtil
 ),
 '2-15' => array(
     new TaoFestival('太清道德天尊(太上老君)聖誕'),
-    new TaoFestival('太上老君道德天尊聖壽'),
     new TaoFestival('九天玄女娘娘聖誕'),
     new TaoFestival('精忠岳王千秋'),
     new TaoFestival('三山國王千秋'),
@@ -798,7 +797,6 @@ class TaoUtil
 ),
 '3-3' => array(
     new TaoFestival('玄天上帝聖誕'),
-    new TaoFestival('玄天上帝萬壽'),
     new TaoFestival('軒轅聖帝萬壽'),
     new TaoFestival('五年千歲˙吳千歲千秋'),
 ),
@@ -896,7 +894,6 @@ class TaoUtil
 ),
 '4-28' => array(
     new TaoFestival('神農先帝誕'),
-    new TaoFestival('神農先帝萬壽'),
 ),
 '5-1' => array(
     new TaoFestival('南極長生大帝聖誕'),
@@ -1004,7 +1001,6 @@ class TaoUtil
     new TaoFestival('中元地官聖誕'),
 ),
 '7-18' => array(
-    new TaoFestival('王母娘娘聖誕'),
     new TaoFestival('瑤池王母娘娘聖誕'),
 ),
 '7-19' => array(

@@ -123,6 +123,7 @@ if (!empty($ff)) {
 			echo "【".$sanfu.$shujiu."】";
 		}
 
+		
 // 月破大凶日		
 $lydz = $lunar->getMonthZhi();
 $lrdz = $lunar->getDayZhi(); // 修正為 getDayZhi 以獲取日地支
@@ -243,7 +244,14 @@ if (!empty($xsyq)) {
 		
 		echo "【物候：".$lunar->getWuHou()."】";
 		
-		echo "【日納音：".$lunar->getDayNaYin()."】";
+$dayGan = $lunar->getDayGan(); // 獲取日天干
+$dayZhi = $lunar->getDayZhi(); // 獲取日地支
+
+echo "【干支：".$dayGan.$dayZhi."】";	
+
+		echo "【納音：".$lunar->getDayNaYin()."】";
+		
+		echo "【九星：".$lunar->getDayNineStar()."】";
 		
 		echo "【四宮神獸：".$lunar->getGong().$lunar->getShou()."】";
 		

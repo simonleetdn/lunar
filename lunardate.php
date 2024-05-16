@@ -122,12 +122,64 @@ if (!empty($ff)) {
 		if($sanfu || $shujiu){
 			echo "【".$sanfu.$shujiu."】";
 		}
+
+// 月破大凶日		
+$lydz = $lunar->getMonthZhi();
+$lrdz = $lunar->getDayZhi(); // 修正為 getDayZhi 以獲取日地支
+
+// 對沖地支對應關係
+$conflictDays = [
+    '寅' => '申',
+    '卯' => '酉',
+    '辰' => '戌',
+    '巳' => '亥',
+    '午' => '子',
+    '未' => '丑',
+    '申' => '寅',
+    '酉' => '卯',
+    '戌' => '辰',
+    '亥' => '巳',
+    '子' => '午',
+    '丑' => '未'
+];
+
+// 檢查是否為月破大凶日
+if (isset($conflictDays[$lydz]) && $conflictDays[$lydz] === $lrdz) {
+    echo "【月破大耗日吉事少取】";
+}
+
+// 刀砧日		
+$lunarMonth = $lunar->getMonth(); // 獲取農曆月數字，正數為正常月，負數為閏月
+
+// 刀砧日規則對應關係
+$daoZhenDays = [
+    1 => '寅', // 農曆正月
+    2 => '辰', // 農曆二月
+    3 => '午', // 農曆三月
+    4 => '申', // 農曆四月
+    5 => '戌', // 農曆五月
+    6 => '子', // 農曆六月
+    7 => '寅', // 農曆七月
+    8 => '辰', // 農曆八月
+    9 => '午', // 農曆九月
+    10 => '申', // 農曆十月
+    11 => '戌', // 農曆十一月
+    12 => '子'  // 農曆十二月
+];
+
+// 處理閏月，取絕對值
+$actualMonth = abs($lunarMonth);
+
+// 檢查是否為刀砧日
+if (isset($daoZhenDays[$actualMonth]) && $daoZhenDays[$actualMonth] === $lrdz) {
+    echo "【刀砧日】";
+}	
 		
 		$yiList = $lunar->getDayYi();
 $jiList = $lunar->getDayJi();
 
 // Determine the text color based on the presence of '諸事不宜' in the lists
-$textColor = (in_array('諸事不宜', $yiList) || in_array('諸事不宜', $jiList) || in_array('嫁娶', $jiList)) ? 'text-black' : 'text-danger';
+$textColor = (in_array('諸事不宜', $yiList) || in_array('餘事勿取', $yiList) || in_array('諸事不宜', $jiList) || in_array('嫁娶', $jiList)) ? 'text-black' : 'text-danger';
 
 // Output "宜" and "忌" with their respective lists
 echo "<span class='$textColor'>【宜：" . implode("\n", $yiList) . "】</span>";

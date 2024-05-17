@@ -149,32 +149,44 @@ if (isset($conflictDays[$lydz]) && $conflictDays[$lydz] === $lrdz) {
     echo "【月破大耗日吉事少取】";
 }
 
-// 刀砧日		
-$lunarMonth = $lunar->getMonth(); // 獲取農曆月數字，正數為正常月，負數為閏月
+// 刀砧日
+// 獲取四季的節氣日期
+$lichun = $lunar->getJieQiTable()['立春']->toYmdHms();
+$lixia = $lunar->getJieQiTable()['立夏']->toYmdHms();
+$liqiu = $lunar->getJieQiTable()['立秋']->toYmdHms();
+$lidong = $lunar->getJieQiTable()['立冬']->toYmdHms();
 
-// 刀砧日規則對應關係
-$daoZhenDays = [
-    1 => '寅', // 農曆正月
-    2 => '辰', // 農曆二月
-    3 => '午', // 農曆三月
-    4 => '申', // 農曆四月
-    5 => '戌', // 農曆五月
-    6 => '子', // 農曆六月
-    7 => '寅', // 農曆七月
-    8 => '辰', // 農曆八月
-    9 => '午', // 農曆九月
-    10 => '申', // 農曆十月
-    11 => '戌', // 農曆十一月
-    12 => '子'  // 農曆十二月
-];
+// 判斷當前日期是否為刀砧日
+$daoZhen = false;
 
-// 處理閏月，取絕對值
-$actualMonth = abs($lunarMonth);
+// 判斷日期所屬季節並檢查對應的地支
+if ($solar->toYmdHms() >= $lichun && $solar->toYmdHms() < $lixia) {
+    // 春季：立春到立夏
+    if (in_array($lrdz, ['亥', '子'])) {
+        $daoZhen = true;
+    }
+} elseif ($solar->toYmdHms() >= $lixia && $solar->toYmdHms() < $liqiu) {
+    // 夏季：立夏到立秋
+    if (in_array($lrdz, ['寅', '卯'])) {
+        $daoZhen = true;
+    }
+} elseif ($solar->toYmdHms() >= $liqiu && $solar->toYmdHms() < $lidong) {
+    // 秋季：立秋到立冬
+    if (in_array($lrdz, ['巳', '午'])) {
+        $daoZhen = true;
+    }
+} else {
+    // 冬季：立冬到下一年的立春
+    if (in_array($lrdz, ['申', '酉'])) {
+        $daoZhen = true;
+    }
+}
 
-// 檢查是否為刀砧日
-if (isset($daoZhenDays[$actualMonth]) && $daoZhenDays[$actualMonth] === $lrdz) {
+// 輸出結果
+if ($daoZhen) {
     echo "【刀砧日】";
-}	
+}
+
 		
 		$yiList = $lunar->getDayYi();
 $jiList = $lunar->getDayJi();

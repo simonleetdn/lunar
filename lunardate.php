@@ -125,29 +125,44 @@ if (!empty($ff)) {
 
 		
 // 月破大凶日		
-$lydz = $lunar->getMonthZhi();
-$lrdz = $lunar->getDayZhi(); // 修正為 getDayZhi 以獲取日地支
+$xsyq = $lunar->getDayXiongSha();
+$jsyq = $lunar->getDayJiShen();
 
-// 對沖地支對應關係
-$conflictDays = [
-    '寅' => '申',
-    '卯' => '酉',
-    '辰' => '戌',
-    '巳' => '亥',
-    '午' => '子',
-    '未' => '丑',
-    '申' => '寅',
-    '酉' => '卯',
-    '戌' => '辰',
-    '亥' => '巳',
-    '子' => '午',
-    '丑' => '未'
+$xiongShaCheck = [
+    "月破大耗日吉事少取" => ["月破", "大耗"],
+    "往亡日" => ["往亡"]
 ];
 
-// 檢查是否為月破大凶日
-if (isset($conflictDays[$lydz]) && $conflictDays[$lydz] === $lrdz) {
-    echo "【月破大耗日吉事少取】";
+$jiShenCheck = [
+    "天德合日" => ["天德合"],
+    "月德合日" => ["月德合"],
+    "天德日" => ["天德"],
+    "月德日" => ["月德"]
+];
+
+// 檢查凶煞日
+foreach ($xiongShaCheck as $message => $conditions) {
+    $matched = true;
+    foreach ($conditions as $condition) {
+        if (!in_array($condition, $xsyq)) {
+            $matched = false;
+            break;
+        }
+    }
+    if ($matched) {
+        echo "【{$message}】";
+    }
 }
+
+// 檢查吉神日
+foreach ($jiShenCheck as $message => $conditions) {
+    foreach ($conditions as $condition) {
+        if (in_array($condition, $jsyq)) {
+            echo "【{$message}】";
+            break;
+        }
+    }
+}	
 
 // 刀砧日
 // 獲取四季的節氣日期
@@ -158,7 +173,7 @@ $lidong = $lunar->getJieQiTable()['立冬']->toYmdHms();
 
 // 判斷當前日期是否為刀砧日
 $daoZhen = false;
-
+$lrdz = $lunar->getDayZhi(); // 修正為 getDayZhi 以獲取日地支
 // 判斷日期所屬季節並檢查對應的地支
 if ($solar->toYmdHms() >= $lichun && $solar->toYmdHms() < $lixia) {
     // 春季：立春到立夏
@@ -240,12 +255,12 @@ if (!empty($ttl)) {
 		
 		echo "【太歲方位：".$lunar->getDayPositionTaiSuiDesc()."】";
 		
-		$jsyq = $lunar->getDayJiShen();
+		//$jsyq = $lunar->getDayJiShen();
 if (!empty($jsyq)) {
     echo "【吉神宜趨：" . implode("\n", $jsyq) . "】";
 }
 		
-		$xsyq = $lunar->getDayXiongSha();
+//		$xsyq = $lunar->getDayXiongSha();
 if (!empty($xsyq)) {
     echo "【凶神宜忌：" . implode("\n", $xsyq) . "】";
 }
@@ -258,16 +273,24 @@ if (!empty($xsyq)) {
 		
 $dayGan = $lunar->getDayGan(); // 獲取日天干
 $dayZhi = $lunar->getDayZhi(); // 獲取日地支
+$dayGanZhi = $lunar->getDayInGanZhi(); // 獲取日干支
 
-echo "【干支：".$dayGan.$dayZhi."】";	
+echo "【干支：".$dayGanZhi."】";	
 
 		echo "【納音：".$lunar->getDayNaYin()."】";
 		
 		echo "【九星：".$lunar->getDayNineStar()."】";
 		
+		echo "【二十八宿：".$lunar->getXiu()."】";
+	//	echo "【二十八動物：".$lunar->getAnimal()."】";
+	//	echo "【二十八星宿吉凶：".$lunar->getXiuLuck()."】";
+	//	echo "【二十八宿歌诀：".$lunar->getXiuSong()."】";
+		
+		echo "【建除十二神：".$lunar->getZhiXing()."】";
+		
 		echo "【四宮神獸：".$lunar->getGong().$lunar->getShou()."】";
 		
-		echo "【彭祖百忌：".$lunar->getPengZuGan()."\n".$lunar->getPengZuZhi()."】";
+	//	echo "【彭祖百忌：".$lunar->getPengZuGan()."\n".$lunar->getPengZuZhi()."】";
 		
 		echo "</span>";
 		// 詳細end

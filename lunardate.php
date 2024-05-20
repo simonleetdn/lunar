@@ -88,13 +88,13 @@ echo '<div class="alert alert-warning" role="alert">歡迎使用本網站查詢�
         }
 		
 		
-		if ($solar->getWeekInChinese() === '日') {
+		if ($solar->getWeekInChinese() === '六' || $solar->getWeekInChinese() === '日') {
 			echo '<span class="text-danger">';
         } else {
             echo '<span class="text-black">';
 		}
         echo "【陽曆：".$sy."年".$sm."月".$sd."日";
-		echo "\n星期".$solar->getWeekInChinese()."】</span>";
+		echo "，星期".$solar->getWeekInChinese()."】</span>";
 		$ly = $lunar->getYearInGanZhi();
 		$ls = $lunar->getYearShengXiao();
         $lm = $lunar->getMonthInChinese();
@@ -103,12 +103,12 @@ echo '<div class="alert alert-warning" role="alert">歡迎使用本網站查詢�
 
 $sf = $solar->getFestivals();
 if (!empty($sf)) {
-    echo "【" . implode("\n", $sf) . "】";
+    echo "【" . implode("， ", $sf) . "】";
 }
 
 $ff = $lunar->getOtherFestivals();
 if (!empty($ff)) {
-    echo "【" . implode("\n", $ff) . "】";
+    echo "【" . implode("， ", $ff) . "】";
 }
 
 		

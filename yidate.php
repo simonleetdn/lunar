@@ -110,19 +110,24 @@ while ($currentDate <= $endDate) {
             echo '<div class="row">'; // 開始新的一行
         }
         echo '<div class="col-md-6">'; // 每個項目佔據一半寬度
+		if ($solar->getWeekInChinese() === '六' || $solar->getWeekInChinese() === '日') {
+			echo '<span class="text-danger">';
+        } else {
+            echo '<span class="text-black">';
+		}
         echo "【陽曆：";
-        echo $solar->getYear()."-";
-        echo $solar->getMonth()."-";
+        echo $solar->getYear()."年";
+        echo $solar->getMonth()."月";
         echo $solar->getDay();
-        echo "\n星期".$solar->getWeekInChinese();
-        echo "\n農曆：";
+        echo "日星期".$solar->getWeekInChinese();
+        echo "◈農曆：";
         $ly = $lunar->getYearInGanZhi();
         $lm = $lunar->getMonthInChinese();
         $ld = $lunar->getDayInChinese();
         echo $ly."(".$lunar->getYearShengXiao().")年";
         echo $lm."月";
         echo $ld."】";
-        echo '</div>'; // 結束 col-md-6
+        echo '</span></div>'; // 結束 col-md-6
         if ($counter % 2 == 1) {
             echo '</div>'; // 結束 row
         }

@@ -60,34 +60,93 @@ echo '<div class="alert alert-warning" role="alert">歡迎使用本網站查詢�
         // Convert Gregorian date to lunar date using Lunar.php
         $lunar = Lunar::fromDate($gregorianDate);
         $solar = Solar::fromDate($gregorianDate);
+		$sy = $solar->getYear();
+        $sm = $solar->getMonth();
+		$szm = sprintf('%02d', $solar->getMonth());
+		$szd = sprintf('%02d', $solar->getDay());
+        $sd = $solar->getDay();
+		$td = date('Ynj');
 		$foto = Foto::fromLunar($lunar);
 		$tao = Tao::fromLunar($lunar);
 		echo "<hr/>";
 
+		$JieQi = $lunar->getJieQi();
+		
+		if ($JieQi) {
+
+            echo '<h3 class="float-left">【'.$JieQi.'】</h3>';
+
+			$jieqidatetime = $lunar->getJieQiTable()[$JieQi]->toYmdHms(); // 假設這是您得到的時間字符串
+			$jieqidatetime = substr($jieqidatetime, 0, 16); // 去除秒數，只保留年月日時分
+			// 使用 date 函數將時間字符串轉換為指定格式
+			$formatted_jieqidatetime = date("Y年m月d日 H:i", strtotime($jieqidatetime));
+			echo "【時間：".$formatted_jieqidatetime."】";
+
+// 設定臺灣中心點的經緯度
+$latitude = 23.6978;
+$longitude = 120.9605;
+
+// 將 Solar 物件轉換為時間戳
+$solardate = new DateTime();
+$solardate->setDate($sy, $szm, $szd);
+
+// 獲取日出日落時間信息
+$sun_info = date_sun_info($solardate->getTimestamp(), $latitude, $longitude);
+
+// 將時間格式轉換為人類可讀形式
+$sunrise = date("H:i", $sun_info['sunrise']);
+$sunset = date("H:i", $sun_info['sunset']);
+
+// 輸出結果
+echo "【日出：".$sunrise."】";
+echo "【日沒：".$sunset."】";
+			
+			
+			// 定義每個節氣對應的太陽經過的度數
+$jieqi_info = [
+    '立春' => ['度數' => '315', '意義' => '氣候開始轉暖，春天開始'],
+    '雨水' => ['度數' => '330', '意義' => '降雨增多，有利於農作物生長'],
+    '驚蟄' => ['度數' => '345', '意義' => '天氣漸熱，動物開始活動'],
+    '春分' => ['度數' => '0', '意義' => '白晝和黑夜等長，春天進入中期'],
+    '清明' => ['度數' => '15', '意義' => '氣候溫暖，適宜掃墓祭祖'],
+    '穀雨' => ['度數' => '30', '意義' => '雨生百穀，開始穀物收穫'],
+    '立夏' => ['度數' => '45', '意義' => '夏季開始，炎熱多雨'],
+    '小滿' => ['度數' => '60', '意義' => '夏熟作物籽粒開始飽滿'],
+    '芒種' => ['度數' => '75', '意義' => '夏熟作物進入收穫季節'],
+    '夏至' => ['度數' => '90', '意義' => '白天最長'],
+    '小暑' => ['度數' => '105', '意義' => '天氣炎熱'],
+    '大暑' => ['度數' => '120', '意義' => '天氣最熱，正值盛夏'],
+    '立秋' => ['度數' => '135', '意義' => '天氣漸涼，秋天的開始'],
+    '處暑' => ['度數' => '150', '意義' => '氣溫逐漸下降，秋天即將到來'],
+    '白露' => ['度數' => '165', '意義' => '天氣轉涼，濕氣逐漸凝結為露水'],
+    '秋分' => ['度數' => '180', '意義' => '白天和黑夜等長，秋天進入中期'],
+    '寒露' => ['度數' => '195', '意義' => '氣溫進一步下降，露水結霜'],
+    '霜降' => ['度數' => '210', '意義' => '天氣更冷，容易結霜'],
+    '立冬' => ['度數' => '225', '意義' => '天氣轉冷，冬天的開。'],
+    '小雪' => ['度數' => '240', '意義' => '水氣轉為雪，初雪降臨'],
+    '大雪' => ['度數' => '255', '意義' => '降雪量顯著增多'],
+    '冬至' => ['度數' => '270', '意義' => '白天最短'],
+    '小寒' => ['度數' => '285', '意義' => '天氣寒冷'],
+    '大寒' => ['度數' => '300', '意義' => '天氣寒冷極致，寒冷的頂峰'],
+];
+
+			
+// 輸出太陽位於黃經的度數和相應的節氣意義
+echo '<br />【太陽位於黃經'.$jieqi_info[$JieQi]['度數'].'度】【'.$jieqi_info[$JieQi]['意義'].'】';			
+			
+			echo '<hr/>';
+        }
+		
+		
 		$Festivallist = $lunar->getFestivals();
 		
-		if ($Festivallist || $lunar->getJieQi()) {
-                echo "<h3>";
-        }
 		
 		if ($Festivallist) {
             foreach ($Festivallist as $s) {
-				echo "【".$s."】";
+				echo "<h3>【".$s."】</h3>";
 			}
         }
 		
-        if ($lunar->getJieQi()) {
-            // Display as h3 if it's a solar term day
-            echo "【".$lunar->getJieQi()."】";
-        }
-		
-		if ($Festivallist || $lunar->getJieQi()) {
-                echo "</h3>";
-        }
-		$sy = $solar->getYear();
-        $sm = $solar->getMonth();
-        $sd = $solar->getDay();
-		$td = date('Ynj');
 		echo "<div class='day";
 		if ($sy.$sm.$sd === $td) {
 			echo " bg-warning";
@@ -273,22 +332,23 @@ if (!empty($xsyq)) {
 		
 $dayGan = $lunar->getDayGan(); // 獲取日天干
 $dayZhi = $lunar->getDayZhi(); // 獲取日地支
+$monthGanZhi = $lunar->getMonthInGanZhi(); // 獲取日干支
 $dayGanZhi = $lunar->getDayInGanZhi(); // 獲取日干支
 
-echo "【干支：".$dayGanZhi."】";	
+echo "【干支：".$monthGanZhi."月".$dayGanZhi."日】";	
 
-		echo "【納音：".$lunar->getDayNaYin()."】";
+		echo "【日納音：".$lunar->getDayNaYin()."】";
 		
-		echo "【九星：".$lunar->getDayNineStar()."】";
+		echo "【九星：".$lunar->getDayNineStar()->getNumber().$lunar->getDayNineStar()->getColor()."】";
 		
-		echo "【二十八宿：".$lunar->getXiu()."】";
+		echo "【宿：".$lunar->getXiu()."】";
 	//	echo "【二十八動物：".$lunar->getAnimal()."】";
 	//	echo "【二十八星宿吉凶：".$lunar->getXiuLuck()."】";
 	//	echo "【二十八宿歌诀：".$lunar->getXiuSong()."】";
 		
-		echo "【建除十二神：".$lunar->getZhiXing()."】";
+		echo "【建除：".$lunar->getZhiXing()."】";
 		
-		echo "【四宮神獸：".$lunar->getGong().$lunar->getShou()."】";
+		echo "【四宮，神獸：".$lunar->getGong()."，".$lunar->getShou()."】";
 		
 	//	echo "【彭祖百忌：".$lunar->getPengZuGan()."\n".$lunar->getPengZuZhi()."】";
 		

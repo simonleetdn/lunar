@@ -205,9 +205,9 @@ $jiList = $lunar->getDayJi();
 $textColor = (in_array('諸事不宜', $yiList) || in_array('餘事勿取', $yiList) || in_array('諸事不宜', $jiList) || in_array('嫁娶', $jiList)) ? 'text-black' : 'text-danger';
 
 // Output "宜" and "忌" with their respective lists
-echo "<span class='$textColor'>【宜：" . implode("\n", $yiList) . "】</span>";
-echo "【忌：" . implode("\n", $jiList) . "】";
-echo "【日沖".$lunar->getDayChongDesc()."\n煞".$lunar->getDaySha()."】";
+echo "<span class='$textColor'>【宜：" . implode("，", $yiList) . "】</span>";
+echo "【忌：" . implode("，", $jiList) . "】";
+echo "【日沖：".$lunar->getDayChongDesc()."】【煞：".$lunar->getDaySha()."】";
 	
 		// 詳細strat
 		if ($sy.$sm.$sd === $td) {
@@ -238,26 +238,26 @@ if (!empty($ttl)) {
     echo '<span class="text-danger">【' . implode("\n", $ttl) . '】</span>';
 }
 
-		echo "【吉神方位：";
-		echo "喜神".$lunar->getPositionXiDesc()."\n";
-		echo "陽貴神".$lunar->getPositionYangGuiDesc()."\n";
-		echo "陰貴神".$lunar->getPositionYinGuiDesc()."\n";
-		echo "福神".$lunar->getPositionFuDesc()."\n";
+		echo "【吉神：";
+		echo "喜神".$lunar->getPositionXiDesc()."，";
+		echo "陽貴神".$lunar->getPositionYangGuiDesc()."，";
+		echo "陰貴神".$lunar->getPositionYinGuiDesc()."，";
+		echo "福神".$lunar->getPositionFuDesc()."，";
 		echo "財神".$lunar->getDayPositionCaiDesc();
 		echo "】";
 		
-		echo "【胎神方位：".$lunar->getDayPositionTai()."】";
+		echo "【胎神：".$lunar->getDayPositionTai()."】";
 		
-		echo "【太歲方位：".$lunar->getDayPositionTaiSuiDesc()."】";
+		echo "【太歲：".$lunar->getDayPositionTaiSuiDesc()."】";
 		
 		//$jsyq = $lunar->getDayJiShen();
 if (!empty($jsyq)) {
-    echo "【吉神宜趨：" . implode("\n", $jsyq) . "】";
+    echo "【吉神宜趨：" . implode("，", $jsyq) . "】";
 }
 		
 //		$xsyq = $lunar->getDayXiongSha();
 if (!empty($xsyq)) {
-    echo "【凶神宜忌：" . implode("\n", $xsyq) . "】";
+    echo "【凶神宜忌：" . implode("，", $xsyq) . "】";
 }
 		
 		echo "【日祿：".$lunar->getDayLu()."】";
@@ -284,7 +284,8 @@ echo "【干支：".$monthGanZhi."月".$dayGanZhi."日】";
 		
 		echo "【建除：".$lunar->getZhiXing()."】";
 		
-		echo "【四宮，神獸：".$lunar->getGong()."，".$lunar->getShou()."】";
+		echo "【四宮：".$lunar->getGong()."】";
+		echo "【神獸：".$lunar->getShou()."】";
 		
 	//	echo "【彭祖百忌：".$lunar->getPengZuGan()."\n".$lunar->getPengZuZhi()."】";
 		

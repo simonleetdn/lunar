@@ -137,21 +137,22 @@ echo '<br />【太陽位於黃經'.$jieqi_info[$JieQi]['度數'].'度】【'.$ji
 			echo '<hr/>';
         }
 		
+		echo "<div class='day";
+		if ($sy.$sm.$sd === $td) {
+			echo " bg-warning";
+        }
+		echo "' id='{$day}'>";
 		
 		$Festivallist = $lunar->getFestivals();
 		
 		
 		if ($Festivallist) {
             foreach ($Festivallist as $s) {
-				echo "<h3>【".$s."】</h3>";
+				echo '<h3 class="float-left">【'.$s.'】</h3>';
 			}
         }
 		
-		echo "<div class='day";
-		if ($sy.$sm.$sd === $td) {
-			echo " bg-warning";
-        }
-		echo "' id='{$day}'>";
+		
 		if ($solar->getWeekInChinese() === '日') {
 			echo '<span class="text-danger">';
         } else {

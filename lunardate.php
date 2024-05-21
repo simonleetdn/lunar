@@ -286,6 +286,7 @@ echo "【干支：".$monthGanZhi."月".$dayGanZhi."日】";
 		
 		echo "【四宮：".$lunar->getGong()."】";
 		echo "【神獸：".$lunar->getShou()."】";
+		echo "【空亡：".$lunar->getEightChar()->getDayXunKong()."】";
 		
 	//	echo "【彭祖百忌：".$lunar->getPengZuGan()."\n".$lunar->getPengZuZhi()."】";
 		

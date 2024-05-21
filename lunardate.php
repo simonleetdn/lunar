@@ -414,11 +414,12 @@ const currentDate = new Date(currentYearMonth);
 let touchStartX = 0;
 let touchStartY = 0;
 let startX = 0;
-let startY = 0;	
+let startY = 0;
 
 // 监听触摸开始事件
 document.addEventListener('touchstart', function(event) {
   touchStartX = event.touches[0].clientX;
+  touchStartY = event.touches[0].clientY; // 记录Y坐标
 });
 
 // 监听触摸结束事件
@@ -438,6 +439,7 @@ document.addEventListener('touchend', function(event) {
     }
   }
 });
+
 
 // 监听键盘左右箭头键事件
 document.addEventListener('keydown', function(event) {

@@ -286,9 +286,49 @@ echo "【干支：".$monthGanZhi."月".$dayGanZhi."日】";
 		
 		echo "【四宮：".$lunar->getGong()."】";
 		echo "【神獸：".$lunar->getShou()."】";
-		echo "【空亡：".$lunar->getEightChar()->getDayXunKong()."】";
+		echo "【天神：".$lunar->getDayTianShenLuck()."，".$lunar->getDayTianShen()."】";
+	//	echo "【空亡：".$lunar->getEightChar()->getDayXunKong()."】";
 		
 	//	echo "【彭祖百忌：".$lunar->getPengZuGan()."\n".$lunar->getPengZuZhi()."】";
+		
+		// 对应的时辰列表及其时间范围
+$timePeriodList = [
+    '子' => [23, 1],
+    '丑' => [1, 3],
+    '寅' => [3, 5],
+    '卯' => [5, 7],
+    '辰' => [7, 9],
+    '巳' => [9, 11],
+    '午' => [11, 13],
+    '未' => [13, 15],
+    '申' => [15, 17],
+    '酉' => [17, 19],
+    '戌' => [19, 21],
+    '亥' => [21, 23]
+];
+
+// 迭代一天中的每个时辰
+foreach ($timePeriodList as $timePeriod => $hours) {
+    // 创建一个DateTime对象并设置到该时辰的第一个小时
+    $gregorianDate->setTime($hours[0], 0, 0);
+    
+    // 获取该时辰的农历信息
+    $lunarhour = Lunar::fromDate($gregorianDate);
+    
+    // 获取宜和忌沖剎
+	$timechong = $lunarhour->getTimeChongDesc();
+	$timesha = $lunarhour->getTimeSha();
+    $yiList = $lunarhour->getTimeYi();
+    $jiList = $lunarhour->getTimeJi();
+    echo "<br/>【$timePeriod (" . sprintf('%02d', $hours[0]) . "-" . sprintf('%02d', $hours[1]) . ")◈";
+    echo "天神：".$lunarhour->getTimeTianShenLuck()."，".$lunarhour->getTimeTianShen()."◈";
+	echo "沖：" . $timechong . "◈";
+	echo "煞：" . $timesha . "◈";
+	echo "宜：" . implode('，', $yiList) . "◈";
+    echo "忌：" . implode('，', $jiList) ."】";
+}
+
+		
 		
 		echo "</span>";
 		// 詳細end

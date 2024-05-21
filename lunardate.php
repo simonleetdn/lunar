@@ -207,7 +207,7 @@ $textColor = (in_array('諸事不宜', $yiList) || in_array('餘事勿取', $yiL
 // Output "宜" and "忌" with their respective lists
 echo "<span class='$textColor'>【宜：" . implode("，", $yiList) . "】</span>";
 echo "【忌：" . implode("，", $jiList) . "】";
-echo "【日沖：".$lunar->getDayChongDesc()."】【煞：".$lunar->getDaySha()."】";
+echo "【沖：".$lunar->getDayChongDesc()."】【煞：".$lunar->getDaySha()."】";
 	
 		// 詳細strat
 		if ($sy.$sm.$sd === $td) {
@@ -273,7 +273,7 @@ $dayGanZhi = $lunar->getDayInGanZhi(); // 獲取日干支
 
 echo "【干支：".$monthGanZhi."月".$dayGanZhi."日】";	
 
-		echo "【日納音：".$lunar->getDayNaYin()."】";
+		echo "【納音：".$lunar->getDayNaYin()."】";
 		
 		echo "【九星：".$lunar->getDayNineStar()->getNumber().$lunar->getDayNineStar()->getColor()."】";
 		
@@ -298,7 +298,7 @@ echo "【干支：".$monthGanZhi."月".$dayGanZhi."日】";
 		
 		if ($JieQi) {
 
-            echo '<hr /><h3 class="float-left">【'.$JieQi.'】</h3>';
+            echo '<hr/><h3 class="float-left">【'.$JieQi.'】</h3>';
 
 			$jieqidatetime = $lunar->getJieQiTable()[$JieQi]->toYmdHms(); // 假設這是您得到的時間字符串
 			$jieqidatetime = substr($jieqidatetime, 0, 16); // 去除秒數，只保留年月日時分

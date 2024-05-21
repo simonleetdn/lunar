@@ -28,7 +28,7 @@ $menuItems = [
         '嫁娶', '納采', '納婿', '歸寧', '安床', '合帳', '冠笄', '訂盟', '進人口'
     ],
     '生活' => [
-        '裁衣', '理發', '整手足甲', '針灸', '求醫', '治病', '出行', '移徙', '會親友', '習藝', '入學'
+        '裁衣', '理髮', '整手足甲', '針灸', '求醫', '治病', '出行', '移徙', '會親友', '習藝', '入學'
     ],
     '喪葬' => [
         '修墳', '啟鉆', '破土', '安葬', '立碑', '成服', '除服', '開生墳', '合壽木', '入殮', '移柩', '普渡'
@@ -109,7 +109,7 @@ while ($currentDate <= $endDate) {
         if ($counter % 2 == 0) {
             echo '<div class="row">'; // 開始新的一行
         }
-        echo '<div class="col-md-6">'; // 每個項目佔據一半寬度
+        echo '<div class="col-md-12">';
 		if ($solar->getWeekInChinese() === '六' || $solar->getWeekInChinese() === '日') {
 			echo '<span class="text-danger">';
         } else {
@@ -120,13 +120,14 @@ while ($currentDate <= $endDate) {
         echo $solar->getMonth()."月";
         echo $solar->getDay();
         echo "日星期".$solar->getWeekInChinese();
-        echo "◈農曆：";
+        echo "\n◈\n農曆：";
         $ly = $lunar->getYearInGanZhi();
         $lm = $lunar->getMonthInChinese();
         $ld = $lunar->getDayInChinese();
         echo $ly."(".$lunar->getYearShengXiao().")年";
         echo $lm."月";
-        echo $ld."】";
+        echo $ld."\n◈\n";
+		echo "沖：".$lunar->getDayChongDesc()."】";
         echo '</span></div>'; // 結束 col-md-6
         if ($counter % 2 == 1) {
             echo '</div>'; // 結束 row

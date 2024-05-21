@@ -320,16 +320,14 @@ foreach ($timePeriodList as $timePeriod => $hours) {
 	$timesha = $lunarhour->getTimeSha();
     $yiList = $lunarhour->getTimeYi();
     $jiList = $lunarhour->getTimeJi();
-    echo "<br/>【$timePeriod (" . sprintf('%02d', $hours[0]) . "-" . sprintf('%02d', $hours[1]) . ")◈";
-    echo "天神：".$lunarhour->getTimeTianShenLuck()."，".$lunarhour->getTimeTianShen()."◈";
-	echo "沖：" . $timechong . "◈";
-	echo "煞：" . $timesha . "◈";
-	echo "宜：" . implode('，', $yiList) . "◈";
-    echo "忌：" . implode('，', $jiList) ."】";
-}
+echo "<br/>" . ($lunarhour->getTimeTianShenLuck() === "吉" ? '<span class="text-danger">' : '') . "【$timePeriod (" . sprintf('%02d', $hours[0]) . "-" . sprintf('%02d', $hours[1]) . ")◈";
+echo "天神：" . $lunarhour->getTimeTianShenLuck() . "，" . $lunarhour->getTimeTianShen() . "◈";
+echo "沖：" . $timechong . "◈";
+echo "煞：" . $timesha . "◈";
+echo "宜：" . implode('，', $yiList) . "◈";
+echo "忌：" . implode('，', $jiList) . "】" . ($lunarhour->getTimeTianShenLuck() === "吉" ? '</span>' : '');
 
-		
-		
+}		
 		echo "</span>";
 		// 詳細end
 		

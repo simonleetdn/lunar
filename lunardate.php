@@ -325,7 +325,7 @@ echo "天神：" . $lunarhour->getTimeTianShenLuck() . "，" . $lunarhour->getTi
 echo "宜：" . implode('，', $yiList). ($lunarhour->getTimeTianShenLuck() === "吉" ? '</span>' : '') . "◈";
 echo "忌：" . implode('，', $jiList) . "◈";
 echo "沖：" . $timechong . "◈";
-echo "煞：" . $timesha . "◈";
+echo "煞：" . $timesha;
 echo "】";
 }		
 		echo "</span>";

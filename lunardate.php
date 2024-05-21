@@ -412,7 +412,9 @@ const currentDate = new Date(currentYearMonth);
 
 // 记录触摸起始位置和滑动起始位置
 let touchStartX = 0;
+let touchStartY = 0;
 let startX = 0;
+let startY = 0;	
 
 // 监听触摸开始事件
 document.addEventListener('touchstart', function(event) {
@@ -422,9 +424,11 @@ document.addEventListener('touchstart', function(event) {
 // 监听触摸结束事件
 document.addEventListener('touchend', function(event) {
   const touchEndX = event.changedTouches[0].clientX;
+  const touchEndY = event.changedTouches[0].clientY;
   const deltaX = touchEndX - touchStartX;
+  const deltaY = touchEndY - touchStartY;
   
-  if (Math.abs(deltaX) > 50) {
+  if (Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY)) {
     if (deltaX > 0) {
       // 向右滑动，调用 changeMonth 函数向右跳转一个月份
       changeMonth(1);

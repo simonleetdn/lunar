@@ -62,13 +62,11 @@ $menuItems = [
                 <a class="dropdown-item" href="yidate.php?year-yi=<?php echo $year."-".$item ?>"><?php echo $item; ?></a>
             <?php endforeach; ?>
         </div>
-    </li>
+    </li>  
 <?php endforeach; ?>
-
-
-
-
-
+		 <li class="nav-item">
+          <a id="yuangang" class="nav-link" href="yuangang.php?selectedDateTime=<?php echo date('Y-m-d\TH:i'); ?>">稱骨算命</a>
+        </li>
   
       </ul>
 <form class="form-inline ml-auto" id="year-form" method="get">

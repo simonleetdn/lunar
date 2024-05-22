@@ -20,11 +20,14 @@ if(isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a id="exall" class="nav-link">全部展開</a>
-        </li>
-		  <li class="nav-item">
+		<li class="nav-item">
           <a id="yidate" class="nav-link" href="yidate.php">每年宜日速查</a>
+        </li>
+		 <li class="nav-item">
+          <a id="yuangang" class="nav-link" href="yuangang.php?selectedDateTime=<?php echo date('Y-m-d\TH:i'); ?>">稱骨算命</a>
+        </li>
+		<li class="nav-item">
+          <a id="exall" class="nav-link">展開全部</a>
         </li>
       </ul>
 <form class="form-inline ml-auto" id="year-month-form" method="get">
@@ -279,6 +282,7 @@ echo "【干支：".$monthGanZhi."月".$dayGanZhi."日】";
 		echo "【九星：".$lunar->getDayNineStar()->getNumber().$lunar->getDayNineStar()->getColor()."】";
 		
 		echo "【宿：".$lunar->getXiu()."】";
+		echo "【七曜：".$lunar->getZheng()."】";
 	//	echo "【二十八動物：".$lunar->getAnimal()."】";
 	//	echo "【二十八星宿吉凶：".$lunar->getXiuLuck()."】";
 	//	echo "【二十八宿歌诀：".$lunar->getXiuSong()."】";

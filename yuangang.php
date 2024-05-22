@@ -199,7 +199,7 @@ if (isset($_GET['selectedDateTime'])) {
     $gregorianDate = new DateTime("$year-$month-$day");
     $lunar = Lunar::fromDate($gregorianDate);
 	if ($hour == 23) {
-    	$lunar->next(1);
+    	$lunar = $lunar->next(1);
 	}
     $yearInGanZhi = $lunar->getYearInGanZhi();
 	$yearShengXiao = $lunar->getYearShengXiao();

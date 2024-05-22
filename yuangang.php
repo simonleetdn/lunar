@@ -216,14 +216,14 @@ if (isset($_GET['selectedDateTime'])) {
     $destweight = $resultyear + $resultmonth + $resultday + $resulttime;
     $destweightChinese = convertToChineseWeight($destweight);	
     
-    echo "<span class="mt-3">【農曆{$yearInGanZhi}{$yearShengXiao}年{$monthInChinese}月{$dayInChinese}日{$timeInChinese}生，";
+    echo "<span class='mt-3'>【農曆{$yearInGanZhi}{$yearShengXiao}年{$monthInChinese}月{$dayInChinese}日{$timeInChinese}生，";
     echo "此命重量合計{$destweightChinese}。其中，";
     echo "{$yearInGanZhi}年重{$resultyearChinese}，";
     echo "{$monthInChinese}月重{$resultmonthChinese}，";
     echo "{$dayInChinese}日重{$resultdayChinese}，";
     echo "{$timeInChinese}重{$resulttimeChinese}。】</span>";
     $result = $destinies[$destweight] ?? '查無對應命理結果';
-    echo "<h3 class="mt-4">【".$result."】</h3>";
+    echo "<h3 class='mt-4'>【".$result."】</h3>";
 }
 
 function getChineseTime($hour) {

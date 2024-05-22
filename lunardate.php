@@ -48,7 +48,7 @@ use com\nlf\calendar\util\HolidayUtil;
 use com\nlf\calendar\Lunar;
 use com\nlf\calendar\Solar;
 
-    echo "<h2 class='mt-6'>{$year}年 {$month}月</h2>";
+    echo "<h2 id='page-title' class='mt-6'>{$year}年 {$month}月</h2>";
 echo '<div class="alert alert-warning" role="alert">歡迎使用本網站查詢農民曆。以下是操作方式的簡單說明：點擊日期列表可展開當日更詳細資訊，左/右鍵或手機左/右滑可切換月份，右上角選單選擇其他年份月份，點擊農民曆標題回到當前月份。</div>';  
     // Get the number of days in the current month
     $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
@@ -93,8 +93,9 @@ echo '<div class="alert alert-warning" role="alert">歡迎使用本網站查詢�
         } else {
             echo '<span class="text-black">';
 		}
-        echo "【陽曆：".$sy."年".$sm."月".$sd."日";
-		echo "，星期".$solar->getWeekInChinese()."】</span>";
+		echo '<h3 class="float-left">'.$sd.'</h3>';
+        //echo "【陽曆：".$sy."年".$sm."月".$sd."日";
+		echo "【星期".$solar->getWeekInChinese()."】</span>";
 		$ly = $lunar->getYearInGanZhi();
 		$ls = $lunar->getYearShengXiao();
         $lm = $lunar->getMonthInChinese();
@@ -235,7 +236,7 @@ echo "【沖：".$lunar->getDayChongDesc()."】【煞：".$lunar->getDaySha()."�
 $ttl = $tao->getFestivals();
 
 if (!empty($ttl)) {
-    echo '<span class="text-danger">【' . implode("\n", $ttl) . '】</span>';
+    echo '<span class="text-danger">【' . implode("，", $ttl) . '】</span>';
 }
 
 		echo "【吉神：";
@@ -286,7 +287,8 @@ echo "【干支：".$monthGanZhi."月".$dayGanZhi."日】";
 		
 		echo "【四宮：".$lunar->getGong()."】";
 		echo "【神獸：".$lunar->getShou()."】";
-		echo "【天神：".$lunar->getDayTianShenLuck()."，".$lunar->getDayTianShen()."】";
+		echo "【".$lunar->getDayTianShenType().$lunar->getDayTianShenLuck()."日";
+		echo "天神：".$lunar->getDayTianShen()."】";
 	//	echo "【空亡：".$lunar->getEightChar()->getDayXunKong()."】";
 		
 	//	echo "【彭祖百忌：".$lunar->getPengZuGan()."\n".$lunar->getPengZuZhi()."】";
@@ -320,8 +322,8 @@ foreach ($timePeriodList as $timePeriod => $hours) {
 	$timesha = $lunarhour->getTimeSha();
     $yiList = $lunarhour->getTimeYi();
     $jiList = $lunarhour->getTimeJi();
-echo "<br/>【" . ($lunarhour->getTimeTianShenLuck() === "吉" ? '<span class="text-danger">' : '') . "$timePeriod (" . sprintf('%02d', $hours[0]) . "-" . sprintf('%02d', $hours[1]) . ")◈";
-echo "天神：" . $lunarhour->getTimeTianShenLuck() . "，" . $lunarhour->getTimeTianShen() . "◈";
+echo "<br/>【" . ($lunarhour->getTimeTianShenLuck() === "吉" ? '<span class="text-danger">' : '') . $timePeriod ."時(" . sprintf('%02d', $hours[0]) . "-" . sprintf('%02d', $hours[1]) . ")" . $lunarhour->getTimeTianShenLuck();
+echo "◈天神：" . $lunarhour->getTimeTianShen() . "◈";
 echo "宜：" . implode('，', $yiList). ($lunarhour->getTimeTianShenLuck() === "吉" ? '</span>' : '') . "◈";
 echo "忌：" . implode('，', $jiList) . "◈";
 echo "沖：" . $timechong . "◈";
@@ -337,7 +339,7 @@ echo "】";
 		
 		if ($JieQi) {
 
-            echo '<hr/><h3 class="float-left">【'.$JieQi.'】</h3>';
+            echo '<hr/><div class="row"><div class="col-md-12"><h3 class="float-left">【'.$JieQi.'】</h3>';
 
 			$jieqidatetime = $lunar->getJieQiTable()[$JieQi]->toYmdHms(); // 假設這是您得到的時間字符串
 			$jieqidatetime = substr($jieqidatetime, 0, 16); // 去除秒數，只保留年月日時分
@@ -395,7 +397,7 @@ $jieqi_info = [
 
 			
 // 輸出太陽位於黃經的度數和相應的節氣意義
-echo '<br />【太陽位於黃經'.$jieqi_info[$JieQi]['度數'].'度】【'.$jieqi_info[$JieQi]['意義'].'】';			
+echo '【太陽位於黃經'.$jieqi_info[$JieQi]['度數'].'度】【'.$jieqi_info[$JieQi]['意義'].'】</div></div>';			
 			
         }
 		
@@ -520,7 +522,29 @@ expandBtn.addEventListener('click', function(event) {
     element.classList.remove('d-none');
   });
 });
-	
+
+document.addEventListener("DOMContentLoaded", function() {
+  var pageTitle = document.getElementById("page-title");
+  var navbarBrand = document.querySelector(".navbar-brand");
+  
+  window.addEventListener("scroll", function() {
+    var pageTitleRect = pageTitle.getBoundingClientRect();
+    
+    if (pageTitleRect.top < 0 && pageTitleRect.bottom < 0) {
+      if (!navbarBrand.querySelector(".scroll-title")) {
+        var scrollTitle = document.createElement("span");
+        scrollTitle.className = "scroll-title";
+        scrollTitle.textContent = " " + pageTitle.textContent;
+        navbarBrand.appendChild(scrollTitle);
+      }
+    } else if (pageTitleRect.top >= 0 && pageTitleRect.bottom >= 0) {
+      var scrollTitle = navbarBrand.querySelector(".scroll-title");
+      if (scrollTitle) {
+        scrollTitle.remove();
+      }
+    }
+  });
+});
 </script>	
 <?php include 'footer.php'; ?>	
 </body>	

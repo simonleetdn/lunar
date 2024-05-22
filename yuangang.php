@@ -28,11 +28,12 @@
     <label class="mr-2" for="daytime">【陽曆出生日期時間】</label>
     <input type="datetime-local" id="daytime" name="selectedDateTime" class="form-control mr-2" 
            value="<?php echo isset($_GET['selectedDateTime']) ? htmlspecialchars($_GET['selectedDateTime']) : ''; ?>" />
+	<button type="button" id="submitBtn" class="btn btn-primary">進呈</button>
 </form><hr/>
 
 <script>
-    document.getElementById('daytime').addEventListener('change', function() {
-        var selectedDateTime = this.value;
+    document.getElementById('submitBtn').addEventListener('click', function() {
+        var selectedDateTime = document.getElementById('daytime').value;
         window.location.href = 'yuangang.php?selectedDateTime=' + selectedDateTime;
     });
 </script>

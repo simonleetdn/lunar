@@ -221,7 +221,7 @@ if (isset($_GET['selectedDateTime'])) {
     echo "{$yearInGanZhi}年重{$resultyearChinese}，";
     echo "{$monthInChinese}月重{$resultmonthChinese}，";
     echo "{$dayInChinese}日重{$resultdayChinese}，";
-    echo "{$timeInChinese}重{$resulttimeChinese}。】</span>";
+    echo "{$timeInChinese}重{$resulttimeChinese}。】</span><hr/>";
     $result = $destinies[$destweight] ?? '查無對應命理結果';
     echo "<h3 class='mt-4'>【".$result."】</h3>";
 }

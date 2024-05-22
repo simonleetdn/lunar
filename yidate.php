@@ -88,7 +88,8 @@ require 'Lunar.php';
 use com\nlf\calendar\Lunar;
 use com\nlf\calendar\Solar;
 
-echo "<h2>【".$year."年宜".$yi."的日子】</h2>";
+echo "<h2>【" . $year . "年<span id='page-title'>宜" . $yi . "的日子</span>】</h2>";
+
 // 開始日期
 $startDate = new DateTime("$year-01-01");
 
@@ -97,51 +98,89 @@ $endDate = new DateTime("$year-12-31");
 
 // 使用迴圈遍歷整年的日期
 $currentDate = clone $startDate;
-$counter = 0; // 計數器，用於每兩個項目換行
+
 while ($currentDate <= $endDate) {
     // 將日期轉換為 Lunar 物件
     $lunar = Lunar::fromDate($currentDate);
     $solar = Solar::fromDate($currentDate);
+    
     // 獲取當天的宜嫁娶資訊
     $dayYi = $lunar->getDayYi();
+    
     // 檢查當天是否有宜嫁娶的資訊，如果有則列出陽曆和農曆日期
     if (in_array($yi, $dayYi)) {
-        if ($counter % 2 == 0) {
-            echo '<div class="row">'; // 開始新的一行
-        }
+        echo '<hr/><div class="row">';
         echo '<div class="col-md-12">';
-		if ($solar->getWeekInChinese() === '六' || $solar->getWeekInChinese() === '日') {
-			echo '<span class="text-danger">';
+        
+        if ($solar->getWeekInChinese() === '六' || $solar->getWeekInChinese() === '日') {
+            echo '<span class="text-danger">';
         } else {
             echo '<span class="text-black">';
-		}
+        }
+
         echo "【陽曆：";
-        echo $solar->getYear()."年";
-        echo $solar->getMonth()."月";
-        echo $solar->getDay();
-        echo "日星期".$solar->getWeekInChinese();
-        echo "\n◈\n農曆：";
+        echo $solar->getYear() . "年";
+        echo $solar->getMonth() . "月";
+        echo $solar->getDay() . "日星期" . $solar->getWeekInChinese();
+        echo "，農曆：";
         $ly = $lunar->getYearInGanZhi();
         $lm = $lunar->getMonthInChinese();
         $ld = $lunar->getDayInChinese();
-        echo $ly."(".$lunar->getYearShengXiao().")年";
-        echo $lm."月";
-        echo $ld."\n◈\n";
-		echo "沖：".$lunar->getDayChongDesc()."】";
-        echo '</span></div>'; // 結束 col-md-6
-        if ($counter % 2 == 1) {
-            echo '</div>'; // 結束 row
+        echo $ly . "(" . $lunar->getYearShengXiao() . ")年";
+        echo $lm . "月";
+        echo $ld . "，";
+        echo "日沖" . $lunar->getDayChongDesc();
+
+        // 迭代一天中的每个时辰
+        $timePeriodList = [
+            '子' => [23, 1],
+            '丑' => [1, 3],
+            '寅' => [3, 5],
+            '卯' => [5, 7],
+            '辰' => [7, 9],
+            '巳' => [9, 11],
+            '午' => [11, 13],
+            '未' => [13, 15],
+            '申' => [15, 17],
+            '酉' => [17, 19],
+            '戌' => [19, 21],
+            '亥' => [21, 23]
+        ];
+        
+        foreach ($timePeriodList as $timePeriod => $hours) {
+            // 创建一个DateTime对象并设置到该时辰的第一个小时
+            $gregorianDate = clone $currentDate;
+            $gregorianDate->setTime($hours[0], 0, 0);
+            
+            // 获取该时辰的农历信息
+            $lunarhour = Lunar::fromDate($gregorianDate);
+            
+            // 获取宜和忌沖剎
+            $timechong = $lunarhour->getTimeChongDesc();
+            $timesha = $lunarhour->getTimeSha();
+            $yiList = $lunarhour->getTimeYi();
+            $jiList = $lunarhour->getTimeJi();
+
+            // 只列出宜包含$yi且吉的时辰
+            if (in_array($yi, $yiList) && $lunarhour->getTimeTianShenLuck() === "吉") {
+                echo "<span class='text-danger'>◈" . $timePeriod . "時(" . sprintf('%02d', $hours[0]) . "-" . sprintf('%02d', $hours[1]) . ")";
+                echo "，沖" . $timechong;
+				echo "</span>";
+            }
         }
-        $counter++;
+        
+        echo '】</span></div>'; // 結束 col-md-12
+        echo '</div>'; // 結束 row
     }
+
     // 移動到下一天
     $currentDate->modify('+1 day');
 }
-// 如果最後一行只有一個項目，要手動結束 row
-if ($counter % 2 == 1) {
-    echo '</div>'; // 結束 row
-}
 ?>
+
+
+
+
 		</div></div></div>
 <script>
   // 監聽年份輸入框的變化事件
@@ -156,6 +195,29 @@ if ($counter % 2 == 1) {
     // 跳轉到新的網址
     window.location.href = newUrl;
   });
+	
+document.addEventListener("DOMContentLoaded", function() {
+  var pageTitle = document.getElementById("page-title");
+  var navbarBrand = document.querySelector(".navbar-brand");
+  
+  window.addEventListener("scroll", function() {
+    var pageTitleRect = pageTitle.getBoundingClientRect();
+    
+    if (pageTitleRect.top < 0 && pageTitleRect.bottom < 0) {
+      if (!navbarBrand.querySelector(".scroll-title")) {
+        var scrollTitle = document.createElement("span");
+        scrollTitle.className = "scroll-title";
+        scrollTitle.textContent = " " + pageTitle.textContent;
+        navbarBrand.appendChild(scrollTitle);
+      }
+    } else if (pageTitleRect.top >= 0 && pageTitleRect.bottom >= 0) {
+      var scrollTitle = navbarBrand.querySelector(".scroll-title");
+      if (scrollTitle) {
+        scrollTitle.remove();
+      }
+    }
+  });
+});
 </script>
 	
 <?php include 'footer.php'; ?>	    	

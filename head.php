@@ -38,6 +38,11 @@ padding-bottom: 15px;
 .day {
 cursor: pointer;
 }
+
+.dropdown-menu {
+max-height: 300px; /* 您可以根據需要調整這個高度 */
+overflow-y: auto;
+}
 	
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2428072621366113"

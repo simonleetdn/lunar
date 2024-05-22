@@ -14,8 +14,9 @@
 			$year = date("Y");
     		$month = date("m");
 			echo '<a href=lunardate.php?year-month='.$year.'-'.$month.' class="btn btn-warning mb-4">';
-			echo $year.'年'.$month.'月農民曆</a></br>';
-			echo '<a href=yidate.php class="btn btn-warning">每年宜日速查</a>';
+			echo $year.'年'.$month.'月農民曆</a></br/>';
+			echo '<a href=yidate.php class="btn btn-warning mb-4">每年宜日速查</a><br/>';
+			echo '<a href=yuangang.php class="btn btn-warning">稱骨算命</a>';
 			?>
           </div>
         </div>

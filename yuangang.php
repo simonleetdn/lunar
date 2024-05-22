@@ -23,12 +23,12 @@
 	<div class="container">
     <div class="row">
       <div class="col-md-12">
-		  <h2>袁天罡稱骨算命</h2>
+		  <h2>袁天罡稱骨算命</h2><hr/>
 <form class="form-inline ml-auto" id="daytime-form" method="get">
     <label class="mr-2" for="daytime">【陽曆出生日期時間】</label>
     <input type="datetime-local" id="daytime" name="selectedDateTime" class="form-control mr-2" 
            value="<?php echo isset($_GET['selectedDateTime']) ? htmlspecialchars($_GET['selectedDateTime']) : ''; ?>" />
-</form>
+</form><hr/>
 
 <script>
     document.getElementById('daytime').addEventListener('change', function() {
@@ -215,15 +215,15 @@ if (isset($_GET['selectedDateTime'])) {
     $resulttimeChinese = convertToChineseWeight($resulttime);
     $destweight = $resultyear + $resultmonth + $resultday + $resulttime;
     $destweightChinese = convertToChineseWeight($destweight);	
-
-    echo "【農曆{$yearInGanZhi}{$yearShengXiao}年{$monthInChinese}月{$dayInChinese}日{$timeInChinese}生，";
+    
+    echo "<span class="mt-3">【農曆{$yearInGanZhi}{$yearShengXiao}年{$monthInChinese}月{$dayInChinese}日{$timeInChinese}生，";
     echo "此命重量合計{$destweightChinese}。其中，";
     echo "{$yearInGanZhi}年重{$resultyearChinese}，";
     echo "{$monthInChinese}月重{$resultmonthChinese}，";
     echo "{$dayInChinese}日重{$resultdayChinese}，";
-    echo "{$timeInChinese}重{$resulttimeChinese}。】";
+    echo "{$timeInChinese}重{$resulttimeChinese}。】</span>";
     $result = $destinies[$destweight] ?? '查無對應命理結果';
-    echo "<h3>【".$result."】</h3>";
+    echo "<h3 class="mt-4">【".$result."】</h3>";
 }
 
 function getChineseTime($hour) {

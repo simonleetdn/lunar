@@ -216,13 +216,13 @@ if (isset($_GET['selectedDateTime'])) {
     $destweight = $resultyear + $resultmonth + $resultday + $resulttime;
     $destweightChinese = convertToChineseWeight($destweight);	
 
-    echo "【農曆{$yearInGanZhi}({$yearShengXiao})年{$monthInChinese}月{$dayInChinese}日{$timeInChinese}生，";
+    echo "【農曆{$yearInGanZhi}{$yearShengXiao}年{$monthInChinese}月{$dayInChinese}日{$timeInChinese}生，";
     echo "此命重量合計{$destweightChinese}。其中，";
     echo "{$yearInGanZhi}年重{$resultyearChinese}，";
     echo "{$monthInChinese}月重{$resultmonthChinese}，";
     echo "{$dayInChinese}日重{$resultdayChinese}，";
-    echo "{$timeInChinese}重{$resulttimeChinese}。";
-    $result = $destinies[$destweight] ?? '【查無對應命理結果】';
+    echo "{$timeInChinese}重{$resulttimeChinese}。】";
+    $result = $destinies[$destweight] ?? '查無對應命理結果';
     echo "<h3>【".$result."】</h3>";
 }
 

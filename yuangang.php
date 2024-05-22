@@ -28,7 +28,7 @@
     <label class="mr-2" for="daytime">【陽曆出生日期時間】</label>
     <input type="datetime-local" id="daytime" name="selectedDateTime" class="form-control mr-2" 
            value="<?php echo isset($_GET['selectedDateTime']) ? htmlspecialchars($_GET['selectedDateTime']) : date('Y-m-d\TH:i'); ?>" />
-    <button type="button" id="submitBtn" class="btn btn-primary">進呈</button>
+    <button type="button" id="submitBtn" class="btn btn-warning">進呈</button>
 </form>
 <hr/>
 

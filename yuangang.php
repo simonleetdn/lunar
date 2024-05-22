@@ -198,6 +198,9 @@ if (isset($_GET['selectedDateTime'])) {
     // 將公曆日期轉換為農曆
     $gregorianDate = new DateTime("$year-$month-$day");
     $lunar = Lunar::fromDate($gregorianDate);
+	if ($hour == 23) {
+    	$lunar->next(1);
+	}
     $yearInGanZhi = $lunar->getYearInGanZhi();
 	$yearShengXiao = $lunar->getYearShengXiao();
     $monthInChinese = $lunar->getMonthInChinese();

@@ -151,8 +151,8 @@ $destinies = [
     47 => '此命推來旺末年，妻榮子貴自怡然。平生原有滔滔福，可有財源如水源。',
     48 => '幼年運道未曾享，若是蹉跎再不興。兄弟六親皆無靠，一身事業晚年成。',
     49 => '此命推來福不輕，自成自立耀門庭。從來富貴人親近，使婢差奴過一生。',
-	50 => '為名為利終日勞，中年福祿也多遭。老來是有財星照，不比前番日下高。',
-	51 => '一世榮華事事通，不須勞碌自享豐。弟兄叔侄皆如意，家業成時福祿宏。',
+    50 => '為名為利終日勞，中年福祿也多遭。老來是有財星照，不比前番日下高。',
+    51 => '一世榮華事事通，不須勞碌自享豐。弟兄叔侄皆如意，家業成時福祿宏。',
     52 => '一世享通事事能，不須勞思自然能。家族欣然心皆好，家業豐享自稱心。',
     53 => '此格推來氣像真，興家發達在其中。一生福祿安排家，欲是人間一富翁。',
     54 => '此命推來厚且清，詩畫滿腹看功成。豐衣足食自然穩，正是人間有福人。',
@@ -213,19 +213,17 @@ if (isset($_GET['selectedDateTime'])) {
     $resultmonthChinese = convertToChineseWeight($resultmonth);
     $resultdayChinese = convertToChineseWeight($resultday);
     $resulttimeChinese = convertToChineseWeight($resulttime);
-
-	echo "【農曆：{$yearInGanZhi}({$yearShengXiao})年{$monthInChinese}月{$dayInChinese}日{$timeInChinese}】<br>";
-    echo "【{$yearInGanZhi}年重量：{$resultyearChinese}】<br>";
-    echo "【{$monthInChinese}月重量：{$resultmonthChinese}】<br>";
-    echo "【{$dayInChinese}日重量：{$resultdayChinese}】<br>";
-    echo "【{$timeInChinese}重量：{$resulttimeChinese}】<br>";
-
     $destweight = $resultyear + $resultmonth + $resultday + $resulttime;
-    $destweightChinese = convertToChineseWeight($destweight);
-    echo "【總重量：{$destweightChinese}】<br>";
+    $destweightChinese = convertToChineseWeight($destweight);	
 
+    echo "【農曆：{$yearInGanZhi}({$yearShengXiao})年{$monthInChinese}月{$dayInChinese}日{$timeInChinese}生，";
+    echo "此命重量合計{$destweightChinese}。其中，";
+    echo "{$yearInGanZhi}年重{$resultyearChinese}，";
+    echo "{$monthInChinese}月重{$resultmonthChinese}，";
+    echo "{$dayInChinese}日重{$resultdayChinese}，";
+    echo "{$timeInChinese}重{$resulttimeChinese}。";
     $result = $destinies[$destweight] ?? '【查無對應命理結果】';
-    echo "【".$result."】";
+    echo "<h3>【".$result."】</h3>";
 }
 
 function getChineseTime($hour) {

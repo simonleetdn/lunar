@@ -68,7 +68,7 @@ $menuItems = [
       </ul>
 <form class="form-inline ml-auto" id="year-form" method="get">
     <label class="mr-2 text-light" for="year">選擇年份</label>
-    <input type="number" id="year" name="year" value="<?php echo $year; ?>" class="form-control mr-2" />
+    <input type="number" id="year" name="year" value="<?php echo $year; ?>" class="form-control" style="width: 90px;" />
 </form>		
     </div>
 	</div>	  

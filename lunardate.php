@@ -84,8 +84,7 @@ echo '<div class="alert alert-warning" role="alert">歡迎使用本網站查詢�
 		if (in_array("春節", $Festivallist)) {
 			
 			echo '<div id="newyear" class="bg-danger special text-warning"><h3 class="float-left">';
-			echo '【歲次'.$ly.'】</h3>';
-			echo '【生肖：'.$ls.'】';		
+			echo '【歲次'.$ly.'肖'.$ls.'】</h3>';
 			include_once("dimujing.php");
 			echo '【年太歲：'.$taishui_mapping[$ly].'星君，'.$lunarYear->getPositionTaiSuiDesc().'方】';
 			echo '【三元：'.$lunarYear->getYuan().'】';
@@ -152,7 +151,8 @@ $xiongShaCheck = [
 ];
 
 $jiShenCheck = [
-    "天德合日" => ["天德合"],
+    "天赦日" => ["天赦"],
+	"天德合日" => ["天德合"],
     "月德合日" => ["月德合"],
     "天德日" => ["天德"],
     "月德日" => ["月德"]

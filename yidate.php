@@ -63,7 +63,7 @@ $menuItems = [
     </li>  
 <?php endforeach; ?>
 		 <li class="nav-item">
-          <a id="yuangang" class="nav-link" href="yuangang.php?selectedDateTime=<?php echo date('Y-m-d\TH:i'); ?>">稱骨算命</a>
+          <a id="yuangang" class="nav-link" href="yuangang.php?birthDateTime=<?php echo date('Y-m-d\TH:i'); ?>">稱骨算命</a>
         </li>
   
       </ul>

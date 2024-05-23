@@ -1,6 +1,6 @@
 <?php include 'metaseo.php'; ?>
 <meta name="description" content="計算袁天罡稱骨算命，特別的是我們在陽曆晚上11點做了農曆跨日的精確計算，幫助您了解自己的命運。">
-  <title>農民曆稱骨算命：生於<?php echo isset($_GET['selectedDateTime']) ? htmlspecialchars($_GET['selectedDateTime']) : ''; ?></title>
+  <title>農民曆稱骨算命：生於<?php echo isset($_GET['birthDateTime']) ? htmlspecialchars($_GET['birthDateTime']) : ''; ?></title>
 <?php include 'head.php'; ?>
 <body>
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-danger">
@@ -27,16 +27,16 @@
 		  <h2>袁天罡稱骨算命</h2><hr/>
 <form class="form-inline ml-auto" id="daytime-form" method="get">
     <label class="mr-2" for="daytime">【陽曆出生日期時間】</label>
-    <input type="datetime-local" id="daytime" name="selectedDateTime" class="form-control mr-2" 
-           value="<?php echo isset($_GET['selectedDateTime']) ? htmlspecialchars($_GET['selectedDateTime']) : date('Y-m-d\TH:i'); ?>" />
+    <input type="datetime-local" id="daytime" name="birthDateTime" class="form-control mr-2" 
+           value="<?php echo isset($_GET['birthDateTime']) ? htmlspecialchars($_GET['birthDateTime']) : date('Y-m-d\TH:i'); ?>" />
     <button type="button" id="submitBtn" class="btn btn-warning">進呈</button>
 </form>
 <hr/>
 
 <script>
     document.getElementById('submitBtn').addEventListener('click', function() {
-        var selectedDateTime = document.getElementById('daytime').value;
-        window.location.href = 'yuangang.php?selectedDateTime=' + selectedDateTime;
+        var birthDateTime = document.getElementById('daytime').value;
+        window.location.href = 'yuangang.php?birthDateTime=' + birthDateTime;
     });
 </script>
 
@@ -193,9 +193,9 @@ function convertToChineseWeight($weight) {
     }
 }
 
-if (isset($_GET['selectedDateTime'])) {
-    $selectedDateTime = $_GET['selectedDateTime'];
-    $dateTime = new DateTime($selectedDateTime);
+if (isset($_GET['birthDateTime'])) {
+    $birthDateTime = $_GET['birthDateTime'];
+    $dateTime = new DateTime($birthDateTime);
     $year = $dateTime->format('Y');
     $month = $dateTime->format('m');
     $day = $dateTime->format('d');

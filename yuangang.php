@@ -180,13 +180,15 @@ $destinies = [
 
 function convertToChineseWeight($weight) {
     $chineseNums = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
-    $jin = intdiv($weight, 10);
-    $liang = $weight % 10;
+    $liang = intdiv($weight, 10);
+    $qian = $weight % 10;
     
-    if ($jin == 0) {
-        return $chineseNums[$liang] . '錢';
+    if ($liang == 0) {
+        return $chineseNums[$qian] . '錢';
+    } elseif ($qian == 0){
+        return $chineseNums[$liang] . '兩整';
     } else {
-        return $chineseNums[$jin] . '兩' . $chineseNums[$liang] . '錢';
+        return $chineseNums[$liang] . '兩' . $chineseNums[$qian] . '錢';
     }
 }
 

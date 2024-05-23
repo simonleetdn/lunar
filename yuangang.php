@@ -31,17 +31,8 @@
            value="<?php echo isset($_GET['birthDateTime']) ? htmlspecialchars($_GET['birthDateTime']) : date('Y-m-d\TH:i'); ?>" />
     <button type="button" id="submitBtn" class="btn btn-warning">進呈</button>
 </form>
-<hr/>
 
-<script>
-    document.getElementById('submitBtn').addEventListener('click', function() {
-        var birthDateTime = document.getElementById('daytime').value;
-        window.location.href = 'yuangang.php?birthDateTime=' + birthDateTime;
-    });
-</script>
-
-
-		  
+	  
 <?php
 require 'Lunar.php';
 
@@ -225,14 +216,15 @@ if (isset($_GET['birthDateTime'])) {
     $destweight = $resultyear + $resultmonth + $resultday + $resulttime;
     $destweightChinese = convertToChineseWeight($destweight);	
     
-    echo "<span class='mt-3'>【農曆{$yearInGanZhi}{$yearShengXiao}年{$monthInChinese}月{$dayInChinese}日{$timeInChinese}生，";
+    echo "<div id='result'><hr/>";
+	echo "<p>【農曆{$yearInGanZhi}{$yearShengXiao}年{$monthInChinese}月{$dayInChinese}日{$timeInChinese}生，";
     echo "此命重量合計{$destweightChinese}。其中，";
     echo "{$yearInGanZhi}年重{$resultyearChinese}，";
     echo "{$monthInChinese}月重{$resultmonthChinese}，";
     echo "{$dayInChinese}日重{$resultdayChinese}，";
-    echo "{$timeInChinese}重{$resulttimeChinese}。】</span><hr/>";
+    echo "{$timeInChinese}重{$resulttimeChinese}。】</p><hr/>";
     $result = $destinies[$destweight] ?? '查無對應命理結果';
-    echo "<h3 class='mt-4'>【".$result."】</h3>";
+    echo "<h3>【".$result."】</h3></div>";
 }
 
 function getChineseTime($hour) {
@@ -252,6 +244,19 @@ function getChineseTime($hour) {
 }
 ?>
 </div></div></div>
-<?php include 'footer.php'; ?>		  
+<?php include 'footer.php'; ?>
+<script>
+    var birthDateTimeInput = document.getElementById('daytime');
+    var resultDiv = document.getElementById('result');
+
+    birthDateTimeInput.addEventListener('change', function() {
+        resultDiv.innerHTML = '<hr/><p>【日期已改變，請點擊進呈查看新結果。】</p>';
+    });
+
+    document.getElementById('submitBtn').addEventListener('click', function() {
+        var birthDateTime = birthDateTimeInput.value;
+        window.location.href = 'yuangang.php?birthDateTime=' + birthDateTime;
+    });
+</script>	
 </body>	
 </html>

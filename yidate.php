@@ -7,6 +7,7 @@ if(isset($_GET["year-yi"]) && !empty($_GET["year-yi"])) {
 }
 ?>
 <?php include 'metaseo.php'; ?>
+<meta name="description" content="查詢整年的農曆日期和宜日！我們提供精確的農民曆資訊，幫助您掌握日常生活和重要節日的日期，計劃您的全年活動。">
   <title>農民曆<?php echo $year."年宜".$yi."的日子"; ?></title>
 <?php include 'head.php'; ?>
 <body>

@@ -1,4 +1,5 @@
 <?php include 'metaseo.php'; ?>
+<meta name="description" content="計算袁天罡稱骨算命，特別的是我們在陽曆晚上11點做了農曆跨日的精確計算，幫助您了解自己的命運。">
   <title>農民曆稱骨算命：生於<?php echo isset($_GET['selectedDateTime']) ? htmlspecialchars($_GET['selectedDateTime']) : ''; ?></title>
 <?php include 'head.php'; ?>
 <body>

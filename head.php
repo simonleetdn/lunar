@@ -26,9 +26,9 @@ h1, h2, h3, .navbar-brand, .card-title {
   cursor: pointer;
 }
 	
-.bg-warning {
-    border-radius: 4px;
-    padding-bottom: 1px;
+.special {
+border-radius: 4px;
+padding-bottom: 1px;
 padding-left: 20px;
 padding-right: 20px;
 padding-top: 15px;

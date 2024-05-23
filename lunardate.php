@@ -72,17 +72,38 @@ echo '<div class="alert alert-warning" role="alert">歡迎使用本網站查詢�
 		$td = date('Ynj');
 		$foto = Foto::fromLunar($lunar);
 		$tao = Tao::fromLunar($lunar);
+		$ly = $lunar->getYearInGanZhi();
+		$ls = $lunar->getYearShengXiao();
+        $lm = $lunar->getMonthInChinese();
+        $ld = $lunar->getDayInChinese();
+		$lunarYear = LunarYear::fromYear($sy);
+		$Festivallist = $lunar->getFestivals();
 		echo "<hr/>";
-
 		
+		// 顯示新年
+		if (in_array("春節", $Festivallist)) {
+			
+			echo '<div id="newyear" class="bg-danger special text-warning"><h3 class="float-left">';
+			echo '【歲次'.$ly.'】</h3>';
+			echo '【生肖：'.$ls.'】';		
+			include_once("dimujing.php");
+			echo '【年太歲：'.$taishui_mapping[$ly].'星君，'.$lunarYear->getPositionTaiSuiDesc().'方】';
+			echo '【三元：'.$lunarYear->getYuan().'】';
+			echo '【九運：'.$lunarYear->getYun().'】';
+			echo '【年納音：'.$lunar->getYearNaYin().'】';
+			echo '【年九星：'.$lunar->getYearNineStar().'】';
+			echo '【皇帝地母經：'.$dimujing_mapping[$ly].'】';
+			
+			echo '</div><hr/>';
+		}
 		
 		echo "<div class='day";
+		
 		if ($sy.$sm.$sd === $td) {
-			echo " bg-warning";
+			echo " bg-warning special";
         }
 		echo "' id='{$day}'>";
-		
-		$Festivallist = $lunar->getFestivals();
+				
 		
 		
 		if ($Festivallist) {
@@ -100,10 +121,7 @@ echo '<div class="alert alert-warning" role="alert">歡迎使用本網站查詢�
 		echo '<h3 class="float-left">'.$sd.'</h3>';
         //echo "【陽曆：".$sy."年".$sm."月".$sd."日";
 		echo "【星期".$solar->getWeekInChinese()."】</span>";
-		$ly = $lunar->getYearInGanZhi();
-		$ls = $lunar->getYearShengXiao();
-        $lm = $lunar->getMonthInChinese();
-        $ld = $lunar->getDayInChinese();
+
         echo "【農曆：".$ly."(".$ls.")"."年".$lm."月".$ld."】";
 
 $sf = $solar->getFestivals();
@@ -423,10 +441,10 @@ echo '【太陽位於黃經'.$jieqi_info[$JieQi]['度數'].'度】【'.$jieqi_in
     var detailElement = document.getElementById('detail' + day);
     if (detailElement.classList.contains('d-none')) {
       detailElement.classList.remove('d-none');
-      document.getElementById(day).classList.add('bg-warning');
+      document.getElementById(day).classList.add('bg-warning','special');
     } else {
       detailElement.classList.add('d-none');
-      document.getElementById(day).classList.remove('bg-warning');
+      document.getElementById(day).classList.remove('bg-warning','special');
     }
   }
 

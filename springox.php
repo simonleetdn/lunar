@@ -260,12 +260,12 @@ $liChunHour = $liChun->getHour();
 $hourIndex = floor(($liChunHour + 1) / 2) % 12; // 每时辰两个小时，加1是为了从子时开始计算，然后取余12得到时辰索引
 $hourZhi = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'][$hourIndex];
 
-// 获取春节（正月元旦）的日期
-$springFestival = $jieQiTable['春節'];
-$springFestivalDateTime = new DateTime($springFestival->toYmd());
+// 获取正月元旦（春节）的日期
+$springFestival = $jieQiTable['春節'];// 需要根据实际情况调整日期
+$liChunDateTime = new DateTime($liChun->toYmdHms());
 
 // 计算立春距正月元旦的天数差
-$interval = $springFestivalDateTime->diff($liChunDateTime);
+$interval = $springFestival->diff($liChunDateTime);
 $daysDifference = $interval->days;
 
 // 确定芒神的位置
@@ -276,6 +276,7 @@ if ($daysDifference <= 5) {
 } else {
     $mangShenPosition = "芒神晚閑，立於牛後";
 }
+
 	
         // 輸出春牛圖的內容
         echo "【春牛身高四尺，長八尺，尾長一尺二寸，牛頭{$headColors[$yearGan]}，牛身{$bodyColors[$yearZhi]}，牛腹{$bellyColors[mb_substr($yearNaYin, 2, 1)]}，牛角、牛耳、牛尾{$tailColors[$liChunDayGan]}，牛脛{$footColors[$liChunDayZhi]}，牛蹄{$tiColors[$liChunDayNaYin]}，牛尾{$tailDirection}。牛口{$mouthState}，牛籠頭拘繩桑柘木，用{$ropeMaterials[$liChunDayZhi]}結{$ropeColors[$liChunDayGan]}，牛踏板縣門{$doorSide}。芒神身高三尺六寸五分，面如{$mangShenImage[$yearZhi]}像，{$mangShenClothes[$liChunDayZhi]['衣服']}繫{$mangShenClothes[$liChunDayZhi]['腰帶']}，平梳兩髻{$mangShenHair[$liChunDayNaYin]['位置']}，{$earCover[$hourZhi]}，{$shoePantsSettings[$liChunDayNaYin]}，鞭杖用柳枝，長二尺四寸，五色醮染用{$ribbonKnot[$liChunDayZhi]}，$mangShenPosition。】";

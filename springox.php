@@ -215,27 +215,27 @@ $ropeMaterials = [
 
         // 芒神髮髻位置
         $mangShenHair = [
-            '金' => ['髮髻' => '平梳兩髻', '位置' => '耳前'],
-            '木' => ['髮髻' => '平梳兩髻', '位置' => '耳後'],
-            '水' => ['髮髻' => '平梳兩髻', '位置' => '左髻於耳前，右髻於耳後'],
-            '火' => ['髮髻' => '平梳兩髻', '位置' => '右髻於耳前，左髻於耳後'],
-            '土' => ['髮髻' => '平梳兩髻', '位置' => '頭頂上']
+            '金' => ['髮髻' => '平梳兩髻', '位置' => '在耳前'],
+            '木' => ['髮髻' => '平梳兩髻', '位置' => '在耳後'],
+            '水' => ['髮髻' => '平梳兩髻', '位置' => '左在耳前，右在耳後'],
+            '火' => ['髮髻' => '平梳兩髻', '位置' => '右在耳前，左在耳後'],
+            '土' => ['髮髻' => '平梳兩髻', '位置' => '在頂真上']
         ];
 
         // 芒神耳朵蓋法和帽子
         $earCover = [
-            '子' => ['耳朵' => '蓋著', '帽子' => '雙耳'],
-            '丑' => ['耳朵' => '蓋著', '帽子' => '雙耳'],
-            '寅' => ['耳朵' => '蓋著', '帽子' => '右耳'],
-            '卯' => ['耳朵' => '露出', '帽子' => '右手拿著帽子'],
-            '辰' => ['耳朵' => '露出', '帽子' => '左手拿著帽子'],
-            '巳' => ['耳朵' => '露出', '帽子' => '右手拿著帽子'],
-            '午' => ['耳朵' => '露出', '帽子' => '左手拿著帽子'],
-            '未' => ['耳朵' => '露出', '帽子' => '右手拿著帽子'],
-            '申' => ['耳朵' => '露出', '帽子' => '左手拿著帽子'],
-            '酉' => ['耳朵' => '露出', '帽子' => '右手拿著帽子'],
-            '戌' => ['耳朵' => '露出', '帽子' => '左手拿著帽子'],
-            '亥' => ['耳朵' => '蓋著', '帽子' => '左耳']
+            '子' => '罨耳全戴',
+            '丑' => '罨耳全戴',
+            '寅' => '罨耳揭起左邊',
+            '卯' => '罨耳用右手提',
+            '辰' => '罨耳用左手提',
+            '巳' => '罨耳用右手提',
+            '午' => '罨耳用左手提',
+            '未' => '罨耳用右手提',
+            '申' => '罨耳用左手提',
+            '酉' => '罨耳用右手提',
+            '戌' => '罨耳用左手提',
+            '亥' => '罨耳揭起右邊'
         ];
 
 // 获取立春日期的年月日时分秒
@@ -247,7 +247,7 @@ $hourZhi = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉'
 
 	
         // 輸出春牛圖的內容
-        echo "【春牛身高四尺，長八尺，尾長一尺二寸，牛頭{$headColors[$yearGan]}，牛身{$bodyColors[$yearZhi]}，牛腹{$bellyColors[mb_substr($yearNaYin, 2, 1)]}，牛角、牛耳、牛尾{$tailColors[$liChunDayGan]}，牛脛{$footColors[$liChunDayZhi]}，牛蹄{$tiColors[$liChunDayNaYin]}，牛尾{$tailDirection}。牛口{$mouthState}，牛籠頭拘繩桑柘木，用{$ropeMaterials[$liChunDayZhi]}結{$ropeColors[$liChunDayGan]}，牛踏板縣門{$doorSide}。芒神身高三尺六寸五分，面如{$mangShenImage[$yearZhi]}像，{$mangShenClothes[$liChunDayZhi]['衣服']}繫{$mangShenClothes[$liChunDayZhi]['腰帶']}，平梳兩髻在{$mangShenHair[$liChunDayNaYin]['位置']}，罨身用{$earCover[$hourZhi]['帽子']}右手提，著褲無行纏鞋子，鞭杖用柳枝，長二尺四寸，五色麻結，芒神忙，與牛並立於右邊。】";
+        echo "【春牛身高四尺，長八尺，尾長一尺二寸，牛頭{$headColors[$yearGan]}，牛身{$bodyColors[$yearZhi]}，牛腹{$bellyColors[mb_substr($yearNaYin, 2, 1)]}，牛角、牛耳、牛尾{$tailColors[$liChunDayGan]}，牛脛{$footColors[$liChunDayZhi]}，牛蹄{$tiColors[$liChunDayNaYin]}，牛尾{$tailDirection}。牛口{$mouthState}，牛籠頭拘繩桑柘木，用{$ropeMaterials[$liChunDayZhi]}結{$ropeColors[$liChunDayGan]}，牛踏板縣門{$doorSide}。芒神身高三尺六寸五分，面如{$mangShenImage[$yearZhi]}像，{$mangShenClothes[$liChunDayZhi]['衣服']}繫{$mangShenClothes[$liChunDayZhi]['腰帶']}，平梳兩髻{$mangShenHair[$liChunDayNaYin]['位置']}，{$earCover[$hourZhi]}，著褲無行纏鞋子，鞭杖用柳枝，長二尺四寸，五色麻結，芒神忙，與牛並立於右邊。】";
     }
 ?>
 </div></div></div>

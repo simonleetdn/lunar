@@ -1,6 +1,7 @@
 <?php include 'metaseo.php'; ?>
 <meta name="description" content="計算袁天罡稱骨算命，特別的是我們在陽曆晚上11點做了農曆跨日的精確計算，幫助您了解自己的命運。">
-  <title>農民曆稱骨算命：生於<?php echo isset($_GET['birthDateTime']) ? htmlspecialchars($_GET['birthDateTime']) : ''; ?></title>
+<link rel="canonical" href="https://lunar.ioi.tw/yuangang.php" />
+  <title>袁天罡稱骨算命<?php echo isset($_GET['birthDateTime']) ? "：生於".htmlspecialchars($_GET['birthDateTime']) : ''; ?></title>
 <?php include 'head.php'; ?>
 <body>
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-danger">

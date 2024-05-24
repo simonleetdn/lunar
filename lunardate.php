@@ -10,6 +10,7 @@ if(isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
 ?>
 <?php include 'metaseo.php'; ?>
 <meta name="description" content="在這裡查詢每個月的農曆日期！我們提供精確的農民曆資訊，幫助您掌握日常生活和重要節日的日期。">
+<link rel="canonical" href="https://lunar.ioi.tw/" />
   <title><?php echo $title; ?></title>
 <?php include 'head.php'; ?>
 <body>

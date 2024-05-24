@@ -156,7 +156,7 @@ while ($currentDate <= $endDate) {
 
             // 只列出宜包含$yi且吉的时辰
             if (in_array($yi, $yiList) && $lunarhour->getTimeTianShenLuck() === "吉") {
-                echo "<span class='text-danger'>◈" . $timePeriod . "時(" . sprintf('%02d', $hours[0]) . "-" . sprintf('%02d', $hours[1]) . ")";
+                echo "<span class='text-danger'>◈" . $timePeriod . "時(" . sprintf('%02d', $hours[0]) . "-" . sprintf('%02d', $hours[1]) . ")吉";
                 echo "，沖" . $timechong;
 				echo "</span>";
             }

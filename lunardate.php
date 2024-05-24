@@ -93,7 +93,7 @@ echo '<div class="alert alert-warning" role="alert">歡迎使用本網站查詢�
 			echo '【年納音：'.$lunar->getYearNaYin().'】';
 			echo '【年九星：'.$lunar->getYearNineStar().'】';
 			echo '【皇帝地母經：'.$dimujing_mapping[$ly].'】';
-			//include_once("springoxcon.php");
+			include_once("springoxcon.php");
 			echo '</div><hr/>';
 		}
 		

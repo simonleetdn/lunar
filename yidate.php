@@ -62,9 +62,6 @@ $menuItems = [
         </div>
     </li>  
 <?php endforeach; ?>
-		 <li class="nav-item">
-          <a id="yuangang" class="nav-link" href="yuangang.php?birthDateTime=<?php echo date('Y-m-d\TH:i'); ?>">稱骨算命</a>
-        </li>
   
       </ul>
 <form class="form-inline ml-auto" id="year-form" method="get">
@@ -202,6 +199,29 @@ document.getElementById('year').addEventListener('keypress', function(event) {
     handleYearChange();
   }
 });
+	
+document.addEventListener("DOMContentLoaded", function() {
+  var pageTitle = document.getElementById("page-title");
+  var navbarBrand = document.querySelector(".navbar-brand");
+  
+  window.addEventListener("scroll", function() {
+    var pageTitleRect = pageTitle.getBoundingClientRect();
+    
+    if (pageTitleRect.top < 0 && pageTitleRect.bottom < 0) {
+      if (!navbarBrand.querySelector(".scroll-title")) {
+        var scrollTitle = document.createElement("span");
+        scrollTitle.className = "scroll-title";
+        scrollTitle.textContent = pageTitle.textContent;
+        navbarBrand.appendChild(scrollTitle);
+      }
+    } else if (pageTitleRect.top >= 0 && pageTitleRect.bottom >= 0) {
+      var scrollTitle = navbarBrand.querySelector(".scroll-title");
+      if (scrollTitle) {
+        scrollTitle.remove();
+      }
+    }
+  });
+});	
 </script>
 	
 <?php include 'footer.php'; ?>	    	

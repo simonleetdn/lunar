@@ -247,6 +247,12 @@ $shoePantsSettings = [
     '土' => '著褲，無行纏鞋子'
 ];
 
+// 定义日支与鞭杖上丝带结的对应关系
+$ribbonKnot = [
+    '子' => '苧結', '卯' => '苧結', '午' => '苧結', '酉' => '苧結',
+    '丑' => '絲結', '辰' => '絲結', '未' => '絲結', '戌' => '絲結',
+    '寅' => '麻結', '巳' => '麻結', '申' => '麻結', '亥' => '麻結'
+];	
 // 获取立春日期的年月日时分秒
 $liChunHour = $liChun->getHour();
 
@@ -256,7 +262,7 @@ $hourZhi = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉'
 
 	
         // 輸出春牛圖的內容
-        echo "【春牛身高四尺，長八尺，尾長一尺二寸，牛頭{$headColors[$yearGan]}，牛身{$bodyColors[$yearZhi]}，牛腹{$bellyColors[mb_substr($yearNaYin, 2, 1)]}，牛角、牛耳、牛尾{$tailColors[$liChunDayGan]}，牛脛{$footColors[$liChunDayZhi]}，牛蹄{$tiColors[$liChunDayNaYin]}，牛尾{$tailDirection}。牛口{$mouthState}，牛籠頭拘繩桑柘木，用{$ropeMaterials[$liChunDayZhi]}結{$ropeColors[$liChunDayGan]}，牛踏板縣門{$doorSide}。芒神身高三尺六寸五分，面如{$mangShenImage[$yearZhi]}像，{$mangShenClothes[$liChunDayZhi]['衣服']}繫{$mangShenClothes[$liChunDayZhi]['腰帶']}，平梳兩髻{$mangShenHair[$liChunDayNaYin]['位置']}，{$earCover[$hourZhi]}，{$shoePantsSettings[$liChunDayNaYin]}，鞭杖用柳枝，長二尺四寸，五色麻結，芒神忙，與牛並立於右邊。】";
+        echo "【春牛身高四尺，長八尺，尾長一尺二寸，牛頭{$headColors[$yearGan]}，牛身{$bodyColors[$yearZhi]}，牛腹{$bellyColors[mb_substr($yearNaYin, 2, 1)]}，牛角、牛耳、牛尾{$tailColors[$liChunDayGan]}，牛脛{$footColors[$liChunDayZhi]}，牛蹄{$tiColors[$liChunDayNaYin]}，牛尾{$tailDirection}。牛口{$mouthState}，牛籠頭拘繩桑柘木，用{$ropeMaterials[$liChunDayZhi]}結{$ropeColors[$liChunDayGan]}，牛踏板縣門{$doorSide}。芒神身高三尺六寸五分，面如{$mangShenImage[$yearZhi]}像，{$mangShenClothes[$liChunDayZhi]['衣服']}繫{$mangShenClothes[$liChunDayZhi]['腰帶']}，平梳兩髻{$mangShenHair[$liChunDayNaYin]['位置']}，{$earCover[$hourZhi]}，{$shoePantsSettings[$liChunDayNaYin]}，鞭杖用柳枝，長二尺四寸，五色醮染用{$ribbonKnot[$liChunDayZhi]}，芒神忙，與牛並立於右邊。】";
     }
 ?>
 </div></div></div>

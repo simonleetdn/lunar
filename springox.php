@@ -67,22 +67,37 @@ if (isset($_GET['year'])) {
 	    $yearGan = $lunar->getYearGan();
 		// 獲取年地支
 		$yearZhi = $lunar->getYearZhi();
+	// 获取年纳音
+$yearNaYin = $lunar->getYearNaYin();
 	
 
-	
-        // 設定牛頭顏色的規則，年干
-        $colors = [
-            '甲' => '青',
-            '乙' => '青',
-            '丙' => '紅',
-            '丁' => '紅',
-            '戊' => '黃',
-            '己' => '黃',
-            '庚' => '白',
-            '辛' => '白',
-            '壬' => '黑',
-            '癸' => '黑'
-        ];
+// 定义牛头颜色与年干的对应关系
+$headColors = [
+    '甲' => '青色', '乙' => '青色',
+    '丙' => '红色', '丁' => '红色',
+    '戊' => '黄色', '己' => '黄色',
+    '庚' => '白色', '辛' => '白色',
+    '壬' => '黑色', '癸' => '黑色'
+];
+
+// 定义牛身颜色与年支的对应关系
+$bodyColors = [
+    '子' => '黑色', '亥' => '黑色',
+    '寅' => '青色', '卯' => '青色',
+    '巳' => '红色', '午' => '红色',
+    '申' => '白色', '酉' => '白色',
+    '丑' => '黄色', '辰' => '黄色',
+    '未' => '黄色', '戌' => '黄色'
+];
+
+// 定义牛腹颜色与年纳音的对应关系
+$bellyColors = [
+    '金' => '白色',
+    '木' => '青色',
+    '水' => '黑色',
+    '火' => '红色',
+    '土' => '黄色'
+];
 
 	// 設定牛尾顏色的規則，立春日干
 	$tailColors = [
@@ -232,7 +247,7 @@ $hourZhi = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉'
 
 	
         // 輸出春牛圖的內容
-        echo "【春牛身高四尺，長八尺，尾長一尺二寸，頭還沒，身還沒，腹還沒，角、耳、尾{$tailColors[$liChunDayGan]}，脛{$footColors[$liChunDayZhi]}，蹄{$tiColors[$liChunDayNaYin]}，尾{$tailDirection}。牛口{$mouthState}，牛籠頭拘繩桑柘木，用{$ropeMaterials[$liChunDayZhi]}結{$ropeColors[$liChunDayGan]}，牛踏板縣門{$doorSide}。芒神身高三尺六寸五分，面如{$mangShenImage[$yearZhi]}像，{$mangShenClothes[$liChunDayZhi]['衣服']}繫{$mangShenClothes[$liChunDayZhi]['腰帶']}，平梳兩髻在{$mangShenHair[$liChunDayNaYin]['位置']}，罨身用{$earCover[$hourZhi]['帽子']}右手提，著褲無行纏鞋子，鞭杖用柳枝，長二尺四寸，五色麻結，芒神忙，與牛並立於右邊。】";
+        echo "【春牛身高四尺，長八尺，尾長一尺二寸，牛頭{$headColors[$yearGan]}，牛身{$bodyColors[$yearZhi]}，牛腹{$bellyColors[mb_substr($yearNaYin, 2, 1)]}，牛角、牛耳、牛尾{$tailColors[$liChunDayGan]}，牛脛{$footColors[$liChunDayZhi]}，牛蹄{$tiColors[$liChunDayNaYin]}，牛尾{$tailDirection}。牛口{$mouthState}，牛籠頭拘繩桑柘木，用{$ropeMaterials[$liChunDayZhi]}結{$ropeColors[$liChunDayGan]}，牛踏板縣門{$doorSide}。芒神身高三尺六寸五分，面如{$mangShenImage[$yearZhi]}像，{$mangShenClothes[$liChunDayZhi]['衣服']}繫{$mangShenClothes[$liChunDayZhi]['腰帶']}，平梳兩髻在{$mangShenHair[$liChunDayNaYin]['位置']}，罨身用{$earCover[$hourZhi]['帽子']}右手提，著褲無行纏鞋子，鞭杖用柳枝，長二尺四寸，五色麻結，芒神忙，與牛並立於右邊。】";
     }
 ?>
 </div></div></div>

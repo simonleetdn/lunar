@@ -262,7 +262,7 @@ $hourZhi = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉'
 
 // 获取春节（正月元旦）的日期
 $springFestival = $jieQiTable['春節'];
-$springFestivalDateTime = new DateTime($springFestival->toYmdHms());
+$springFestivalDateTime = new DateTime($springFestival->toYmd());
 
 // 计算立春距正月元旦的天数差
 $interval = $liChunDateTime->diff($springFestivalDateTime);

@@ -265,18 +265,17 @@ $springFestival = $jieQiTable['春節'];
 $springFestivalDateTime = new DateTime($springFestival->toYmd());
 
 // 计算立春距正月元旦的天数差
-$interval = $liChunDateTime->diff($springFestivalDateTime);
+$interval = $springFestivalDateTime->diff($liChunDateTime);
 $daysDifference = $interval->days;
-$isBefore = $liChunDateTime < $springFestivalDateTime;
 
 // 确定芒神的位置
 if ($daysDifference <= 5) {
     $mangShenPosition = "芒神忙與牛並立";
-} elseif ($isBefore) {
+} elseif ($liChunDateTime < $springFestival) {
     $mangShenPosition = "芒神早忙，立於牛前邊";
 } else {
     $mangShenPosition = "芒神晚閑，立於牛後";
-}	
+}
 	
         // 輸出春牛圖的內容
         echo "【春牛身高四尺，長八尺，尾長一尺二寸，牛頭{$headColors[$yearGan]}，牛身{$bodyColors[$yearZhi]}，牛腹{$bellyColors[mb_substr($yearNaYin, 2, 1)]}，牛角、牛耳、牛尾{$tailColors[$liChunDayGan]}，牛脛{$footColors[$liChunDayZhi]}，牛蹄{$tiColors[$liChunDayNaYin]}，牛尾{$tailDirection}。牛口{$mouthState}，牛籠頭拘繩桑柘木，用{$ropeMaterials[$liChunDayZhi]}結{$ropeColors[$liChunDayGan]}，牛踏板縣門{$doorSide}。芒神身高三尺六寸五分，面如{$mangShenImage[$yearZhi]}像，{$mangShenClothes[$liChunDayZhi]['衣服']}繫{$mangShenClothes[$liChunDayZhi]['腰帶']}，平梳兩髻{$mangShenHair[$liChunDayNaYin]['位置']}，{$earCover[$hourZhi]}，{$shoePantsSettings[$liChunDayNaYin]}，鞭杖用柳枝，長二尺四寸，五色醮染用{$ribbonKnot[$liChunDayZhi]}，$mangShenPosition。】";

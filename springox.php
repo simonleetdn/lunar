@@ -260,22 +260,19 @@ $liChunHour = $liChun->getHour();
 $hourIndex = floor(($liChunHour + 1) / 2) % 12; // 每时辰两个小时，加1是为了从子时开始计算，然后取余12得到时辰索引
 $hourZhi = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'][$hourIndex];
 
-// 获取正月元旦（春节）的日期
-$springFestival = new DateTime("$year-01-01"); // 需要根据实际情况调整日期
-
-// 获取立春日期和时间
-$jieQiTable = $lunar->getJieQiTable();
-$liChun = $jieQiTable['立春'];
-$liChunDateTime = new DateTime($liChun->toYmdHms());
+// 获取春节（正月元旦）的日期
+$springFestival = $jieQiTable['春節'];
+$springFestivalDateTime = new DateTime($springFestival->toYmdHms());
 
 // 计算立春距正月元旦的天数差
-$interval = $springFestival->diff($liChunDateTime);
+$interval = $liChunDateTime->diff($springFestivalDateTime);
 $daysDifference = $interval->days;
+$isBefore = $liChunDateTime < $springFestivalDateTime;
 
 // 确定芒神的位置
 if ($daysDifference <= 5) {
     $mangShenPosition = "芒神忙與牛並立";
-} elseif ($liChunDateTime < $springFestival) {
+} elseif ($isBefore) {
     $mangShenPosition = "芒神早忙，立於牛前邊";
 } else {
     $mangShenPosition = "芒神晚閑，立於牛後";

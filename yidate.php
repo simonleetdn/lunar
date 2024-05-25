@@ -66,9 +66,11 @@ $menuItems = [
   
       </ul>
 <form class="form-inline ml-auto" id="year-form" method="get">
-    <label class="mr-2 text-light" for="year">選擇年份</label>
-    <input type="number" id="year" name="year" value="<?php echo $year; ?>" class="form-control" style="width: 90px;" />
-</form>		
+    <label class="mr-2 text-light" for="year">選擇年份：</label>
+    <input type="number" id="year" name="year" value="<?php echo $year; ?>" class="form-control" style="width: 90px;">
+    <button type="submit" id="submitBtn" class="ml-2 btn btn-warning">進呈</button>
+</form>
+
     </div>
 	</div>	  
   </nav>
@@ -190,17 +192,20 @@ function handleYearChange() {
   window.location.href = newUrl;
 }
 
-// 監聽年份輸入框的變化事件
-document.getElementById('year').addEventListener('change', handleYearChange);
+// 監聽表單的 submit 事件
+document.getElementById('year-form').addEventListener('submit', function(event) {
+  event.preventDefault(); // 阻止表單的預設提交行為
+  handleYearChange(); // 呼叫跳轉函數
+});
 
 // 監聽年份輸入框的按鍵事件
 document.getElementById('year').addEventListener('keypress', function(event) {
   if (event.key === 'Enter') {
-    event.preventDefault(); // 防止表單提交
-    handleYearChange();
+    event.preventDefault(); // 阻止表單的預設提交行為
+    handleYearChange(); // 呼叫跳轉函數
   }
 });
-	
+
 document.addEventListener("DOMContentLoaded", function() {
   var pageTitle = document.getElementById("page-title");
   var navbarBrand = document.querySelector(".navbar-brand");

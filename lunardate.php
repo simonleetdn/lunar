@@ -32,10 +32,12 @@ if(isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
           <a id="exall" class="nav-link">展開全部</a>
         </li>
       </ul>
-<form class="form-inline ml-auto" id="year-month-form" method="get">
+<form class="form-inline ml-auto" id="year-month-form" method="get" action="lunardate.php">
     <label class="mr-2 text-light" for="year-month">選擇月份：</label>
-    <input type="month" id="year-month" name="year-month" value="<?php echo $year.'-'.$month; ?>" class="form-control mr-2" />
+    <input type="month" id="year-month" name="year-month" value="<?php echo $year.'-'.$month; ?>" class="mr-2 form-control">
+    <button type="submit" id="submitBtn" class="btn btn-warning">進呈</button>
 </form>
+
     </div>
 	</div>	  
   </nav>
@@ -433,10 +435,10 @@ echo '【太陽位於黃經'.$jieqi_info[$JieQi]['度數'].'度】【'.$jieqi_in
     </div>
   </div>
 <script>
-    document.getElementById('year-month').addEventListener('change', function() {
-        document.getElementById('year-month-form').submit();
-    });
-	
+document.getElementById('submitBtn').addEventListener('click', function() {
+    document.getElementById('year-month-form').submit();
+});
+
   // Function to toggle visibility of detail element
   function toggleDetailVisibility(day) {
     var detailElement = document.getElementById('detail' + day);
@@ -494,7 +496,7 @@ document.addEventListener('touchend', function(event) {
   const deltaX = touchEndX - touchStartX;
   const deltaY = touchEndY - touchStartY;
   
-  if (Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY)) {
+  if (Math.abs(deltaX) > 200 && Math.abs(deltaX) > Math.abs(deltaY)) {
     if (deltaX > 0) {
       // 向右滑动，调用 changeMonth 函数向右跳转一个月份
       changeMonth(1);

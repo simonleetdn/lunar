@@ -85,17 +85,17 @@ echo '<div class="alert alert-warning" role="alert">歡迎使用本網站查詢�
 		
 		// 顯示新年
 		if (in_array("春節", $Festivallist)) {
-			
+			include_once("dimujing.php");
+			include_once("springoxcon.php");
 			echo '<div id="newyear" class="bg-danger special text-warning"><h3 class="float-left">';
 			echo '【歲次'.$ly.'肖'.$ls.'】</h3>';
-			include_once("dimujing.php");
 			echo '【年太歲：'.$taishui_mapping[$ly].'星君，'.$lunarYear->getPositionTaiSuiDesc().'方】';
 			echo '【三元：'.$lunarYear->getYuan().'】';
 			echo '【九運：'.$lunarYear->getYun().'】';
 			echo '【年納音：'.$lunar->getYearNaYin().'】';
 			echo '【年九星：'.$lunar->getYearNineStar().'】';
 			echo '【皇帝地母經：'.$dimujing_mapping[$ly].'】';
-			include_once("springoxcon.php");
+			echo '【芒神春牛圖：'.$oxcontent.'】';
 			echo '</div><hr/>';
 		}
 		

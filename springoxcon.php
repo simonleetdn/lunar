@@ -210,13 +210,6 @@ $hourZhi = $lichunLunar->getTimeZhi();
 // 创建立春的 DateTime 对象
 $liChunDateTime = new DateTime("$liChunYear-$liChunMonth-$liChunDay $liChunHour:$liChunMinute:$liChunSecond");
 
-echo "【春牛圖：春牛身高四尺，長八尺，尾長一尺二寸，牛頭{$headColors[$yearGan]}，";
-echo "牛身{$bodyColors[$yearZhi]}，";
-echo "牛腹{$bellyColors[mb_substr($lunar->getYearNaYin(), 2, 1)]}，";
-echo "牛角、耳、尾{$tailColors[$liChunDayGan]}，";
-echo "牛脛{$footColors[$liChunDayZhi]}，";
-echo "牛蹄{$tiColors[$liChunDayNaYin]}，";
-
         // 設定流年屬陽的天干
         $yangGan = ['甲', '丙', '戊', '庚', '壬'];
 
@@ -227,15 +220,6 @@ echo "牛蹄{$tiColors[$liChunDayNaYin]}，";
         $tailDirection = $isYangYear ? '左繳' : '右繳';
         $mouthState = $isYangYear ? '開' : '合';
         $doorSide = $isYangYear ? '左扇' : '右扇';
-
-echo "牛尾{$tailDirection}。";
-echo "牛口{$mouthState}，牛籠頭拘繩桑柘木，";
-echo "用{$ropeMaterials[$liChunDayZhi]}結{$ropeColors[$liChunDayGan]}，";
-echo "牛踏板縣門{$doorSide}。芒神身高三尺六寸五分，";
-echo "面如{$mangShenImage[$yearZhi]}像，";
-echo "{$mangShenClothes[$liChunDayZhi]['衣服']}繫{$mangShenClothes[$liChunDayZhi]['腰帶']}，";
-echo "平梳兩髻{$mangShenHair[$liChunDayNaYin]}，{$earCover[$hourZhi]}，{$shoePantsSettings[$liChunDayNaYin]}，";
-echo "鞭杖用柳枝，長二尺四寸，五色醮染用{$ribbonKnot[$liChunDayZhi]}，";
 
 // 获取春节的具体日期
 $chunJieYear = $solar->getYear();
@@ -276,5 +260,22 @@ if ($daysDifference > -5 && $daysDifference < 5) {
     $mangShenPosition = "芒神晚閑，立於牛".$yearZhiToMangShenPosition[$yearZhi]."後邊";
 }
 
-echo "{$mangShenPosition}。】";
+
+// 準備字串內容
+$oxcontent = "春牛身高四尺，長八尺，尾長一尺二寸，牛頭{$headColors[$yearGan]}，";
+$oxcontent .= "牛身{$bodyColors[$yearZhi]}，";
+$oxcontent .= "牛腹{$bellyColors[mb_substr($lunar->getYearNaYin(), 2, 1)]}，";
+$oxcontent .= "牛角、耳、尾{$tailColors[$liChunDayGan]}，";
+$oxcontent .= "牛脛{$footColors[$liChunDayZhi]}，";
+$oxcontent .= "牛蹄{$tiColors[$liChunDayNaYin]}，";
+$oxcontent .= "牛尾{$tailDirection}。";
+$oxcontent .= "牛口{$mouthState}，牛籠頭拘繩桑柘木，";
+$oxcontent .= "用{$ropeMaterials[$liChunDayZhi]}結{$ropeColors[$liChunDayGan]}，";
+$oxcontent .= "牛踏板縣門{$doorSide}。芒神身高三尺六寸五分，";
+$oxcontent .= "面如{$mangShenImage[$yearZhi]}像，";
+$oxcontent .= "{$mangShenClothes[$liChunDayZhi]['衣服']}繫{$mangShenClothes[$liChunDayZhi]['腰帶']}，";
+$oxcontent .= "平梳兩髻{$mangShenHair[$liChunDayNaYin]}，{$earCover[$hourZhi]}，{$shoePantsSettings[$liChunDayNaYin]}，";
+$oxcontent .= "鞭杖用柳枝，長二尺四寸，五色醮染用{$ribbonKnot[$liChunDayZhi]}，";
+$oxcontent .= "{$mangShenPosition}。";
+
 ?>

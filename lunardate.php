@@ -199,7 +199,7 @@ if (!empty($ff)) {
 			echo "【".$sanfu.$shujiu."】";
 		}
 
-		
+
 // 月破大凶日		
 $xsyq = $lunar->getDayXiongSha();
 $jsyq = $lunar->getDayJiShen();
@@ -241,7 +241,8 @@ foreach ($jiShenCheck as $message => $conditions) {
     }
 }	
 
-// 刀砧日
+		
+// 刀砧日麒麟日
 // 獲取四季的節氣日期
 $lichun = $lunar->getJieQiTable()['立春']->toYmdHms();
 $lixia = $lunar->getJieQiTable()['立夏']->toYmdHms();
@@ -250,37 +251,69 @@ $lidong = $lunar->getJieQiTable()['立冬']->toYmdHms();
 
 // 判斷當前日期是否為刀砧日
 $daoZhen = false;
+$qiLin = false;
+$fengHuang = false;		
 $lrdz = $lunar->getDayZhi(); // 修正為 getDayZhi 以獲取日地支
+$lqlrxiu =	$lunar->getXiu(); //日期宿
 // 判斷日期所屬季節並檢查對應的地支
 if ($solar->toYmdHms() >= $lichun && $solar->toYmdHms() < $lixia) {
     // 春季：立春到立夏
     if (in_array($lrdz, ['亥', '子'])) {
         $daoZhen = true;
     }
+	if ($lqlrxiu == "井") {
+        $qiLin = true;
+    }
+	if ($lqlrxiu == "危") {
+        $fengHuang = true;
+    }
 } elseif ($solar->toYmdHms() >= $lixia && $solar->toYmdHms() < $liqiu) {
     // 夏季：立夏到立秋
     if (in_array($lrdz, ['寅', '卯'])) {
         $daoZhen = true;
     }
+	if ($lqlrxiu == "尾") {
+        $qiLin = true;
+    }
+	if ($lqlrxiu == "昴") {
+        $fengHuang = true;
+    }	
 } elseif ($solar->toYmdHms() >= $liqiu && $solar->toYmdHms() < $lidong) {
     // 秋季：立秋到立冬
     if (in_array($lrdz, ['巳', '午'])) {
         $daoZhen = true;
     }
+	if ($lqlrxiu == "牛") {
+        $qiLin = true;
+    }
+	if ($lqlrxiu == "胃") {
+        $fengHuang = true;
+    }		
 } else {
     // 冬季：立冬到下一年的立春
     if (in_array($lrdz, ['申', '酉'])) {
         $daoZhen = true;
     }
+	if ($lqlrxiu == "壁") {
+        $qiLin = true;
+    }
+	if ($lqlrxiu == "畢") {
+        $fengHuang = true;
+    }	
 }
 
 // 輸出結果
 if ($daoZhen) {
     echo "【刀砧日】";
 }
-
+if ($qiLin) {
+    echo "【麒麟日】";
+}
+if ($fengHuang) {
+    echo "【鳳凰日】";
+}		
 		
-		$yiList = $lunar->getDayYi();
+$yiList = $lunar->getDayYi();
 $jiList = $lunar->getDayJi();
 
 // Determine the text color based on the presence of '諸事不宜' in the lists

@@ -1,7 +1,11 @@
 <?php include 'metaseo.php'; ?>
 <meta name="description" content="探索不同年份的春牛圖及其象徵意義，了解每一年圖中描繪的豐收預兆和文化內涵，感受中國傳統藝術的魅力。">
 <link rel="canonical" href="https://lunar.ioi.tw/springox.php" />
-  <title>芒神春牛圖</title>
+  <title><?php
+if (!empty($_GET['year'])) {
+    echo htmlspecialchars($_GET['year']) . "年";
+}
+?>芒神春牛圖</title>
 <?php include 'head.php'; ?>
 <body>
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-danger">
@@ -31,13 +35,11 @@
         <input type="number" id="year" name="year" value="<?php echo isset($_GET['year']) ? htmlspecialchars($_GET['year']) : date('Y'); ?>" class="form-control" style="width: 90px;" />
         <button type="submit" class="btn btn-warning ml-2">進呈</button>
     </form><hr/>
-		  <h2 class="mb-3">
- <?php
+		  <h2 class="mb-3">【<?php
 if (!empty($_GET['year'])) {
-    echo "【".htmlspecialchars($_GET['year']) . "年";
+    echo htmlspecialchars($_GET['year']) . "年";
 }
-?>
-芒神春牛圖】</h2>
+?>芒神春牛圖】</h2>
 <?php
 	
 require 'Lunar.php';

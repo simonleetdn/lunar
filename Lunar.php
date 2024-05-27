@@ -8586,7 +8586,7 @@ class LunarYear
 
   public function getGengTian()
   {
-    return $this->getZaoByZhi(1, '幾牛耕田');
+    return $this->getZaoByZhi(1, '幾牛耕地');
   }
 
   public function getHuaShou()
@@ -8611,7 +8611,7 @@ class LunarYear
 
   public function getKanCan()
   {
-    return $this->getZaoByZhi(9, '幾姑看蠶');
+    return $this->getZaoByZhi(9, '幾姑把蠶');
   }
 
   public function getGongZhu()
@@ -8631,7 +8631,7 @@ class LunarYear
 
   public function getDeJin()
   {
-    return $this->getZaoByGan(7, '幾日得金');
+    return $this->getZaoByGan(7, '幾日得辛');
   }
 
   public function getRenBing()

@@ -8,7 +8,7 @@
       <div class="col-md-8">
         <div class="card text-white bg-danger">
           <div class="card-body text-center">
-            <h5 class="card-title">歡迎使用農民曆（黃曆）查詢工具</h5>
+            <h5 class="card-title">歡迎使用農民曆（黃曆、通勝）查詢工具</h5>
             <p class="card-text">點擊下方按鈕查看農民曆</p>
 			<?php
 			$year = date("Y");
@@ -17,7 +17,7 @@
 			echo $year.'年'.$month.'月農民曆</a></br/>';
 			echo '<a href=yidate.php class="btn btn-warning mb-4">每年宜日速查</a><br/>';
 			echo '<a href=yuangang.php class="btn btn-warning">袁天罡稱骨算命</a><br/>';
-			//echo '<a href=springox.php?year='.$year.' class="btn btn-warning mt-4">'.$year.'年芒神春牛圖</a>';  
+			//echo '<a href=springox.php?year='.$year.' class="btn btn-warning mt-4">'.$year.'年春牛芒神服色</a>';  
 			?>
           </div>
         </div>

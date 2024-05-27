@@ -76,6 +76,8 @@ echo '<div class="alert alert-warning" role="alert">歡迎使用本網站查詢�
 		$foto = Foto::fromLunar($lunar);
 		$tao = Tao::fromLunar($lunar);
 		$ly = $lunar->getYearInGanZhi();
+		$lyg = $lunar->getYearGan();
+		$lyz = $lunar->getYearZhi();
 		$ls = $lunar->getYearShengXiao();
         $lm = $lunar->getMonthInChinese();
         $ld = $lunar->getDayInChinese();
@@ -95,7 +97,61 @@ echo '<div class="alert alert-warning" role="alert">歡迎使用本網站查詢�
 			echo '【年納音：'.$lunar->getYearNaYin().'】';
 			echo '【年九星：'.$lunar->getYearNineStar().'】';
 			echo '【皇帝地母經：'.$dimujing_mapping[$ly].'】';
-			echo '【芒神春牛圖：'.$oxcontent.'】';
+			
+			// 定義地支對應的姑把蠶規則
+$gubacanRules = [
+    '寅' => '一姑把蠶',
+    '申' => '一姑把蠶',
+    '巳' => '一姑把蠶',
+    '亥' => '一姑把蠶',
+    '子' => '二姑把蠶',
+    '午' => '二姑把蠶',
+    '卯' => '二姑把蠶',
+    '酉' => '二姑把蠶',
+    '辰' => '三姑把蠶',
+    '戌' => '三姑把蠶',
+    '丑' => '三姑把蠶',
+    '未' => '三姑把蠶',
+];
+			
+// 蠶食幾葉
+// 定義 convertToChinese() 函數
+function convertToChinese($day) {
+    $chineseDays = [
+        "一", // 1 對應的中文日期
+        "二", // 2 對應的中文日期
+        "三", // 3 對應的中文日期
+        "四", // 4 對應的中文日期
+        "五", // 5 對應的中文日期
+        "六", // 6 對應的中文日期
+        "七", // 7 對應的中文日期
+        "八", // 8 對應的中文日期
+        "九", // 9 對應的中文日期
+        "十", // 10 對應的中文日期
+        "十一", // 11 對應的中文日期
+        "十二", // 12 對應的中文日期
+    ];
+    return $chineseDays[$day - 1]; // 假設 $day 是從 1 開始的日期，因此要減去 1
+}
+
+// 假設 $lunar 是您的日曆物件，並且已經獲取了當日的日期 $canLunar = $lunar->getDay();
+
+// 初始化加天數的變量
+$canLunar = $lunar;
+$daysToAdd = 0;
+
+// 循環直到日納音為 "木"
+while (mb_substr($canLunar->getDayNaYin(), 2, 1) !== "木") {
+    $canLunar = $lunar->next($daysToAdd); // 加 $daysToAdd 天
+    $daysToAdd++; // 天數加一
+}
+
+// 獲取中文日期，例如：初一、初二、初三等
+$canShiJiYe = convertToChinese($canLunar->getDay());
+			
+			
+			echo '【'.$lunarYear->getZhiShui().'，'.$lunarYear->getDeJin().'，'.$lunarYear->getGengTian().'，'.$gubacanRules[$lyz].'，蠶食'.$canShiJiYe.'葉】';
+			echo '【春牛芒神服色：'.$oxcontent.'】';
 			echo '</div><hr/>';
 		}
 		

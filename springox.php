@@ -1,11 +1,11 @@
 <?php include 'metaseo.php'; ?>
-<meta name="description" content="探索不同年份的春牛圖及其象徵意義，了解每一年圖中描繪的豐收預兆和文化內涵，感受中國傳統藝術的魅力。">
+<meta name="description" content="探索不同年份的春牛芒神服色及其象徵意義，了解每一年圖中描繪的豐收預兆和文化內涵，感受中國傳統藝術的魅力。">
 <link rel="canonical" href="https://lunar.ioi.tw/springox.php" />
   <title><?php
 if (!empty($_GET['year'])) {
     echo htmlspecialchars($_GET['year']) . "年";
 }
-?>芒神春牛圖</title>
+?>春牛芒神服色</title>
 <?php include 'head.php'; ?>
 <body>
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-danger">
@@ -39,7 +39,7 @@ if (!empty($_GET['year'])) {
 if (!empty($_GET['year'])) {
     echo htmlspecialchars($_GET['year']) . "年";
 }
-?>芒神春牛圖】</h2>
+?>春牛芒神服色】</h2>
 <?php
 	
 require 'Lunar.php';

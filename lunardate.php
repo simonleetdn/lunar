@@ -83,6 +83,10 @@ echo '<div class="alert alert-warning" role="alert">歡迎使用本網站查詢�
         $ld = $lunar->getDayInChinese();
 		$lunarYear = LunarYear::fromYear($sy);
 		$Festivallist = $lunar->getFestivals();
+		$dayGan = $lunar->getDayGan(); // 獲取日天干
+		$dayZhi = $lunar->getDayZhi(); // 獲取日地支
+		$monthGanZhi = $lunar->getMonthInGanZhi(); // 獲取日干支
+		$dayGanZhi = $lunar->getDayInGanZhi(); // 獲取日干支
 		echo "<hr/>";
 		
 		// 顯示新年
@@ -311,7 +315,15 @@ if ($qiLin) {
 }
 if ($fengHuang) {
     echo "【鳳凰日】";
-}		
+}
+
+//勿探病
+$avoidDays = ["壬寅", "壬午", "庚午", "甲寅", "乙卯", "己卯"];
+
+// 檢查給定的日干支是否在勿探病日子列表中
+if (in_array($dayGanZhi, $avoidDays)) {
+    echo "【勿探病】";
+} 
 		
 $yiList = $lunar->getDayYi();
 $jiList = $lunar->getDayJi();
@@ -380,11 +392,6 @@ if (!empty($xsyq)) {
 		echo "【六曜：".$lunar->getLiuYao()."】";
 		
 		echo "【物候：".$lunar->getWuHou()."】";
-		
-$dayGan = $lunar->getDayGan(); // 獲取日天干
-$dayZhi = $lunar->getDayZhi(); // 獲取日地支
-$monthGanZhi = $lunar->getMonthInGanZhi(); // 獲取日干支
-$dayGanZhi = $lunar->getDayInGanZhi(); // 獲取日干支
 
 echo "【干支：".$monthGanZhi."月".$dayGanZhi."日】";	
 

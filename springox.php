@@ -26,19 +26,18 @@
 	</div>	  
   </nav>
 <div class="container"><div class="row"><div class="col-md-12">
-		  <h2 class="float-left mr-4">
- <?php
-if (!empty($_GET['year'])) {
-    echo htmlspecialchars($_GET['year']) . "年";
-}
-?>
-芒神春牛圖</h2>
-	    <form class="form-inline ml-auto" id="year-form" method="get">
+	<form class="form-inline ml-auto" id="year-form" method="get">
         <label class="mr-2" for="year">選擇年份</label>
         <input type="number" id="year" name="year" value="<?php echo isset($_GET['year']) ? htmlspecialchars($_GET['year']) : date('Y'); ?>" class="form-control" style="width: 90px;" />
         <button type="submit" class="btn btn-warning ml-2">進呈</button>
-    </form>
-	  
+    </form><hr/>
+		  <h2 class="mb-3">
+ <?php
+if (!empty($_GET['year'])) {
+    echo "【".htmlspecialchars($_GET['year']) . "年";
+}
+?>
+芒神春牛圖】</h2>
 <?php
 	
 require 'Lunar.php';
@@ -57,7 +56,7 @@ if (isset($_GET['year'])) {
 	$solar = $lunar->getSolar();
 		 
 include_once("springoxcon.php");
-echo '<hr/>【'.$oxcontent.'】';  
+echo '【'.$oxcontent.'】';  
 }
 ?>
 </div></div></div>

@@ -435,6 +435,22 @@ echo '【太陽位於黃經'.$jieqi_info[$JieQi]['度數'].'度】【'.$jieqi_in
     </div>
   </div>
 <script>
+<?php
+$currentYear = date('Y');
+$currentMonth = date('n'); // 不带前导零的月份
+$currentDay = date('j'); // 不带前导零的日期
+
+$shouldScroll = ($sy == $currentYear && $sm == $currentMonth);
+?>	
+        document.addEventListener('DOMContentLoaded', (event) => {
+            <?php if ($shouldScroll): ?>
+                const targetElement = document.getElementById('<?php echo $currentDay; ?>');
+                if (targetElement) {
+                    targetElement.scrollIntoView();
+                }
+            <?php endif; ?>
+        });
+	
 document.getElementById('submitBtn').addEventListener('click', function() {
     document.getElementById('year-month-form').submit();
 });

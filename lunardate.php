@@ -166,9 +166,7 @@ $canShiJiYe = convertToChinese($canLunar->getDay());
 		if ($sy.$sm.$sd === $td) {
 			echo " bg-warning special";
         }
-		echo "' id='{$day}'>";
-				
-		
+		echo "' id='{$day}'>";		
 		
 		if ($Festivallist) {
             foreach ($Festivallist as $s) {
@@ -345,7 +343,15 @@ $zhengBaRules = [
 if ($dayGanZhi === $zhengBaRules[$lyz]) {
     echo "【正八座日】";
 }
-		
+
+//月相資料 https://opendata.cwa.gov.tw/dataset/all/A-A0087-002
+include_once("moonphases.php");		
+if (array_key_exists($sy."-".$sm."-".$sd, $moonPhases)) {
+    $phase = $moonPhases[$sy."-".$sm."-".$sd]["phase"];
+    $time = $moonPhases[$sy."-".$sm."-".$sd]["time"];
+    echo "【".$phase."：".$time."】";
+}	
+
 $yiList = $lunar->getDayYi();
 $jiList = $lunar->getDayJi();
 

@@ -50,7 +50,7 @@ overflow-y: auto;
     transform: translateY(-50%);
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
-    padding: 12px 12px;
+    padding: 4px 12px;
     cursor: pointer;
     z-index: 1000;
     display: none;

@@ -41,8 +41,8 @@ if(isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
     </div>
 	</div>	  
   </nav>
-	<div class="nav-button prev" id="prev-button">上<br>個<br>月</div>
-    <div class="nav-button next" id="next-button">下<br>個<br>月</div>
+	<div class="nav-button prev" id="prev-button">︻<br>上<br>個<br>月<br>︼</div>
+    <div class="nav-button next" id="next-button">︻<br>下<br>個<br>月<br>︼</div>
 	<div class="container">
     <div class="row">
       <div class="col-md-12">	  

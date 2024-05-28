@@ -41,6 +41,8 @@ if(isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
     </div>
 	</div>	  
   </nav>
+	<div class="nav-button prev" id="prev-button">上<br>個<br>月</div>
+    <div class="nav-button next" id="next-button">下<br>個<br>月</div>
 	<div class="container">
     <div class="row">
       <div class="col-md-12">	  
@@ -56,7 +58,7 @@ use com\nlf\calendar\Lunar;
 use com\nlf\calendar\Solar;
 
     echo "<h2 id='page-title' class='mt-6'>{$year}年 {$month}月</h2>";
-echo '<div class="alert alert-warning" role="alert">歡迎使用本網站查詢農民曆。以下是操作方式的簡單說明：點擊日期列表可展開當日更詳細資訊，左/右鍵或手機左/右滑可切換月份，右上角選單選擇其他年份月份，點擊農民曆標題回到當前月份。</div>';  
+//echo '<div class="alert alert-warning" role="alert">歡迎使用本網站查詢農民曆。以下是操作方式的簡單說明：點擊日期列表可展開當日更詳細資訊，左/右鍵或手機左/右滑可切換月份，右上角選單選擇其他年份月份，點擊農民曆標題回到當前月份。</div>';  
     // Get the number of days in the current month
     $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 
@@ -355,11 +357,11 @@ echo "<span class='$textColor'>【宜：" . implode("，", $yiList) . "】</span
 echo "【忌：" . implode("，", $jiList) . "】";
 echo "【沖：".$lunar->getDayChongDesc()."】【煞：".$lunar->getDaySha()."】";
 	
-		// 詳細strat
+////// 詳細strat
 		if ($sy.$sm.$sd === $td) {
-		echo "<span class='' id='detail{$day}'>";
+		echo "<span class='extend' id='detail{$day}'>";
         }else{		
-		echo "<span class='d-none' id='detail{$day}'>";
+		echo "<span class='extend d-none' id='detail{$day}'>";
 		}
 								//echo "【佛曆：".$foto."】";
 		
@@ -472,6 +474,15 @@ echo "煞：" . $timesha;
 echo "】";
 }		
 		echo "</span>";
+		
+		if ($sy.$sm.$sd === $td) {
+		echo "<span class='click coll d-none' id='open{$day}'>【點我展開】</span>";
+		echo "<span class='click extend' id='close{$day}'><br/>【點我收合】</span>";
+        }else{		
+		echo "<span class='click coll' id='open{$day}'>【點我展開】</span>";
+		echo "<span class='click extend d-none' id='close{$day}'><br/>【點我收合】</span>";
+		}
+		
 		// 詳細end
 		
 		
@@ -557,40 +568,58 @@ $currentDay = date('j'); // 不带前导零的日期
 
 $shouldScroll = ($sy == $currentYear && $sm == $currentMonth);
 ?>	
-        document.addEventListener('DOMContentLoaded', (event) => {
-            <?php if ($shouldScroll): ?>
-                const targetElement = document.getElementById('<?php echo $currentDay; ?>');
-                if (targetElement) {
-                    targetElement.scrollIntoView();
-                }
-            <?php endif; ?>
-        });
-	
-document.getElementById('submitBtn').addEventListener('click', function() {
-    document.getElementById('year-month-form').submit();
+document.addEventListener('DOMContentLoaded', (event) => {
+    <?php if ($shouldScroll): ?>
+        const targetElement = document.getElementById('<?php echo $currentDay; ?>');
+        if (targetElement) {
+            // 获取目标元素前一个兄弟节点
+            const previousSibling = targetElement.previousElementSibling;
+
+            // 检查前一个兄弟节点是否为<hr>标签
+            if (previousSibling && previousSibling.tagName === 'HR') {
+                previousSibling.scrollIntoView();
+            }
+        }
+    <?php endif; ?>
 });
 
-  // Function to toggle visibility of detail element
-  function toggleDetailVisibility(day) {
-    var detailElement = document.getElementById('detail' + day);
-    if (detailElement.classList.contains('d-none')) {
-      detailElement.classList.remove('d-none');
-      document.getElementById(day).classList.add('bg-warning','special');
-    } else {
-      detailElement.classList.add('d-none');
-      document.getElementById(day).classList.remove('bg-warning','special');
-    }
-  }
+         // Function to toggle visibility of detail element
+function toggleDetailVisibility(day) {
+            var detailElement = document.getElementById('detail' + day);
+            var openElement = document.getElementById('open' + day);
+            var closeElement = document.getElementById('close' + day);
 
-  // Add event listeners to all elements with class 'day'
-  var dayElements = document.getElementsByClassName('day');
-  for (var i = 0; i < dayElements.length; i++) {
-    dayElements[i].addEventListener('click', function() {
-      // Extract the day from the element's ID
-      var day = this.id;
-      toggleDetailVisibility(day);
-    });
-  }
+            if (detailElement.classList.contains('d-none')) {
+                detailElement.classList.remove('d-none');
+                openElement.classList.add('d-none');
+                closeElement.classList.remove('d-none');
+				document.getElementById(day).classList.add('bg-warning','special');
+            } else {
+                detailElement.classList.add('d-none');
+                openElement.classList.remove('d-none');
+                closeElement.classList.add('d-none');
+				document.getElementById(day).classList.remove('bg-warning','special');
+            }
+        }
+
+        // Add event listeners to all open and close elements
+        var openElements = document.querySelectorAll('[id^="open"]');
+        var closeElements = document.querySelectorAll('[id^="close"]');
+
+        openElements.forEach(function(element) {
+            element.addEventListener('click', function() {
+                var day = this.id.replace('open', '');
+                toggleDetailVisibility(day);
+            });
+        });
+
+        closeElements.forEach(function(element) {
+            element.addEventListener('click', function() {
+                var day = this.id.replace('close', '');
+                toggleDetailVisibility(day);
+            });
+        });
+
 	
 	// 左右切換月份
 // 获取 URL 中的 year-month 参数值，如果没有则使用当前年月
@@ -608,35 +637,42 @@ if (!currentYearMonth) {
 // 将当前年月字符串转换为 JavaScript Date 对象
 const currentDate = new Date(currentYearMonth);
 
-// 记录触摸起始位置和滑动起始位置
-let touchStartX = 0;
-let touchStartY = 0;
-let startX = 0;
-let startY = 0;
+//左右切換按鈕	
+document.addEventListener('DOMContentLoaded', () => {
+    const prevButton = document.getElementById('prev-button');
+    const nextButton = document.getElementById('next-button');
 
-// 监听触摸开始事件
-document.addEventListener('touchstart', function(event) {
-  touchStartX = event.touches[0].clientX;
-  touchStartY = event.touches[0].clientY; // 记录Y坐标
-});
-
-// 监听触摸结束事件
-document.addEventListener('touchend', function(event) {
-  const touchEndX = event.changedTouches[0].clientX;
-  const touchEndY = event.changedTouches[0].clientY;
-  const deltaX = touchEndX - touchStartX;
-  const deltaY = touchEndY - touchStartY;
-  
-  if (Math.abs(deltaX) > 200 && Math.abs(deltaX) > Math.abs(deltaY)) {
-    if (deltaX > 0) {
-      // 向右滑动，调用 changeMonth 函数向右跳转一个月份
-      changeMonth(1);
-    } else {
-      // 向左滑动，调用 changeMonth 函数向左跳转一个月份
-      changeMonth(-1);
+    // Function to show buttons when user is scrolling
+    function showNavButtons() {
+        prevButton.style.display = 'block';
+        nextButton.style.display = 'block';
     }
-  }
-});
+
+    // Function to hide buttons after 2 seconds
+    function hideNavButtons() {
+        setTimeout(() => {
+            prevButton.style.display = 'none';
+            nextButton.style.display = 'none';
+        }, 2000);
+    }
+
+    // Add event listener for scroll event
+    window.addEventListener('scroll', () => {
+        showNavButtons();
+        hideNavButtons();
+    });
+
+    // Optional: Add event listeners for button click
+    prevButton.addEventListener('click', () => {
+        // Implement logic to navigate to the previous page
+        changeMonth(-1);
+    });
+
+    nextButton.addEventListener('click', () => {
+        // Implement logic to navigate to the next page
+        changeMonth(1);
+    });
+});	
 
 
 // 监听键盘左右箭头键事件
@@ -670,7 +706,9 @@ function changeMonth(offset) {
 const expandBtn = document.querySelector('#exall');
 
 // 获取需要展开的元素集合
-const elementsToExpand = document.querySelectorAll('.d-none');
+const elementsToExpand = document.querySelectorAll('.extend');
+// 获取需要收合的元素集合
+const elementsToCollapse = document.querySelectorAll('.coll');	
 
 // 监听展开按钮点击事件
 expandBtn.addEventListener('click', function(event) {
@@ -678,6 +716,9 @@ expandBtn.addEventListener('click', function(event) {
   elementsToExpand.forEach(element => {
     element.classList.remove('d-none');
   });
+  elementsToCollapse.forEach(element => {
+    element.classList.add('d-none');
+  });	
 });
 
 document.addEventListener("DOMContentLoaded", function() {

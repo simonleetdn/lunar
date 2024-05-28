@@ -35,7 +35,7 @@ padding-top: 15px;
 padding-bottom: 15px;
 }
 	
-.day {
+.click {
 cursor: pointer;
 }
 
@@ -43,7 +43,33 @@ cursor: pointer;
 max-height: 300px; /* 您可以根據需要調整這個高度 */
 overflow-y: auto;
 }
-	
+
+.nav-button {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 12px 12px;
+    cursor: pointer;
+    z-index: 1000;
+    display: none;
+	line-height:1.2;
+	font-family: "Noto Serif TC", serif;
+  	font-weight: 700;
+}
+
+.prev {
+    left: 0px;
+}
+
+.next {
+    right: 0px;
+}
+
+.nav-button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}	
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2428072621366113"
      crossorigin="anonymous"></script>

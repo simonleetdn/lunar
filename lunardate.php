@@ -350,7 +350,7 @@ if (array_key_exists($sy."-".$sm."-".$sd, $moonPhases)) {
     $phase = $moonPhases[$sy."-".$sm."-".$sd]["phase"];
     $time = $moonPhases[$sy."-".$sm."-".$sd]["time"];
     echo "【".$phase."：".$time."】";
-}	
+}
 
 $yiList = $lunar->getDayYi();
 $jiList = $lunar->getDayJi();

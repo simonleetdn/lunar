@@ -80,6 +80,8 @@ use com\nlf\calendar\Solar;
 		$ly = $lunar->getYearInGanZhi();
 		$lyg = $lunar->getYearGan();
 		$lyz = $lunar->getYearZhi();
+		$lymg = $lunar->getYearGan();
+		$lymz = $lunar->getYearZhi();
 		$ls = $lunar->getYearShengXiao();
         $lm = $lunar->getMonthInChinese();
         $ld = $lunar->getDayInChinese();
@@ -213,6 +215,7 @@ $xiongShaCheck = [
     "往亡日" => ["往亡"]
 ];
 
+	
 $jiShenCheck = [
     "天赦日" => ["天赦"],
 	"天德合日" => ["天德合"],
@@ -235,6 +238,37 @@ foreach ($xiongShaCheck as $message => $conditions) {
     }
 }
 
+
+// 假設 $lyg 是年干，$dayGan 是日天干，$dayZhi 是日地支
+
+// 定義五陽干和五陰干對應的歲德
+$suiDeDays = [
+    '五陽干' => ['甲' => '甲', '丙' => '丙', '戊' => '戊', '庚' => '庚', '壬' => '壬'],
+    '五陰干' => ['乙' => '庚', '丁' => '壬', '己' => '甲', '辛' => '丙', '癸' => '戊'],
+];
+
+// 判斷年干是否為五陽干或五陰干
+$isYangGan = in_array($lyg, ['甲', '丙', '戊', '庚', '壬']);
+$isYinGan = in_array($lyg, ['乙', '丁', '己', '辛', '癸']);
+
+// 判斷日天干是否與年干相同
+$isSuiDe = false;
+if ($isYangGan && $dayGan === $lyg) {
+    $isSuiDe = true;
+} elseif ($isYinGan) {
+    $suiDe = $suiDeDays['五陰干'][$lyg];
+    if ($dayGan === $suiDe) {
+        $isSuiDe = true;
+    }
+}
+
+// 根據判斷結果輸出結果
+if ($isSuiDe) {
+    echo "【歲德日】";
+}
+		
+
+		
 // 檢查吉神日
 foreach ($jiShenCheck as $message => $conditions) {
     foreach ($conditions as $condition) {

@@ -31,10 +31,17 @@ if (!empty($_GET['year'])) {
   </nav>
 <div class="container"><div class="row"><div class="col-md-12">
 	<form class="form-inline ml-auto" id="year-form" method="get">
-        <label class="mr-2" for="year">選擇年份</label>
-        <input type="number" id="year" name="year" value="<?php echo isset($_GET['year']) ? htmlspecialchars($_GET['year']) : date('Y'); ?>" class="form-control" style="width: 90px;" />
-        <button type="submit" class="btn btn-warning ml-2">進呈</button>
-    </form><hr/>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text">選擇年份</span>
+        </div>
+        <input type="number" id="year" name="year" value="<?php echo isset($_GET['year']) ? htmlspecialchars($_GET['year']) : date('Y'); ?>" class="form-control" style="width: 90px;">
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-warning">進呈</button>
+        </div>
+    </div>
+</form>
+<hr/>
 		  <h2 class="mb-3">【<?php
 if (!empty($_GET['year'])) {
     echo htmlspecialchars($_GET['year']) . "年";

@@ -66,10 +66,17 @@ $menuItems = [
   
       </ul>
 <form class="form-inline ml-auto" id="year-form" method="get">
-    <label class="mr-2 text-light" for="year">選擇年份：</label>
-    <input type="number" id="year" name="year" value="<?php echo $year; ?>" class="form-control" style="width: 90px;">
-    <button type="submit" id="submitBtn" class="ml-2 btn btn-warning">進呈</button>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <label class="input-group-text bg-danger text-light" for="year">選擇年份：</label>
+        </div>
+        <input type="number" id="year" name="year" value="<?php echo $year; ?>" class="form-control" style="width: 90px;">
+        <div class="input-group-append">
+            <button type="submit" id="submitBtn" class="btn btn-warning">進呈</button>
+        </div>
+    </div>
 </form>
+
 
     </div>
 	</div>	  

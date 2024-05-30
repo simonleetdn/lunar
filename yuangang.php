@@ -28,9 +28,14 @@
 		  <h2>袁天罡稱骨算命</h2><hr/>
 <form class="form-inline ml-auto" id="daytime-form" method="get">
     <label class="mr-2" for="daytime">【陽曆出生日期時間】</label>
-    <input type="datetime-local" id="daytime" name="birthDateTime" class="form-control mr-2" 
-           value="<?php echo isset($_GET['birthDateTime']) ? htmlspecialchars($_GET['birthDateTime']) : date('Y-m-d\TH:i'); ?>" />
-    <button type="button" id="submitBtn" class="btn btn-warning">進呈</button>
+    <div class="input-group">
+    <input type="datetime-local" id="daytime" name="birthDateTime" class="form-control" 
+           value="<?php echo isset($_GET['birthDateTime']) ? htmlspecialchars($_GET['birthDateTime']) : date('Y-m-d\TH:i'); ?>">
+    <div class="input-group-append">
+        <button type="button" id="submitBtn" class="btn btn-warning">進呈</button>
+    </div>
+</div>
+
 </form>
 
 	  

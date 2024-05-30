@@ -239,33 +239,41 @@ foreach ($xiongShaCheck as $message => $conditions) {
 }
 
 
-// 假設 $lyg 是年干，$dayGan 是日天干，$dayZhi 是日地支
-
 // 定義五陽干和五陰干對應的歲德
 $suiDeDays = [
     '五陽干' => ['甲' => '甲', '丙' => '丙', '戊' => '戊', '庚' => '庚', '壬' => '壬'],
     '五陰干' => ['乙' => '庚', '丁' => '壬', '己' => '甲', '辛' => '丙', '癸' => '戊'],
 ];
 
+// 定義五陽干和五陰干對應的歲德合		
+$suiDeHeDays = [
+    '五陽干' => ['甲' => '己', '丙' => '辛', '戊' => '癸', '庚' => '乙', '壬' => '丁'],
+    '五陰干' => ['乙' => '乙', '丁' => '丁', '己' => '己', '辛' => '辛', '癸' => '癸'],
+];		
+
 // 判斷年干是否為五陽干或五陰干
 $isYangGan = in_array($lyg, ['甲', '丙', '戊', '庚', '壬']);
 $isYinGan = in_array($lyg, ['乙', '丁', '己', '辛', '癸']);
 
 // 判斷日天干是否與年干相同
-$isSuiDe = false;
+		
 if ($isYangGan && $dayGan === $lyg) {
-    $isSuiDe = true;
+    echo "【歲德日】";
 } elseif ($isYinGan) {
     $suiDe = $suiDeDays['五陰干'][$lyg];
     if ($dayGan === $suiDe) {
-        $isSuiDe = true;
+        echo "【歲德日】";
     }
 }
 
-// 根據判斷結果輸出結果
-if ($isSuiDe) {
-    echo "【歲德日】";
-}
+if ($isYinGan && $dayGan === $lyg) {
+    echo "【歲德合日】";
+} elseif ($isYangGan) {
+    $suiDeHe = $suiDeHeDays['五陽干'][$lyg];
+    if ($dayGan === $suiDeHe) {
+        echo "【歲德合日】";
+    }
+}		
 		
 
 		
@@ -516,11 +524,11 @@ echo "】";
 		echo "</span>";
 		
 		if ($sy.$sm.$sd === $td) {
-		echo "<span class='click coll d-none' id='open{$day}'>【點我展開】</span>";
-		echo "<span class='click extend' id='close{$day}'><br/>【點我收合】</span>";
+		echo "<span class='click coll d-none' id='open{$day}'>【點我展開▼】</span>";
+		echo "<span class='click extend' id='close{$day}'><br/>【點我收合▲】</span>";
         }else{		
-		echo "<span class='click coll' id='open{$day}'>【點我展開】</span>";
-		echo "<span class='click extend d-none' id='close{$day}'><br/>【點我收合】</span>";
+		echo "<span class='click coll' id='open{$day}'>【點我展開▼】</span>";
+		echo "<span class='click extend d-none' id='close{$day}'><br/>【點我收合▲】</span>";
 		}
 		
 		// 詳細end

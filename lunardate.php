@@ -36,7 +36,7 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
         <form class="form-inline ml-auto" id="year-month-form" method="get" action="lunardate.php">
           <div class="input-group">
             <div class="input-group-prepend">
-              <label class="input-group-text bg-danger text-light" for="year-month">選擇月份：</label>
+              <label class="input-group-text bg-danger text-light" for="year-month">選擇月份</label>
             </div>
             <input type="month" id="year-month" name="year-month" value="<?php echo $year . '-' . $month; ?>" class="form-control">
             <div class="input-group-append">

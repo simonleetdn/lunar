@@ -1,703 +1,582 @@
 <?php
-if(isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
+// 檢查是否有 year-month 參數並設定年份和月份
+if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
     list($year, $month) = explode('-', $_GET["year-month"]);
-	$title = $year."年".$month."月農民曆";
+    $title = $year . "年" . $month . "月農民曆";
 } else {
     $year = date("Y");
     $month = date("m");
-	$title = "每月農民曆";
+    $title = "每月農民曆";
 }
 ?>
 <?php include 'metaseo.php'; ?>
 <meta name="description" content="在這裡查詢每個月的農曆日期！我們提供精確的農民曆資訊，幫助您掌握日常生活和重要節日的日期。">
 <link rel="canonical" href="https://lunar.ioi.tw/" />
-  <title><?php echo $title; ?></title>
+<title><?php echo $title; ?></title>
 <?php include 'head.php'; ?>
 <body>
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-danger">
-	  <div class="container-md">
-    <a class="navbar-brand" href="lunardate.php">農民曆</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-		<li class="nav-item">
-          <a id="yidate" class="nav-link" href="yidate.php">每年宜日速查</a>
-        </li>
-		 <li class="nav-item">
-          <a id="yuangang" class="nav-link" href="yuangang.php?birthDateTime=<?php echo date('Y-m-d\TH:i'); ?>">稱骨算命</a>
-        </li>
-		<li class="nav-item">
-          <a id="exall" class="nav-link">展開全部</a>
-        </li>
-      </ul>
-<form class="form-inline ml-auto" id="year-month-form" method="get" action="lunardate.php">
-    <div class="input-group">
-        <div class="input-group-prepend">
-            <label class="input-group-text bg-danger text-light" for="year-month">選擇月份：</label>
-        </div>
-        <input type="month" id="year-month" name="year-month" value="<?php echo $year.'-'.$month; ?>" class="form-control">
-        <div class="input-group-append">
-            <button type="submit" id="submitBtn" class="btn btn-warning">進呈</button>
-        </div>
+    <div class="container-md">
+      <a class="navbar-brand" href="lunardate.php">農民曆</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a id="yidate" class="nav-link" href="yidate.php">每年宜日速查</a>
+          </li>
+          <li class="nav-item">
+            <a id="yuangang" class="nav-link" href="yuangang.php?birthDateTime=<?php echo date('Y-m-d\TH:i'); ?>">稱骨算命</a>
+          </li>
+          <li class="nav-item">
+            <a id="exall" class="nav-link">展開全部</a>
+          </li>
+        </ul>
+        <form class="form-inline ml-auto" id="year-month-form" method="get" action="lunardate.php">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <label class="input-group-text bg-danger text-light" for="year-month">選擇月份：</label>
+            </div>
+            <input type="month" id="year-month" name="year-month" value="<?php echo $year . '-' . $month; ?>" class="form-control">
+            <div class="input-group-append">
+              <button type="submit" id="submitBtn" class="btn btn-warning">進呈</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
-</form>
-
-
-    </div>
-	</div>	  
   </nav>
-	<div class="nav-button prev" id="prev-button">︻<br>上<br>個<br>月<br>︼</div>
-    <div class="nav-button next" id="next-button">︻<br>下<br>個<br>月<br>︼</div>
-	<div class="container">
+  <div class="nav-button prev" id="prev-button">︻<br>上<br>個<br>月<br>︼</div>
+  <div class="nav-button next" id="next-button">︻<br>下<br>個<br>月<br>︼</div>
+  <div class="container">
     <div class="row">
-      <div class="col-md-12">	  
-<?php
+      <div class="col-md-12">
+        <?php
+        // 引入 Lunar.php 所需的類別
+        require 'Lunar.php';
+        use com\nlf\calendar\Foto;
+        use com\nlf\calendar\Tao;
+        use com\nlf\calendar\LunarYear;
+        use com\nlf\calendar\Lunar;
+        use com\nlf\calendar\Solar;
 
-require 'Lunar.php';
+        echo "<h2 id='page-title' class='mt-6'>{$year}年 {$month}月</h2>";
 
-use com\nlf\calendar\Foto;
-use com\nlf\calendar\Tao;		  
-use com\nlf\calendar\LunarYear;
-use com\nlf\calendar\util\HolidayUtil;
-use com\nlf\calendar\Lunar;
-use com\nlf\calendar\Solar;
+        // 獲取當月天數
+        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 
-    echo "<h2 id='page-title' class='mt-6'>{$year}年 {$month}月</h2>";
-//echo '<div class="alert alert-warning" role="alert">歡迎使用本網站查詢農民曆。以下是操作方式的簡單說明：點擊日期列表可展開當日更詳細資訊，左/右鍵或手機左/右滑可切換月份，右上角選單選擇其他年份月份，點擊農民曆標題回到當前月份。</div>';  
-    // Get the number of days in the current month
-    $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+        // 迭代每一天
+        for ($day = 1; $day <= $daysInMonth; $day++) {
+            $gregorianDate = new DateTime("{$year}-{$month}-{$day}");
+            $lunar = Lunar::fromDate($gregorianDate);
+            $solar = Solar::fromDate($gregorianDate);
+            $sy = $solar->getYear();
+            $sm = $solar->getMonth();
+            $szm = sprintf('%02d', $solar->getMonth());
+            $szd = sprintf('%02d', $solar->getDay());
+            $sd = $solar->getDay();
+            $td = date('Ynj');
+            $foto = Foto::fromLunar($lunar);
+            $tao = Tao::fromLunar($lunar);
+            $ly = $lunar->getYearInGanZhi();
+            $lyg = $lunar->getYearGan();
+            $lyz = $lunar->getYearZhi();
+            $ls = $lunar->getYearShengXiao();
+            $lm = $lunar->getMonthInChinese();
+            $ld = $lunar->getDayInChinese();
+            $lunarYear = LunarYear::fromYear($sy);
+            $Festivallist = $lunar->getFestivals();
+            $dayGan = $lunar->getDayGan();
+            $dayZhi = $lunar->getDayZhi();
+            $monthGanZhi = $lunar->getMonthInGanZhi();
+            $dayGanZhi = $lunar->getDayInGanZhi();
+            echo "<hr/>";
+            
+            // 顯示新年信息
+            if (in_array("春節", $Festivallist)) {
+                include_once("dimujing.php");
+                include_once("springoxcon.php");
+                echo '<div id="newyear" class="bg-danger special text-warning"><h3 class="float-left">';
+                echo '【歲次' . $ly . '肖' . $ls . '】</h3>';
+                echo '【年太歲：' . $taishui_mapping[$ly] . '星君，' . $lunarYear->getPositionTaiSuiDesc() . '方】';
+                echo '【三元：' . $lunarYear->getYuan() . '】';
+                echo '【九運：' . $lunarYear->getYun() . '】';
+                echo '【年納音：' . $lunar->getYearNaYin() . '】';
+                echo '【年九星：' . $lunar->getYearNineStar() . '】';
+                echo '【皇帝地母經：' . $dimujing_mapping[$ly] . '】';
+                
+                // 定義地支對應的姑把蠶規則
+                $gubacanRules = [
+                    '寅' => '一姑把蠶',
+                    '申' => '一姑把蠶',
+                    '巳' => '一姑把蠶',
+                    '亥' => '一姑把蠶',
+                    '子' => '二姑把蠶',
+                    '午' => '二姑把蠶',
+                    '卯' => '二姑把蠶',
+                    '酉' => '二姑把蠶',
+                    '辰' => '三姑把蠶',
+                    '戌' => '三姑把蠶',
+                    '丑' => '三姑把蠶',
+                    '未' => '三姑把蠶',
+                ];
 
-    for ($day = 1; $day <= $daysInMonth; $day++) {
-        // Create a Gregorian Date object
-        $gregorianDate = new DateTime("{$year}-{$month}-{$day}");
+                // 蠶食幾葉
+                function convertToChinese($day) {
+                    $chineseDays = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"];
+                    return $chineseDays[$day - 1];
+                }
 
-        // Convert Gregorian date to lunar date using Lunar.php
-        $lunar = Lunar::fromDate($gregorianDate);
-        $solar = Solar::fromDate($gregorianDate);
-		$sy = $solar->getYear();
-        $sm = $solar->getMonth();
-		$szm = sprintf('%02d', $solar->getMonth());
-		$szd = sprintf('%02d', $solar->getDay());
-        $sd = $solar->getDay();
-		$td = date('Ynj');
-		$foto = Foto::fromLunar($lunar);
-		$tao = Tao::fromLunar($lunar);
-		$ly = $lunar->getYearInGanZhi();
-		$lyg = $lunar->getYearGan();
-		$lyz = $lunar->getYearZhi();
-		$lymg = $lunar->getYearGan();
-		$lymz = $lunar->getYearZhi();
-		$ls = $lunar->getYearShengXiao();
-        $lm = $lunar->getMonthInChinese();
-        $ld = $lunar->getDayInChinese();
-		$lunarYear = LunarYear::fromYear($sy);
-		$Festivallist = $lunar->getFestivals();
-		$dayGan = $lunar->getDayGan(); // 獲取日天干
-		$dayZhi = $lunar->getDayZhi(); // 獲取日地支
-		$monthGanZhi = $lunar->getMonthInGanZhi(); // 獲取日干支
-		$dayGanZhi = $lunar->getDayInGanZhi(); // 獲取日干支
-		echo "<hr/>";
-		
-		// 顯示新年
-		if (in_array("春節", $Festivallist)) {
-			include_once("dimujing.php");
-			include_once("springoxcon.php");
-			echo '<div id="newyear" class="bg-danger special text-warning"><h3 class="float-left">';
-			echo '【歲次'.$ly.'肖'.$ls.'】</h3>';
-			echo '【年太歲：'.$taishui_mapping[$ly].'星君，'.$lunarYear->getPositionTaiSuiDesc().'方】';
-			echo '【三元：'.$lunarYear->getYuan().'】';
-			echo '【九運：'.$lunarYear->getYun().'】';
-			echo '【年納音：'.$lunar->getYearNaYin().'】';
-			echo '【年九星：'.$lunar->getYearNineStar().'】';
-			echo '【皇帝地母經：'.$dimujing_mapping[$ly].'】';
-			
-			// 定義地支對應的姑把蠶規則
-$gubacanRules = [
-    '寅' => '一姑把蠶',
-    '申' => '一姑把蠶',
-    '巳' => '一姑把蠶',
-    '亥' => '一姑把蠶',
-    '子' => '二姑把蠶',
-    '午' => '二姑把蠶',
-    '卯' => '二姑把蠶',
-    '酉' => '二姑把蠶',
-    '辰' => '三姑把蠶',
-    '戌' => '三姑把蠶',
-    '丑' => '三姑把蠶',
-    '未' => '三姑把蠶',
-];
-			
-// 蠶食幾葉
-// 定義 convertToChinese() 函數
-function convertToChinese($day) {
-    $chineseDays = [
-        "一", // 1 對應的中文日期
-        "二", // 2 對應的中文日期
-        "三", // 3 對應的中文日期
-        "四", // 4 對應的中文日期
-        "五", // 5 對應的中文日期
-        "六", // 6 對應的中文日期
-        "七", // 7 對應的中文日期
-        "八", // 8 對應的中文日期
-        "九", // 9 對應的中文日期
-        "十", // 10 對應的中文日期
-        "十一", // 11 對應的中文日期
-        "十二", // 12 對應的中文日期
-    ];
-    return $chineseDays[$day - 1]; // 假設 $day 是從 1 開始的日期，因此要減去 1
-}
+                $canLunar = $lunar;
+                $daysToAdd = 0;
 
-// 假設 $lunar 是您的日曆物件，並且已經獲取了當日的日期 $canLunar = $lunar->getDay();
+                while (mb_substr($canLunar->getDayNaYin(), 2, 1) !== "木") {
+                    $canLunar = $lunar->next($daysToAdd);
+                    $daysToAdd++;
+                }
 
-// 初始化加天數的變量
-$canLunar = $lunar;
-$daysToAdd = 0;
+                $canShiJiYe = convertToChinese($canLunar->getDay());
 
-// 循環直到日納音為 "木"
-while (mb_substr($canLunar->getDayNaYin(), 2, 1) !== "木") {
-    $canLunar = $lunar->next($daysToAdd); // 加 $daysToAdd 天
-    $daysToAdd++; // 天數加一
-}
+                echo '【' . $lunarYear->getZhiShui() . '，' . $lunarYear->getDeJin() . '，' . $lunarYear->getGengTian() . '，' . $gubacanRules[$lyz] . '，蠶食' . $canShiJiYe . '葉】';
+                echo '【春牛芒神服色：' . $oxcontent . '】';
+                echo '</div><hr/>';
+            }
 
-// 獲取中文日期，例如：初一、初二、初三等
-$canShiJiYe = convertToChinese($canLunar->getDay());
-			
-			
-			echo '【'.$lunarYear->getZhiShui().'，'.$lunarYear->getDeJin().'，'.$lunarYear->getGengTian().'，'.$gubacanRules[$lyz].'，蠶食'.$canShiJiYe.'葉】';
-			echo '【春牛芒神服色：'.$oxcontent.'】';
-			echo '</div><hr/>';
-		}
-		
-		echo "<div class='day";
-		
-		if ($sy.$sm.$sd === $td) {
-			echo " bg-warning special";
+            echo "<div class='day";
+
+            if ($sy . $sm . $sd === $td) {
+                echo " bg-warning special";
+            }
+            echo "' id='{$day}'>";
+
+            if ($Festivallist) {
+                foreach ($Festivallist as $s) {
+                    echo '<h3 class="float-left">【' . $s . '】</h3>';
+                }
+            }
+
+            if ($solar->getWeekInChinese() === '六' || $solar->getWeekInChinese() === '日') {
+                echo '<span class="text-danger">';
+            } else {
+                echo '<span class="text-black">';
+            }
+            echo '<h3 class="float-left">' . $sd . '</h3>';
+            echo "【星期" . $solar->getWeekInChinese() . "】</span>";
+
+            echo "【農曆：" . $ly . "(" . $ls . ")" . "年" . $lm . "月" . $ld . "】";
+
+            $sf = $solar->getFestivals();
+            if (!empty($sf)) {
+                echo "【" . implode("， ", $sf) . "】";
+            }
+
+            $ff = $lunar->getOtherFestivals();
+            if (!empty($ff)) {
+                echo "【" . implode("， ", $ff) . "】";
+            }
+
+            $sanfu = $lunar->getFu();
+            $shujiu = $lunar->getShuJiu();
+            if ($sanfu || $shujiu) {
+                echo "【" . $sanfu . $shujiu . "】";
+            }
+
+            // 檢查凶煞日
+            $xsyq = $lunar->getDayXiongSha();
+            $jsyq = $lunar->getDayJiShen();
+
+            $xiongShaCheck = [
+                "月破大耗日吉事少取" => ["月破", "大耗"],
+                "往亡日" => ["往亡"]
+            ];
+
+            $jiShenCheck = [
+                "天赦日" => ["天赦"],
+                "天德合日" => ["天德合"],
+                "月德合日" => ["月德合"],
+                "天德日" => ["天德"],
+                "月德日" => ["月德"]
+            ];
+
+            foreach ($xiongShaCheck as $message => $conditions) {
+                $matched = true;
+                foreach ($conditions as $condition) {
+                    if (!in_array($condition, $xsyq)) {
+                        $matched = false;
+                        break;
+                    }
+                }
+                if ($matched) {
+                    echo "【{$message}】";
+                }
+            }
+
+            // 定義五陽干和五陰干對應的歲德
+            $suiDeDays = [
+                '五陽干' => ['甲' => '甲', '丙' => '丙', '戊' => '戊', '庚' => '庚', '壬' => '壬'],
+                '五陰干' => ['乙' => '庚', '丁' => '壬', '己' => '甲', '辛' => '丙', '癸' => '戊'],
+            ];
+
+            $suiDeHeDays = [
+                '五陽干' => ['甲' => '己', '丙' => '辛', '戊' => '癸', '庚' => '乙', '壬' => '丁'],
+                '五陰干' => ['乙' => '乙', '丁' => '丁', '己' => '己', '辛' => '辛', '癸' => '癸'],
+            ];
+
+            $isYangGan = in_array($lyg, ['甲', '丙', '戊', '庚', '壬']);
+            $isYinGan = in_array($lyg, ['乙', '丁', '己', '辛', '癸']);
+
+            if ($isYangGan && $dayGan === $lyg) {
+                echo "【歲德日】";
+            } elseif ($isYinGan) {
+                $suiDe = $suiDeDays['五陰干'][$lyg];
+                if ($dayGan === $suiDe) {
+                    echo "【歲德日】";
+                }
+            }
+
+            if ($isYinGan && $dayGan === $lyg) {
+                echo "【歲德合日】";
+            } elseif ($isYangGan) {
+                $suiDeHe = $suiDeHeDays['五陽干'][$lyg];
+                if ($dayGan === $suiDeHe) {
+                    echo "【歲德合日】";
+                }
+            }
+
+            foreach ($jiShenCheck as $message => $conditions) {
+                foreach ($conditions as $condition) {
+                    if (in_array($condition, $jsyq)) {
+                        echo "【{$message}】";
+                        break;
+                    }
+                }
+            }
+
+            // 刀砧日麒麟日
+            $lichun = $lunar->getJieQiTable()['立春']->toYmdHms();
+            $lixia = $lunar->getJieQiTable()['立夏']->toYmdHms();
+            $liqiu = $lunar->getJieQiTable()['立秋']->toYmdHms();
+            $lidong = $lunar->getJieQiTable()['立冬']->toYmdHms();
+            $daoZhen = false;
+            $qiLin = false;
+            $fengHuang = false;
+            $lrdz = $lunar->getDayZhi();
+            $lqlrxiu = $lunar->getXiu();
+
+            if ($solar->toYmdHms() >= $lichun && $solar->toYmdHms() < $lixia) {
+                if (in_array($lrdz, ['亥', '子'])) {
+                    $daoZhen = true;
+                }
+                if ($lqlrxiu == "井") {
+                    $qiLin = true;
+                }
+                if ($lqlrxiu == "危") {
+                    $fengHuang = true;
+                }
+            } elseif ($solar->toYmdHms() >= $lixia && $solar->toYmdHms() < $liqiu) {
+                if (in_array($lrdz, ['寅', '卯'])) {
+                    $daoZhen = true;
+                }
+                if ($lqlrxiu == "尾") {
+                    $qiLin = true;
+                }
+                if ($lqlrxiu == "昴") {
+                    $fengHuang = true;
+                }
+            } elseif ($solar->toYmdHms() >= $liqiu && $solar->toYmdHms() < $lidong) {
+                if (in_array($lrdz, ['巳', '午'])) {
+                    $daoZhen = true;
+                }
+                if ($lqlrxiu == "牛") {
+                    $qiLin = true;
+                }
+                if ($lqlrxiu == "胃") {
+                    $fengHuang = true;
+                }
+            } else {
+                if (in_array($lrdz, ['申', '酉'])) {
+                    $daoZhen = true;
+                }
+                if ($lqlrxiu == "壁") {
+                    $qiLin = true;
+                }
+                if ($lqlrxiu == "畢") {
+                    $fengHuang = true;
+                }
+            }
+
+            if ($daoZhen) {
+                echo "【刀砧日】";
+            }
+            if ($qiLin) {
+                echo "【麒麟日】";
+            }
+            if ($fengHuang) {
+                echo "【鳳凰日】";
+            }
+
+            // 勿探病
+            $avoidDays = ["壬寅", "壬午", "庚午", "甲寅", "乙卯", "己卯"];
+            if (in_array($dayGanZhi, $avoidDays)) {
+                echo "【勿探病】";
+            }
+
+            // 正八座日
+            $zhengBaRules = [
+                '子' => '癸酉',
+                '丑' => '甲戌',
+                '寅' => '丁亥',
+                '卯' => '甲子',
+                '辰' => '乙丑',
+                '巳' => '甲寅',
+                '午' => '丁卯',
+                '未' => '甲辰',
+                '申' => '己巳',
+                '酉' => '甲午',
+                '戌' => '丁未',
+                '亥' => '甲申',
+            ];
+            if ($dayGanZhi === $zhengBaRules[$lyz]) {
+                echo "【正八座日】";
+            }
+
+            // 月相資料
+            include_once("moonphases.php");
+            if (array_key_exists($sy . "-" . $sm . "-" . $sd, $moonPhases)) {
+                $phase = $moonPhases[$sy . "-" . $sm . "-" . $sd]["phase"];
+                $time = $moonPhases[$sy . "-" . $sm . "-" . $sd]["time"];
+                echo "【" . $phase . "：" . $time . "】";
+            }
+
+            $ttl = $tao->getFestivals();
+
+            echo "【干支：" . $monthGanZhi . "月" . $dayGanZhi . "日】";
+            echo "【納音：" . $lunar->getDayNaYin() . "】";
+
+            // 伏羲八卦
+            $bagua_summer = ['坤', '艮', '坎', '巽', '震', '離', '兌', '乾'];
+            $bagua_winter = ['乾', '兌', '離', '震', '巽', '坎', '艮', '坤'];
+
+            $summerCome = $lunar->getJieQiTable()['夏至']->toYmd();
+            $winterCome = $lunar->getJieQiTable()['冬至']->toYmd();
+
+            $target_date = new DateTime($solar);
+            $start_date_summer = new DateTime($summerCome);
+            $start_date_winter = new DateTime($winterCome);
+
+            echo "【八卦：";
+            if ($target_date < $start_date_summer) {
+                $interval_winter = $start_date_winter->diff($target_date)->days;
+                $bagua_winter_index = $interval_winter % count($bagua_winter);
+                $winter_bagua = $bagua_winter[$bagua_winter_index];
+                echo $winter_bagua;
+            } else {
+                $interval_summer = $start_date_summer->diff($target_date)->days;
+                $bagua_summer_index = $interval_summer % count($bagua_summer);
+                $summer_bagua = $bagua_summer[$bagua_summer_index];
+                echo $summer_bagua;
+            }
+            echo "】";
+
+            // 玄空五行八卦六十四掛
+            $trigrams = [
+                "甲子" => "1☷一",
+                "乙丑" => "3☲六",
+                "丙寅" => "2☴四",
+                "丁卯" => "6☶九",
+                "戊辰" => "9☰六",
+                "己巳" => "8☳二",
+                "庚午" => "8☳九",
+                "辛未" => "9☰三",
+                "壬申" => "1☷七",
+                "癸酉" => "2☴七",
+                "甲戌" => "7☵二",
+                "乙亥" => "3☲三",
+                "丙子" => "6☶三",
+                "丁丑" => "4☱七",
+                "戊寅" => "8☳六",
+                "己卯" => "7☵八",
+                "庚辰" => "1☷九",
+                "辛巳" => "3☲七",
+                "壬午" => "2☴一",
+                "癸未" => "4☱八",
+                "甲申" => "3☲九",
+                "乙酉" => "9☰四",
+                "丙戌" => "6☶一",
+                "丁亥" => "8☳八",
+                "戊子" => "7☵四",
+                "己丑" => "9☰二",
+                "庚寅" => "3☲一",
+                "辛卯" => "2☴三",
+                "壬辰" => "6☶四",
+                "癸巳" => "4☱六",
+                "甲午" => "9☰一",
+                "乙未" => "7☵六",
+                "丙申" => "8☳四",
+                "丁酉" => "4☱九",
+                "戊戌" => "1☷六",
+                "己亥" => "2☴二",
+                "庚子" => "2☴九",
+                "辛丑" => "1☷三",
+                "壬寅" => "9☰七",
+                "癸卯" => "8☳七",
+                "甲辰" => "3☲二",
+                "乙巳" => "7☵三",
+                "丙午" => "4☱三",
+                "丁未" => "6☶七",
+                "戊申" => "2☴六",
+                "己酉" => "3☲八",
+                "庚戌" => "9☰九",
+                "辛亥" => "7☵七",
+                "壬子" => "8☳一",
+                "癸丑" => "6☶八",
+                "甲寅" => "7☵九",
+                "乙卯" => "1☷四",
+                "丙辰" => "4☱一",
+                "丁巳" => "2☴八",
+                "戊午" => "3☲四",
+                "己未" => "1☷二",
+                "庚申" => "7☵一",
+                "辛酉" => "8☳三",
+                "壬戌" => "4☱四",
+                "癸亥" => "6☶六"
+            ];
+            echo "【玄空：" . $trigrams[$dayGanZhi] . "】";
+
+            echo "【九星：" . $lunar->getDayNineStar()->getNumber() . $lunar->getDayNineStar()->getColor() . "】";
+            echo "【宿：" . $lunar->getXiu() . "】";
+            echo "【建除：" . $lunar->getZhiXing() . "】";
+
+            // 每日宜忌
+            $yiList = $lunar->getDayYi();
+            $jiList = $lunar->getDayJi();
+
+            $textColor = (in_array('諸事不宜', $yiList) || in_array('餘事勿取', $yiList) || in_array('諸事不宜', $jiList) || in_array('嫁娶', $jiList)) ? 'text-black' : 'text-danger';
+
+            echo "<span class='$textColor'>【宜：" . implode("，", $yiList) . "】</span>";
+            echo "【忌：" . implode("，", $jiList) . "】";
+            echo "【沖：" . $lunar->getDayChongDesc() . "】【煞：" . $lunar->getDaySha() . "】";
+
+            if (!empty($ttl)) {
+                echo '<span class="text-danger">【' . implode("，", $ttl) . '】</span>';
+            }
+
+            echo "【胎神：" . $lunar->getDayPositionTai() . "】";
+            echo "【財神：" . $lunar->getDayPositionCaiDesc() . "】";
+            echo "【喜神：" . $lunar->getPositionXiDesc() . "】";
+
+            if (!empty($jsyq)) {
+                echo "【吉神：" . implode("，", $jsyq) . "】";
+            }
+
+            if (!empty($xsyq)) {
+                echo "【凶神：" . implode("，", $xsyq) . "】";
+            }
+
+            // 顯示詳細時辰信息
+            if ($sy . $sm . $sd === $td) {
+                echo "<span class='extend' id='detail{$day}'>";
+            } else {
+                echo "<span class='extend d-none' id='detail{$day}'>";
+            }
+
+            // 對應的時辰列表及其時間範圍
+            $timePeriodList = [
+                '子' => [23, 1],
+                '丑' => [1, 3],
+                '寅' => [3, 5],
+                '卯' => [5, 7],
+                '辰' => [7, 9],
+                '巳' => [9, 11],
+                '午' => [11, 13],
+                '未' => [13, 15],
+                '申' => [15, 17],
+                '酉' => [17, 19],
+                '戌' => [19, 21],
+                '亥' => [21, 23]
+            ];
+
+            foreach ($timePeriodList as $timePeriod => $hours) {
+                $gregorianDate->setTime($hours[0], 0, 0);
+                $lunarhour = Lunar::fromDate($gregorianDate);
+
+                $timechong = $lunarhour->getTimeChongDesc();
+                $timesha = $lunarhour->getTimeSha();
+                $yiList = $lunarhour->getTimeYi();
+                $jiList = $lunarhour->getTimeJi();
+
+                echo "<br/>【" . ($lunarhour->getTimeTianShenLuck() === "吉" ? '<span class="text-danger">' : '') . $timePeriod . "時(" . sprintf('%02d', $hours[0]) . "-" . sprintf('%02d', $hours[1]) . ")" . $lunarhour->getTimeTianShenLuck();
+                echo "◈天神：" . $lunarhour->getTimeTianShen() . "◈";
+                echo "宜：" . implode('，', $yiList) . ($lunarhour->getTimeTianShenLuck() === "吉" ? '</span>' : '') . "◈";
+                echo "忌：" . implode('，', $jiList) . "◈";
+                echo "沖：" . $timechong . "◈";
+                echo "煞：" . $timesha;
+                echo "】";
+            }
+
+            echo "</span>";
+
+            if ($sy . $sm . $sd === $td) {
+                echo "<span class='click coll d-none' id='open{$day}'>【時辰吉凶宜忌：點我展開▼】</span>";
+                echo "<span class='click extend' id='close{$day}'><br/>【點我收合▲】</span>";
+            } else {
+                echo "<span class='click coll' id='open{$day}'>【時辰吉凶宜忌：點我展開▼】</span>";
+                echo "<span class='click extend d-none' id='close{$day}'><br/>【點我收合▲】</span>";
+            }
+
+            $JieQi = $lunar->getJieQi();
+
+            if ($JieQi) {
+                echo '<hr/><div class="row"><div class="col-md-12"><h3 class="float-left">【' . $JieQi . '】</h3>';
+                $jieqidatetime = $lunar->getJieQiTable()[$JieQi]->toYmdHms();
+                $jieqidatetime = substr($jieqidatetime, 0, 16);
+                $formatted_jieqidatetime = date("Y年m月d日 H:i", strtotime($jieqidatetime));
+                echo "【時間：" . $formatted_jieqidatetime . "】";
+
+                $latitude = 23.6978;
+                $longitude = 120.9605;
+                $solardate = new DateTime();
+                $solardate->setDate($sy, $szm, $szd);
+                $sun_info = date_sun_info($solardate->getTimestamp(), $latitude, $longitude);
+                $sunrise = date("H:i", $sun_info['sunrise']);
+                $sunset = date("H:i", $sun_info['sunset']);
+                echo "【日出：" . $sunrise . "】";
+                echo "【日沒：" . $sunset . "】";
+
+                $jieqi_info = [
+                    '立春' => ['度數' => '315', '意義' => '氣候開始轉暖，春天開始'],
+                    '雨水' => ['度數' => '330', '意義' => '降雨增多，有利於農作物生長'],
+                    '驚蟄' => ['度數' => '345', '意義' => '天氣漸熱，動物開始活動'],
+                    '春分' => ['度數' => '0', '意義' => '白晝和黑夜等長，春天進入中期'],
+                    '清明' => ['度數' => '15', '意義' => '氣候溫暖，適宜掃墓祭祖'],
+                    '穀雨' => ['度數' => '30', '意義' => '雨生百穀，開始穀物收穫'],
+                    '立夏' => ['度數' => '45', '意義' => '夏季開始，炎熱多雨'],
+                    '小滿' => ['度數' => '60', '意義' => '夏熟作物籽粒開始飽滿'],
+                    '芒種' => ['度數' => '75', '意義' => '夏熟作物進入收穫季節'],
+                    '夏至' => ['度數' => '90', '意義' => '白天最長'],
+                    '小暑' => ['度數' => '105', '意義' => '天氣炎熱'],
+                    '大暑' => ['度數' => '120', '意義' => '天氣最熱，正值盛夏'],
+                    '立秋' => ['度數' => '135', '意義' => '天氣漸涼，秋天的開始'],
+                    '處暑' => ['度數' => '150', '意義' => '氣溫逐漸下降，秋天即將到來'],
+                    '白露' => ['度數' => '165', '意義' => '天氣轉涼，濕氣逐漸凝結為露水'],
+                    '秋分' => ['度數' => '180', '意義' => '白天和黑夜等長，秋天進入中期'],
+                    '寒露' => ['度數' => '195', '意義' => '氣溫進一步下降，露水結霜'],
+                    '霜降' => ['度數' => '210', '意義' => '天氣更冷，容易結霜'],
+                    '立冬' => ['度數' => '225', '意義' => '天氣轉冷，冬天的開。'],
+                    '小雪' => ['度數' => '240', '意義' => '水氣轉為雪，初雪降臨'],
+                    '大雪' => ['度數' => '255', '意義' => '降雪量顯著增多'],
+                    '冬至' => ['度數' => '270', '意義' => '白天最短'],
+                    '小寒' => ['度數' => '285', '意義' => '天氣寒冷'],
+                    '大寒' => ['度數' => '300', '意義' => '天氣寒冷極致，寒冷的頂峰'],
+                ];
+
+                echo '【太陽位於黃經' . $jieqi_info[$JieQi]['度數'] . '度】【' . $jieqi_info[$JieQi]['意義'] . '】</div></div>';
+            }
+
+            echo "</div>";
         }
-		echo "' id='{$day}'>";		
-		
-		if ($Festivallist) {
-            foreach ($Festivallist as $s) {
-				echo '<h3 class="float-left">【'.$s.'】</h3>';
-			}
-        }
-		
-		
-		if ($solar->getWeekInChinese() === '六' || $solar->getWeekInChinese() === '日') {
-			echo '<span class="text-danger">';
-        } else {
-            echo '<span class="text-black">';
-		}
-		echo '<h3 class="float-left">'.$sd.'</h3>';
-        //echo "【陽曆：".$sy."年".$sm."月".$sd."日";
-		echo "【星期".$solar->getWeekInChinese()."】</span>";
-
-        echo "【農曆：".$ly."(".$ls.")"."年".$lm."月".$ld."】";
-
-$sf = $solar->getFestivals();
-if (!empty($sf)) {
-    echo "【" . implode("， ", $sf) . "】";
-}
-
-$ff = $lunar->getOtherFestivals();
-if (!empty($ff)) {
-    echo "【" . implode("， ", $ff) . "】";
-}
-
-		
-		$sanfu = $lunar->getFu();
-		$shujiu = $lunar->getShuJiu();
-		if($sanfu || $shujiu){
-			echo "【".$sanfu.$shujiu."】";
-		}
-
-
-// 月破大凶日		
-$xsyq = $lunar->getDayXiongSha();
-$jsyq = $lunar->getDayJiShen();
-
-$xiongShaCheck = [
-    "月破大耗日吉事少取" => ["月破", "大耗"],
-    "往亡日" => ["往亡"]
-];
-
-	
-$jiShenCheck = [
-    "天赦日" => ["天赦"],
-	"天德合日" => ["天德合"],
-    "月德合日" => ["月德合"],
-    "天德日" => ["天德"],
-    "月德日" => ["月德"]
-];
-
-// 檢查凶煞日
-foreach ($xiongShaCheck as $message => $conditions) {
-    $matched = true;
-    foreach ($conditions as $condition) {
-        if (!in_array($condition, $xsyq)) {
-            $matched = false;
-            break;
-        }
-    }
-    if ($matched) {
-        echo "【{$message}】";
-    }
-}
-
-
-// 定義五陽干和五陰干對應的歲德
-$suiDeDays = [
-    '五陽干' => ['甲' => '甲', '丙' => '丙', '戊' => '戊', '庚' => '庚', '壬' => '壬'],
-    '五陰干' => ['乙' => '庚', '丁' => '壬', '己' => '甲', '辛' => '丙', '癸' => '戊'],
-];
-
-// 定義五陽干和五陰干對應的歲德合		
-$suiDeHeDays = [
-    '五陽干' => ['甲' => '己', '丙' => '辛', '戊' => '癸', '庚' => '乙', '壬' => '丁'],
-    '五陰干' => ['乙' => '乙', '丁' => '丁', '己' => '己', '辛' => '辛', '癸' => '癸'],
-];		
-
-// 判斷年干是否為五陽干或五陰干
-$isYangGan = in_array($lyg, ['甲', '丙', '戊', '庚', '壬']);
-$isYinGan = in_array($lyg, ['乙', '丁', '己', '辛', '癸']);
-
-// 判斷日天干是否與年干相同
-		
-if ($isYangGan && $dayGan === $lyg) {
-    echo "【歲德日】";
-} elseif ($isYinGan) {
-    $suiDe = $suiDeDays['五陰干'][$lyg];
-    if ($dayGan === $suiDe) {
-        echo "【歲德日】";
-    }
-}
-
-if ($isYinGan && $dayGan === $lyg) {
-    echo "【歲德合日】";
-} elseif ($isYangGan) {
-    $suiDeHe = $suiDeHeDays['五陽干'][$lyg];
-    if ($dayGan === $suiDeHe) {
-        echo "【歲德合日】";
-    }
-}		
-		
-
-		
-// 檢查吉神日
-foreach ($jiShenCheck as $message => $conditions) {
-    foreach ($conditions as $condition) {
-        if (in_array($condition, $jsyq)) {
-            echo "【{$message}】";
-            break;
-        }
-    }
-}	
-
-		
-// 刀砧日麒麟日
-// 獲取四季的節氣日期
-$lichun = $lunar->getJieQiTable()['立春']->toYmdHms();
-$lixia = $lunar->getJieQiTable()['立夏']->toYmdHms();
-$liqiu = $lunar->getJieQiTable()['立秋']->toYmdHms();
-$lidong = $lunar->getJieQiTable()['立冬']->toYmdHms();
-
-// 判斷當前日期是否為刀砧日
-$daoZhen = false;
-$qiLin = false;
-$fengHuang = false;		
-$lrdz = $lunar->getDayZhi(); // 修正為 getDayZhi 以獲取日地支
-$lqlrxiu =	$lunar->getXiu(); //日期宿
-// 判斷日期所屬季節並檢查對應的地支
-if ($solar->toYmdHms() >= $lichun && $solar->toYmdHms() < $lixia) {
-    // 春季：立春到立夏
-    if (in_array($lrdz, ['亥', '子'])) {
-        $daoZhen = true;
-    }
-	if ($lqlrxiu == "井") {
-        $qiLin = true;
-    }
-	if ($lqlrxiu == "危") {
-        $fengHuang = true;
-    }
-} elseif ($solar->toYmdHms() >= $lixia && $solar->toYmdHms() < $liqiu) {
-    // 夏季：立夏到立秋
-    if (in_array($lrdz, ['寅', '卯'])) {
-        $daoZhen = true;
-    }
-	if ($lqlrxiu == "尾") {
-        $qiLin = true;
-    }
-	if ($lqlrxiu == "昴") {
-        $fengHuang = true;
-    }	
-} elseif ($solar->toYmdHms() >= $liqiu && $solar->toYmdHms() < $lidong) {
-    // 秋季：立秋到立冬
-    if (in_array($lrdz, ['巳', '午'])) {
-        $daoZhen = true;
-    }
-	if ($lqlrxiu == "牛") {
-        $qiLin = true;
-    }
-	if ($lqlrxiu == "胃") {
-        $fengHuang = true;
-    }		
-} else {
-    // 冬季：立冬到下一年的立春
-    if (in_array($lrdz, ['申', '酉'])) {
-        $daoZhen = true;
-    }
-	if ($lqlrxiu == "壁") {
-        $qiLin = true;
-    }
-	if ($lqlrxiu == "畢") {
-        $fengHuang = true;
-    }	
-}
-
-// 輸出結果
-if ($daoZhen) {
-    echo "【刀砧日】";
-}
-if ($qiLin) {
-    echo "【麒麟日】";
-}
-if ($fengHuang) {
-    echo "【鳳凰日】";
-}
-
-//勿探病
-$avoidDays = ["壬寅", "壬午", "庚午", "甲寅", "乙卯", "己卯"];
-
-//檢查給定的日干支是否在勿探病日子列表中
-if (in_array($dayGanZhi, $avoidDays)) {
-    echo "【勿探病】";
-} 
-
-//正八座日		
-$zhengBaRules = [
-    '子' => '癸酉',
-    '丑' => '甲戌',
-    '寅' => '丁亥',
-    '卯' => '甲子',
-    '辰' => '乙丑',
-    '巳' => '甲寅',
-    '午' => '丁卯',
-    '未' => '甲辰',
-    '申' => '己巳',
-    '酉' => '甲午',
-    '戌' => '丁未',
-    '亥' => '甲申',
-];
-if ($dayGanZhi === $zhengBaRules[$lyz]) {
-    echo "【正八座日】";
-}
-
-//月相資料 https://opendata.cwa.gov.tw/dataset/all/A-A0087-002
-include_once("moonphases.php");		
-if (array_key_exists($sy."-".$sm."-".$sd, $moonPhases)) {
-    $phase = $moonPhases[$sy."-".$sm."-".$sd]["phase"];
-    $time = $moonPhases[$sy."-".$sm."-".$sd]["time"];
-    echo "【".$phase."：".$time."】";
-}
-		
-$ttl = $tao->getFestivals();
-
-echo "【干支：".$monthGanZhi."月".$dayGanZhi."日】";
-		
-echo "【納音：".$lunar->getDayNaYin()."】";		
-
-
-		
-//伏羲八卦，夏至和冬至開始順序相反
-// 定義八卦順序
-$bagua_summer = ['坤', '艮', '坎', '巽', '震', '離', '兌', '乾'];
-$bagua_winter = ['乾', '兌', '離', '震', '巽', '坎', '艮', '坤'];
-
-// 取得夏至和冬至的日期
-$summerCome = $lunar->getJieQiTable()['夏至']->toYmd();
-$winterCome = $lunar->getJieQiTable()['冬至']->toYmd();
-
-// 取得目標日期
-$target_date = new DateTime($solar);
-
-// 判斷目標日期是否在今年夏至之前
-$start_date_summer = new DateTime($summerCome);
-$start_date_winter = new DateTime($winterCome);
-
-echo "【八卦：";
-// 如果目標日期在今年夏至之前，使用去年的冬至開始計算
-if ($target_date < $start_date_summer) {
-    // 包括目標日期在內
-    $interval_winter = $start_date_winter->diff($target_date)->days;
-    $bagua_winter_index = $interval_winter % count($bagua_winter);
-    $winter_bagua = $bagua_winter[$bagua_winter_index];
-    echo $winter_bagua;
-} else {
-    // 包括目標日期在內
-    $interval_summer = $start_date_summer->diff($target_date)->days;
-    $bagua_summer_index = $interval_summer % count($bagua_summer);
-    $summer_bagua = $bagua_summer[$bagua_summer_index];
-    echo $summer_bagua;
-}
-echo "】";	
-	
-//
-//玄空五行八卦六十四掛
-$trigrams = [
-    "甲子" => "1☷一",
-    "乙丑" => "3☲六",
-    "丙寅" => "2☴四",
-    "丁卯" => "6☶九",
-    "戊辰" => "9☰六",
-    "己巳" => "8☳二",
-    "庚午" => "8☳九",
-    "辛未" => "9☰三",
-    "壬申" => "1☷七",
-    "癸酉" => "2☴七",
-    "甲戌" => "7☵二",
-    "乙亥" => "3☲三",
-    "丙子" => "6☶三",
-    "丁丑" => "4☱七",
-    "戊寅" => "8☳六",
-    "己卯" => "7☵八",
-    "庚辰" => "1☷九",
-    "辛巳" => "3☲七",
-    "壬午" => "2☴一",
-    "癸未" => "4☱八",
-    "甲申" => "3☲九",
-    "乙酉" => "9☰四",
-    "丙戌" => "6☶一",
-    "丁亥" => "8☳八",
-    "戊子" => "7☵四",
-    "己丑" => "9☰二",
-    "庚寅" => "3☲一",
-    "辛卯" => "2☴三",
-    "壬辰" => "6☶四",
-    "癸巳" => "4☱六",
-    "甲午" => "9☰一",
-    "乙未" => "7☵六",
-    "丙申" => "8☳四",
-    "丁酉" => "4☱九",
-    "戊戌" => "1☷六",
-    "己亥" => "2☴二",
-    "庚子" => "2☴九",
-    "辛丑" => "1☷三",
-    "壬寅" => "9☰七",
-    "癸卯" => "8☳七",
-    "甲辰" => "3☲二",
-    "乙巳" => "7☵三",
-    "丙午" => "4☱三",
-    "丁未" => "6☶七",
-    "戊申" => "2☴六",
-    "己酉" => "3☲八",
-    "庚戌" => "9☰九",
-    "辛亥" => "7☵七",
-    "壬子" => "8☳一",
-    "癸丑" => "6☶八",
-    "甲寅" => "7☵九",
-    "乙卯" => "1☷四",
-    "丙辰" => "4☱一",
-    "丁巳" => "2☴八",
-    "戊午" => "3☲四",
-    "己未" => "1☷二",
-    "庚申" => "7☵一",
-    "辛酉" => "8☳三",
-    "壬戌" => "4☱四",
-    "癸亥" => "6☶六"
-];
-echo "【玄空：".$trigrams[$dayGanZhi]."】";
-
-
-echo "【九星：".$lunar->getDayNineStar()->getNumber().$lunar->getDayNineStar()->getColor()."】";		
-
-echo "【宿：".$lunar->getXiu()."】";
-echo "【建除：".$lunar->getZhiXing()."】";
-
-//每日宜忌		
-$yiList = $lunar->getDayYi();
-$jiList = $lunar->getDayJi();
-
-// Determine the text color based on the presence of '諸事不宜' in the lists
-$textColor = (in_array('諸事不宜', $yiList) || in_array('餘事勿取', $yiList) || in_array('諸事不宜', $jiList) || in_array('嫁娶', $jiList)) ? 'text-black' : 'text-danger';
-
-// Output "宜" and "忌" with their respective lists
-echo "<span class='$textColor'>【宜：" . implode("，", $yiList) . "】</span>";
-echo "【忌：" . implode("，", $jiList) . "】";
-echo "【沖：".$lunar->getDayChongDesc()."】【煞：".$lunar->getDaySha()."】";
-	
-		
-if (!empty($ttl)) {
-    echo '<span class="text-danger">【' . implode("，", $ttl) . '】</span>';
-}
-
-		echo "【胎神：".$lunar->getDayPositionTai()."】";
-		echo "【財神：".$lunar->getDayPositionCaiDesc()."】";	
-		//echo "【吉神：";
-		echo "【喜神：".$lunar->getPositionXiDesc()."】";
-		//echo "陽貴神".$lunar->getPositionYangGuiDesc()."，";
-		//echo "陰貴神".$lunar->getPositionYinGuiDesc()."，";
-		//echo "福神".$lunar->getPositionFuDesc()."，";
-		
-		
-		//echo "【太歲：".$lunar->getDayPositionTaiSuiDesc()."】";
-		
-		//$jsyq = $lunar->getDayJiShen();
-if (!empty($jsyq)) {
-    echo "【吉神：" . implode("，", $jsyq) . "】";
-}
-		
-//		$xsyq = $lunar->getDayXiongSha();
-if (!empty($xsyq)) {
-    echo "【凶神：" . implode("，", $xsyq) . "】";
-}
-		
-//		echo "【日祿：".$lunar->getDayLu()."】";
-		
-//		echo "【六曜：".$lunar->getLiuYao()."】";
-		
-//		echo "【物候：".$lunar->getWuHou()."】";	
-		
-//		echo "【七曜：".$lunar->getZheng()."】";
-	//	echo "【二十八動物：".$lunar->getAnimal()."】";
-	//	echo "【二十八星宿吉凶：".$lunar->getXiuLuck()."】";
-	//	echo "【二十八宿歌诀：".$lunar->getXiuSong()."】";	
-	//	echo "【四宮：".$lunar->getGong()."】";
-	//	echo "【神獸：".$lunar->getShou()."】";
-//		echo "【".$lunar->getDayTianShenType().$lunar->getDayTianShenLuck()."日";
-//		echo "天神：".$lunar->getDayTianShen()."】";
-	//	echo "【空亡：".$lunar->getEightChar()->getDayXunKong()."】";
-		
-	//	echo "【彭祖百忌：".$lunar->getPengZuGan()."\n".$lunar->getPengZuZhi()."】";
-
-
-////// 詳細strat
-		if ($sy.$sm.$sd === $td) {
-		echo "<span class='extend' id='detail{$day}'>";
-        }else{		
-		echo "<span class='extend d-none' id='detail{$day}'>";
-		}		
-		// 对应的时辰列表及其时间范围
-$timePeriodList = [
-    '子' => [23, 1],
-    '丑' => [1, 3],
-    '寅' => [3, 5],
-    '卯' => [5, 7],
-    '辰' => [7, 9],
-    '巳' => [9, 11],
-    '午' => [11, 13],
-    '未' => [13, 15],
-    '申' => [15, 17],
-    '酉' => [17, 19],
-    '戌' => [19, 21],
-    '亥' => [21, 23]
-];
-
-// 迭代一天中的每个时辰
-foreach ($timePeriodList as $timePeriod => $hours) {
-    // 创建一个DateTime对象并设置到该时辰的第一个小时
-    $gregorianDate->setTime($hours[0], 0, 0);
-    
-    // 获取该时辰的农历信息
-    $lunarhour = Lunar::fromDate($gregorianDate);
-    
-    // 获取宜和忌沖剎
-	$timechong = $lunarhour->getTimeChongDesc();
-	$timesha = $lunarhour->getTimeSha();
-    $yiList = $lunarhour->getTimeYi();
-    $jiList = $lunarhour->getTimeJi();
-echo "<br/>【" . ($lunarhour->getTimeTianShenLuck() === "吉" ? '<span class="text-danger">' : '') . $timePeriod ."時(" . sprintf('%02d', $hours[0]) . "-" . sprintf('%02d', $hours[1]) . ")" . $lunarhour->getTimeTianShenLuck();
-echo "◈天神：" . $lunarhour->getTimeTianShen() . "◈";
-echo "宜：" . implode('，', $yiList). ($lunarhour->getTimeTianShenLuck() === "吉" ? '</span>' : '') . "◈";
-echo "忌：" . implode('，', $jiList) . "◈";
-echo "沖：" . $timechong . "◈";
-echo "煞：" . $timesha;
-echo "】";
-}		
-		echo "</span>";
-		
-		if ($sy.$sm.$sd === $td) {
-		echo "<span class='click coll d-none' id='open{$day}'>【時辰吉凶：點我展開▼】</span>";
-		echo "<span class='click extend' id='close{$day}'><br/>【點我收合▲】</span>";
-        }else{		
-		echo "<span class='click coll' id='open{$day}'>【時辰吉凶：點我展開▼】</span>";
-		echo "<span class='click extend d-none' id='close{$day}'><br/>【點我收合▲】</span>";
-		}
-		
-		// 詳細end
-		
-		
-		
-		$JieQi = $lunar->getJieQi();
-		
-		if ($JieQi) {
-
-            echo '<hr/><div class="row"><div class="col-md-12"><h3 class="float-left">【'.$JieQi.'】</h3>';
-
-			$jieqidatetime = $lunar->getJieQiTable()[$JieQi]->toYmdHms(); // 假設這是您得到的時間字符串
-			$jieqidatetime = substr($jieqidatetime, 0, 16); // 去除秒數，只保留年月日時分
-			// 使用 date 函數將時間字符串轉換為指定格式
-			$formatted_jieqidatetime = date("Y年m月d日 H:i", strtotime($jieqidatetime));
-			echo "【時間：".$formatted_jieqidatetime."】";
-
-// 設定臺灣中心點的經緯度
-$latitude = 23.6978;
-$longitude = 120.9605;
-
-// 將 Solar 物件轉換為時間戳
-$solardate = new DateTime();
-$solardate->setDate($sy, $szm, $szd);
-
-// 獲取日出日落時間信息
-$sun_info = date_sun_info($solardate->getTimestamp(), $latitude, $longitude);
-
-// 將時間格式轉換為人類可讀形式
-$sunrise = date("H:i", $sun_info['sunrise']);
-$sunset = date("H:i", $sun_info['sunset']);
-
-// 輸出結果
-echo "【日出：".$sunrise."】";
-echo "【日沒：".$sunset."】";
-			
-			
-			// 定義每個節氣對應的太陽經過的度數
-$jieqi_info = [
-    '立春' => ['度數' => '315', '意義' => '氣候開始轉暖，春天開始'],
-    '雨水' => ['度數' => '330', '意義' => '降雨增多，有利於農作物生長'],
-    '驚蟄' => ['度數' => '345', '意義' => '天氣漸熱，動物開始活動'],
-    '春分' => ['度數' => '0', '意義' => '白晝和黑夜等長，春天進入中期'],
-    '清明' => ['度數' => '15', '意義' => '氣候溫暖，適宜掃墓祭祖'],
-    '穀雨' => ['度數' => '30', '意義' => '雨生百穀，開始穀物收穫'],
-    '立夏' => ['度數' => '45', '意義' => '夏季開始，炎熱多雨'],
-    '小滿' => ['度數' => '60', '意義' => '夏熟作物籽粒開始飽滿'],
-    '芒種' => ['度數' => '75', '意義' => '夏熟作物進入收穫季節'],
-    '夏至' => ['度數' => '90', '意義' => '白天最長'],
-    '小暑' => ['度數' => '105', '意義' => '天氣炎熱'],
-    '大暑' => ['度數' => '120', '意義' => '天氣最熱，正值盛夏'],
-    '立秋' => ['度數' => '135', '意義' => '天氣漸涼，秋天的開始'],
-    '處暑' => ['度數' => '150', '意義' => '氣溫逐漸下降，秋天即將到來'],
-    '白露' => ['度數' => '165', '意義' => '天氣轉涼，濕氣逐漸凝結為露水'],
-    '秋分' => ['度數' => '180', '意義' => '白天和黑夜等長，秋天進入中期'],
-    '寒露' => ['度數' => '195', '意義' => '氣溫進一步下降，露水結霜'],
-    '霜降' => ['度數' => '210', '意義' => '天氣更冷，容易結霜'],
-    '立冬' => ['度數' => '225', '意義' => '天氣轉冷，冬天的開。'],
-    '小雪' => ['度數' => '240', '意義' => '水氣轉為雪，初雪降臨'],
-    '大雪' => ['度數' => '255', '意義' => '降雪量顯著增多'],
-    '冬至' => ['度數' => '270', '意義' => '白天最短'],
-    '小寒' => ['度數' => '285', '意義' => '天氣寒冷'],
-    '大寒' => ['度數' => '300', '意義' => '天氣寒冷極致，寒冷的頂峰'],
-];
-
-			
-// 輸出太陽位於黃經的度數和相應的節氣意義
-echo '【太陽位於黃經'.$jieqi_info[$JieQi]['度數'].'度】【'.$jieqi_info[$JieQi]['意義'].'】</div></div>';			
-			
-        }
-		
-		
-		echo "</div>";
-    }
-?>
+        ?>
       </div>
     </div>
   </div>
@@ -709,87 +588,39 @@ $currentDay = date('j'); // 不带前导零的日期
 
 $shouldScroll = ($sy == $currentYear && $sm == $currentMonth);
 ?>	
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', () => {
     <?php if ($shouldScroll): ?>
         const targetElement = document.getElementById('<?php echo $currentDay; ?>');
         if (targetElement) {
-            // 获取目标元素前一个兄弟节点
             const previousSibling = targetElement.previousElementSibling;
-
-            // 检查前一个兄弟节点是否为<hr>标签
             if (previousSibling && previousSibling.tagName === 'HR') {
                 previousSibling.scrollIntoView();
             }
         }
     <?php endif; ?>
-});
 
-         // Function to toggle visibility of detail element
-function toggleDetailVisibility(day) {
-            var detailElement = document.getElementById('detail' + day);
-            var openElement = document.getElementById('open' + day);
-            var closeElement = document.getElementById('close' + day);
-
-            if (detailElement.classList.contains('d-none')) {
-                detailElement.classList.remove('d-none');
-                openElement.classList.add('d-none');
-                closeElement.classList.remove('d-none');
-				document.getElementById(day).classList.add('bg-warning','special');
-            } else {
-                detailElement.classList.add('d-none');
-                openElement.classList.remove('d-none');
-                closeElement.classList.add('d-none');
-				document.getElementById(day).classList.remove('bg-warning','special');
-            }
-        }
-
-        // Add event listeners to all open and close elements
-        var openElements = document.querySelectorAll('[id^="open"]');
-        var closeElements = document.querySelectorAll('[id^="close"]');
-
-        openElements.forEach(function(element) {
-            element.addEventListener('click', function() {
-                var day = this.id.replace('open', '');
-                toggleDetailVisibility(day);
-            });
+    // Add event listeners to all open and close elements
+    document.querySelectorAll('[id^="open"]').forEach(element => {
+        element.addEventListener('click', function() {
+            toggleDetailVisibility(this.id.replace('open', ''));
         });
+    });
 
-        closeElements.forEach(function(element) {
-            element.addEventListener('click', function() {
-                var day = this.id.replace('close', '');
-                toggleDetailVisibility(day);
-            });
+    document.querySelectorAll('[id^="close"]').forEach(element => {
+        element.addEventListener('click', function() {
+            toggleDetailVisibility(this.id.replace('close', ''));
         });
+    });
 
-	
-	// 左右切換月份
-// 获取 URL 中的 year-month 参数值，如果没有则使用当前年月
-const urlParams = new URLSearchParams(window.location.search);
-let currentYearMonth = urlParams.get('year-month');
-
-if (!currentYearMonth) {
-  // 如果没有 year-month 参数，则使用当前年月
-  const currentDate = new Date();
-  const currentYear = currentDate.getFullYear();
-  const currentMonth = currentDate.getMonth() + 1; // 月份从 0 开始计数，需要加 1
-  currentYearMonth = `${currentYear}-${currentMonth.toString().padStart(2, '0')}`;
-}
-
-// 将当前年月字符串转换为 JavaScript Date 对象
-const currentDate = new Date(currentYearMonth);
-
-//左右切換按鈕	
-document.addEventListener('DOMContentLoaded', () => {
+    // 左右切換按鈕
     const prevButton = document.getElementById('prev-button');
     const nextButton = document.getElementById('next-button');
 
-    // Function to show buttons when user is scrolling
     function showNavButtons() {
         prevButton.style.display = 'block';
         nextButton.style.display = 'block';
     }
 
-    // Function to hide buttons after 2 seconds
     function hideNavButtons() {
         setTimeout(() => {
             prevButton.style.display = 'none';
@@ -797,94 +628,91 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 2000);
     }
 
-    // Add event listener for scroll event
     window.addEventListener('scroll', () => {
         showNavButtons();
         hideNavButtons();
     });
 
-    // Optional: Add event listeners for button click
-    prevButton.addEventListener('click', () => {
-        // Implement logic to navigate to the previous page
-        changeMonth(-1);
+    prevButton.addEventListener('click', () => changeMonth(-1));
+    nextButton.addEventListener('click', () => changeMonth(1));
+
+    // 监听键盘左右箭头键事件
+    document.addEventListener('keydown', event => {
+        if (event.keyCode === 37) {
+            changeMonth(-1);
+        } else if (event.keyCode === 39) {
+            changeMonth(1);
+        }
     });
 
-    nextButton.addEventListener('click', () => {
-        // Implement logic to navigate to the next page
-        changeMonth(1);
+    // 全部展開
+    const expandBtn = document.querySelector('#exall');
+    const elementsToExpand = document.querySelectorAll('.extend');
+    const elementsToCollapse = document.querySelectorAll('.coll');
+
+    expandBtn.addEventListener('click', () => {
+        elementsToExpand.forEach(element => element.classList.remove('d-none'));
+        elementsToCollapse.forEach(element => element.classList.add('d-none'));
     });
-});	
 
+    // 切换页面标题
+    const pageTitle = document.getElementById("page-title");
+    const navbarBrand = document.querySelector(".navbar-brand");
 
-// 监听键盘左右箭头键事件
-document.addEventListener('keydown', function(event) {
-  if (event.keyCode === 37) {
-    // 左箭头键，调用 changeMonth 函数向左滑动
-    changeMonth(-1);
-  } else if (event.keyCode === 39) {
-    // 右箭头键，调用 changeMonth 函数向右滑动
-    changeMonth(1);
-  }
+    window.addEventListener("scroll", () => {
+        const pageTitleRect = pageTitle.getBoundingClientRect();
+        if (pageTitleRect.top < 0 && pageTitleRect.bottom < 0) {
+            if (!navbarBrand.querySelector(".scroll-title")) {
+                const scrollTitle = document.createElement("span");
+                scrollTitle.className = "scroll-title";
+                scrollTitle.textContent = " " + pageTitle.textContent;
+                navbarBrand.appendChild(scrollTitle);
+            }
+        } else if (pageTitleRect.top >= 0 && pageTitleRect.bottom >= 0) {
+            const scrollTitle = navbarBrand.querySelector(".scroll-title");
+            if (scrollTitle) {
+                scrollTitle.remove();
+            }
+        }
+    });
 });
 
-// 创建函数用于增减月份
-function changeMonth(offset) {
-  // 添加指定月份的偏移量
-  currentDate.setMonth(currentDate.getMonth() + offset);
-  
-  // 格式化新的年月字符串
-  const newYear = currentDate.getFullYear();
-  const newMonth = currentDate.getMonth() + 1; // 月份从 0 开始计数，需要加 1
-  const newYearMonth = `${newYear}-${newMonth.toString().padStart(2, '0')}`;
-  
-  // 构建新的 URL 并跳转
-  const newUrl = `?year-month=${newYearMonth}`;
-  window.location.href = newUrl;
+function toggleDetailVisibility(day) {
+    const detailElement = document.getElementById('detail' + day);
+    const openElement = document.getElementById('open' + day);
+    const closeElement = document.getElementById('close' + day);
+
+    if (detailElement.classList.contains('d-none')) {
+        detailElement.classList.remove('d-none');
+        openElement.classList.add('d-none');
+        closeElement.classList.remove('d-none');
+        document.getElementById(day).classList.add('bg-warning', 'special');
+    } else {
+        detailElement.classList.add('d-none');
+        openElement.classList.remove('d-none');
+        closeElement.classList.add('d-none');
+        document.getElementById(day).classList.remove('bg-warning', 'special');
+    }
 }
 
-//全部展開
-// 获取全部展开按钮元素
-const expandBtn = document.querySelector('#exall');
-
-// 获取需要展开的元素集合
-const elementsToExpand = document.querySelectorAll('.extend');
-// 获取需要收合的元素集合
-const elementsToCollapse = document.querySelectorAll('.coll');	
-
-// 监听展开按钮点击事件
-expandBtn.addEventListener('click', function(event) {
-  // 遍历需要展开的元素集合，并移除所有元素的 d-none 类
-  elementsToExpand.forEach(element => {
-    element.classList.remove('d-none');
-  });
-  elementsToCollapse.forEach(element => {
-    element.classList.add('d-none');
-  });	
-});
-
-document.addEventListener("DOMContentLoaded", function() {
-  var pageTitle = document.getElementById("page-title");
-  var navbarBrand = document.querySelector(".navbar-brand");
-  
-  window.addEventListener("scroll", function() {
-    var pageTitleRect = pageTitle.getBoundingClientRect();
-    
-    if (pageTitleRect.top < 0 && pageTitleRect.bottom < 0) {
-      if (!navbarBrand.querySelector(".scroll-title")) {
-        var scrollTitle = document.createElement("span");
-        scrollTitle.className = "scroll-title";
-        scrollTitle.textContent = " " + pageTitle.textContent;
-        navbarBrand.appendChild(scrollTitle);
-      }
-    } else if (pageTitleRect.top >= 0 && pageTitleRect.bottom >= 0) {
-      var scrollTitle = navbarBrand.querySelector(".scroll-title");
-      if (scrollTitle) {
-        scrollTitle.remove();
-      }
+function changeMonth(offset) {
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentYearMonth = urlParams.get('year-month');
+    if (!currentYearMonth) {
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth() + 1;
+        currentYearMonth = `${currentYear}-${currentMonth.toString().padStart(2, '0')}`;
     }
-  });
-});
-</script>	
+    const currentDate = new Date(currentYearMonth);
+    currentDate.setMonth(currentDate.getMonth() + offset);
+    const newYear = currentDate.getFullYear();
+    const newMonth = currentDate.getMonth() + 1;
+    const newYearMonth = `${newYear}-${newMonth.toString().padStart(2, '0')}`;
+    window.location.href = `?year-month=${newYearMonth}`;
+}
+</script>
+
 <?php include 'footer.php'; ?>	
 </body>	
 </html>

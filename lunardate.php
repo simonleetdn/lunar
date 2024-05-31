@@ -400,7 +400,121 @@ if (array_key_exists($sy."-".$sm."-".$sd, $moonPhases)) {
     $time = $moonPhases[$sy."-".$sm."-".$sd]["time"];
     echo "【".$phase."：".$time."】";
 }
+		
+$ttl = $tao->getFestivals();
 
+echo "【干支：".$monthGanZhi."月".$dayGanZhi."日】";
+		
+echo "【納音：".$lunar->getDayNaYin()."】";		
+
+
+		
+//伏羲八卦，夏至和冬至開始順序相反
+// 定義八卦順序
+$bagua_summer = ['坤', '艮', '坎', '巽', '震', '離', '兌', '乾'];
+$bagua_winter = ['乾', '兌', '離', '震', '巽', '坎', '艮', '坤'];
+
+// 取得夏至和冬至的日期
+$summerCome = $lunar->getJieQiTable()['夏至']->toYmd();
+$winterCome = $lunar->getJieQiTable()['冬至']->toYmd();
+
+// 取得目標日期
+$target_date = new DateTime($solar);
+
+// 判斷目標日期是否在今年夏至之前
+$start_date_summer = new DateTime($summerCome);
+$start_date_winter = new DateTime($winterCome);
+
+echo "【八卦：";
+// 如果目標日期在今年夏至之前，使用去年的冬至開始計算
+if ($target_date < $start_date_summer) {
+    // 包括目標日期在內
+    $interval_winter = $start_date_winter->diff($target_date)->days;
+    $bagua_winter_index = $interval_winter % count($bagua_winter);
+    $winter_bagua = $bagua_winter[$bagua_winter_index];
+    echo $winter_bagua;
+} else {
+    // 包括目標日期在內
+    $interval_summer = $start_date_summer->diff($target_date)->days;
+    $bagua_summer_index = $interval_summer % count($bagua_summer);
+    $summer_bagua = $bagua_summer[$bagua_summer_index];
+    echo $summer_bagua;
+}
+echo "】";	
+	
+//
+//玄空五行八卦六十四掛
+$trigrams = [
+    "甲子" => "1☷一",
+    "乙丑" => "3☲六",
+    "丙寅" => "2☴四",
+    "丁卯" => "6☶九",
+    "戊辰" => "9☰六",
+    "己巳" => "8☳二",
+    "庚午" => "8☳九",
+    "辛未" => "9☰三",
+    "壬申" => "1☷七",
+    "癸酉" => "2☴七",
+    "甲戌" => "7☵二",
+    "乙亥" => "3☲三",
+    "丙子" => "6☶三",
+    "丁丑" => "4☱七",
+    "戊寅" => "8☳六",
+    "己卯" => "7☵八",
+    "庚辰" => "1☷九",
+    "辛巳" => "3☲七",
+    "壬午" => "2☴一",
+    "癸未" => "4☱八",
+    "甲申" => "3☲九",
+    "乙酉" => "9☰四",
+    "丙戌" => "6☶一",
+    "丁亥" => "8☳八",
+    "戊子" => "7☵四",
+    "己丑" => "9☰二",
+    "庚寅" => "3☲一",
+    "辛卯" => "2☴三",
+    "壬辰" => "6☶四",
+    "癸巳" => "4☱六",
+    "甲午" => "9☰一",
+    "乙未" => "7☵六",
+    "丙申" => "8☳四",
+    "丁酉" => "4☱九",
+    "戊戌" => "1☷六",
+    "己亥" => "2☴二",
+    "庚子" => "2☴九",
+    "辛丑" => "1☷三",
+    "壬寅" => "9☰七",
+    "癸卯" => "8☳七",
+    "甲辰" => "3☲二",
+    "乙巳" => "7☵三",
+    "丙午" => "4☱三",
+    "丁未" => "6☶七",
+    "戊申" => "2☴六",
+    "己酉" => "3☲八",
+    "庚戌" => "9☰九",
+    "辛亥" => "7☵七",
+    "壬子" => "8☳一",
+    "癸丑" => "6☶八",
+    "甲寅" => "7☵九",
+    "乙卯" => "1☷四",
+    "丙辰" => "4☱一",
+    "丁巳" => "2☴八",
+    "戊午" => "3☲四",
+    "己未" => "1☷二",
+    "庚申" => "7☵一",
+    "辛酉" => "8☳三",
+    "壬戌" => "4☱四",
+    "癸亥" => "6☶六"
+];
+echo "【玄空：".$trigrams[$dayGanZhi]."】";
+
+
+echo "【九星：".$lunar->getDayNineStar()->getNumber().$lunar->getDayNineStar()->getColor()."】";		
+
+echo "【宿：".$lunar->getXiu()."】";
+echo "【建除：".$lunar->getZhiXing()."】";
+
+//每日宜忌		
 $yiList = $lunar->getDayYi();
 $jiList = $lunar->getDayJi();
 
@@ -412,85 +526,57 @@ echo "<span class='$textColor'>【宜：" . implode("，", $yiList) . "】</span
 echo "【忌：" . implode("，", $jiList) . "】";
 echo "【沖：".$lunar->getDayChongDesc()."】【煞：".$lunar->getDaySha()."】";
 	
+		
+if (!empty($ttl)) {
+    echo '<span class="text-danger">【' . implode("，", $ttl) . '】</span>';
+}
+
+		echo "【胎神：".$lunar->getDayPositionTai()."】";
+		echo "【財神：".$lunar->getDayPositionCaiDesc()."】";	
+		//echo "【吉神：";
+		echo "【喜神：".$lunar->getPositionXiDesc()."】";
+		//echo "陽貴神".$lunar->getPositionYangGuiDesc()."，";
+		//echo "陰貴神".$lunar->getPositionYinGuiDesc()."，";
+		//echo "福神".$lunar->getPositionFuDesc()."，";
+		
+		
+		//echo "【太歲：".$lunar->getDayPositionTaiSuiDesc()."】";
+		
+		//$jsyq = $lunar->getDayJiShen();
+if (!empty($jsyq)) {
+    echo "【吉神：" . implode("，", $jsyq) . "】";
+}
+		
+//		$xsyq = $lunar->getDayXiongSha();
+if (!empty($xsyq)) {
+    echo "【凶神：" . implode("，", $xsyq) . "】";
+}
+		
+//		echo "【日祿：".$lunar->getDayLu()."】";
+		
+//		echo "【六曜：".$lunar->getLiuYao()."】";
+		
+//		echo "【物候：".$lunar->getWuHou()."】";	
+		
+//		echo "【七曜：".$lunar->getZheng()."】";
+	//	echo "【二十八動物：".$lunar->getAnimal()."】";
+	//	echo "【二十八星宿吉凶：".$lunar->getXiuLuck()."】";
+	//	echo "【二十八宿歌诀：".$lunar->getXiuSong()."】";	
+	//	echo "【四宮：".$lunar->getGong()."】";
+	//	echo "【神獸：".$lunar->getShou()."】";
+//		echo "【".$lunar->getDayTianShenType().$lunar->getDayTianShenLuck()."日";
+//		echo "天神：".$lunar->getDayTianShen()."】";
+	//	echo "【空亡：".$lunar->getEightChar()->getDayXunKong()."】";
+		
+	//	echo "【彭祖百忌：".$lunar->getPengZuGan()."\n".$lunar->getPengZuZhi()."】";
+
+
 ////// 詳細strat
 		if ($sy.$sm.$sd === $td) {
 		echo "<span class='extend' id='detail{$day}'>";
         }else{		
 		echo "<span class='extend d-none' id='detail{$day}'>";
-		}
-								//echo "【佛曆：".$foto."】";
-		
-//$ftl = $foto->getOtherFestivals();;
-//if ($ftl){
-//    $ftlc = count($ftl);
-//    echo "【";
-//    foreach ($ftl as $key => $f) {
-//        echo $f;
-//        if ($key != $ftlc - 1) {
-//            echo "\n"; 
-//        }
-//    }
-//    echo "】";
-//}
-		
-						//echo "【道曆：".$tao."】";
-		
-$ttl = $tao->getFestivals();
-
-if (!empty($ttl)) {
-    echo '<span class="text-danger">【' . implode("，", $ttl) . '】</span>';
-}
-
-		echo "【吉神：";
-		echo "喜神".$lunar->getPositionXiDesc()."，";
-		echo "陽貴神".$lunar->getPositionYangGuiDesc()."，";
-		echo "陰貴神".$lunar->getPositionYinGuiDesc()."，";
-		echo "福神".$lunar->getPositionFuDesc()."，";
-		echo "財神".$lunar->getDayPositionCaiDesc();
-		echo "】";
-		
-		echo "【胎神：".$lunar->getDayPositionTai()."】";
-		
-		echo "【太歲：".$lunar->getDayPositionTaiSuiDesc()."】";
-		
-		//$jsyq = $lunar->getDayJiShen();
-if (!empty($jsyq)) {
-    echo "【吉神宜趨：" . implode("，", $jsyq) . "】";
-}
-		
-//		$xsyq = $lunar->getDayXiongSha();
-if (!empty($xsyq)) {
-    echo "【凶神宜忌：" . implode("，", $xsyq) . "】";
-}
-		
-		echo "【日祿：".$lunar->getDayLu()."】";
-		
-		echo "【六曜：".$lunar->getLiuYao()."】";
-		
-		echo "【物候：".$lunar->getWuHou()."】";
-
-echo "【干支：".$monthGanZhi."月".$dayGanZhi."日】";	
-
-		echo "【納音：".$lunar->getDayNaYin()."】";
-		
-		echo "【九星：".$lunar->getDayNineStar()->getNumber().$lunar->getDayNineStar()->getColor()."】";
-		
-		echo "【宿：".$lunar->getXiu()."】";
-		echo "【七曜：".$lunar->getZheng()."】";
-	//	echo "【二十八動物：".$lunar->getAnimal()."】";
-	//	echo "【二十八星宿吉凶：".$lunar->getXiuLuck()."】";
-	//	echo "【二十八宿歌诀：".$lunar->getXiuSong()."】";
-		
-		echo "【建除：".$lunar->getZhiXing()."】";
-		
-		echo "【四宮：".$lunar->getGong()."】";
-		echo "【神獸：".$lunar->getShou()."】";
-		echo "【".$lunar->getDayTianShenType().$lunar->getDayTianShenLuck()."日";
-		echo "天神：".$lunar->getDayTianShen()."】";
-	//	echo "【空亡：".$lunar->getEightChar()->getDayXunKong()."】";
-		
-	//	echo "【彭祖百忌：".$lunar->getPengZuGan()."\n".$lunar->getPengZuZhi()."】";
-		
+		}		
 		// 对应的时辰列表及其时间范围
 $timePeriodList = [
     '子' => [23, 1],
@@ -531,10 +617,10 @@ echo "】";
 		echo "</span>";
 		
 		if ($sy.$sm.$sd === $td) {
-		echo "<span class='click coll d-none' id='open{$day}'>【點我展開▼】</span>";
+		echo "<span class='click coll d-none' id='open{$day}'>【時辰吉凶：點我展開▼】</span>";
 		echo "<span class='click extend' id='close{$day}'><br/>【點我收合▲】</span>";
         }else{		
-		echo "<span class='click coll' id='open{$day}'>【點我展開▼】</span>";
+		echo "<span class='click coll' id='open{$day}'>【時辰吉凶：點我展開▼】</span>";
 		echo "<span class='click extend d-none' id='close{$day}'><br/>【點我收合▲】</span>";
 		}
 		

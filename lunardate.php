@@ -26,6 +26,9 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
           <li class="nav-item">
             <a id="yidate" class="nav-link" href="yidate.php">每年宜日速查</a>
           </li>
+		  <li class="nav-item">
+            <a id="calendar" class="nav-link" href="/calendar/">日曆(自動更新)</a>
+          </li>
           <li class="nav-item">
             <a id="yuangang" class="nav-link" href="yuangang.php?birthDateTime=<?php echo date('Y-m-d\TH:i'); ?>">稱骨算命</a>
           </li>

@@ -168,7 +168,11 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
             echo "【星期" . $solar->getWeekInChinese() . "】</span>";
 
             echo "【農曆：" . $ly . "(" . $ls . ")" . "年" . $lm . "月" . $ld . "】";
-
+            
+            if (!empty($ttl)) {
+                echo '<span class="text-danger">【' . implode("，", $ttl) . '】</span>';
+            }
+            
             $sf = $solar->getFestivals();
             if (!empty($sf)) {
                 echo "【" . implode("， ", $sf) . "】";
@@ -460,11 +464,6 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
             echo "<span class='$textColor'>【宜：" . implode("，", $yiList) . "】</span>";
             echo "【忌：" . implode("，", $jiList) . "】";
             echo "【沖：" . $lunar->getDayChongDesc() . "】【煞：" . $lunar->getDaySha() . "】";
-
-            if (!empty($ttl)) {
-                echo '<span class="text-danger">【' . implode("，", $ttl) . '】</span>';
-            }
-
             echo "【胎神：" . $lunar->getDayPositionTai() . "】";
             echo "【財神：" . $lunar->getDayPositionCaiDesc() . "】";
             echo "【喜神：" . $lunar->getPositionXiDesc() . "】";

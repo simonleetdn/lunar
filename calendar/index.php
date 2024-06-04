@@ -74,7 +74,7 @@
 <body>
 <?php
 date_default_timezone_set('Asia/Taipei');
-require '..\Lunar.php';
+require '../Lunar.php';
     use com\nlf\calendar\Lunar;
     use com\nlf\calendar\Solar;
 	use com\nlf\calendar\LunarMonth;

@@ -100,7 +100,7 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
             if (in_array("春節", $Festivallist)) {
                 include_once("dimujing.php");
                 include_once("springoxcon.php");
-                echo '<div id="newyear" class="bg-danger special text-warning"><h3 class="float-left">';
+                echo '<div id="newyear" class="alert alert-danger"><h3 class="float-left">';
                 echo '【歲次' . $ly . '肖' . $ls . '】</h3>';
                 echo '【年太歲：' . $taishui_mapping[$ly] . '星君，' . $lunarYear->getPositionTaiSuiDesc() . '方】';
                 echo '【三元：' . $lunarYear->getYuan() . '】';
@@ -149,7 +149,7 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
             echo "<div class='day";
 
             if ($sy . $sm . $sd === $td) {
-                echo " bg-warning special";
+                echo " alert alert-warning";
             }
             echo "' id='{$day}'>";
 
@@ -688,12 +688,12 @@ function toggleDetailVisibility(day) {
         detailElement.classList.remove('d-none');
         openElement.classList.add('d-none');
         closeElement.classList.remove('d-none');
-        document.getElementById(day).classList.add('bg-warning', 'special');
+        document.getElementById(day).classList.add('alert','alert-warning');
     } else {
         detailElement.classList.add('d-none');
         openElement.classList.remove('d-none');
         closeElement.classList.add('d-none');
-        document.getElementById(day).classList.remove('bg-warning', 'special');
+        document.getElementById(day).classList.remove('alert','alert-warning');
     }
 }
 

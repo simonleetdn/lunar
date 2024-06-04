@@ -26,15 +26,6 @@ h1, h2, h3, .navbar-brand, .card-title {
   cursor: pointer;
 }
 	
-.special {
-border-radius: 4px;
-padding-bottom: 1px;
-padding-left: 20px;
-padding-right: 20px;
-padding-top: 15px;
-padding-bottom: 15px;
-}
-	
 .click {
 cursor: pointer;
 }

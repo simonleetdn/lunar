@@ -616,22 +616,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevButton = document.getElementById('prev-button');
     const nextButton = document.getElementById('next-button');
 
-    function showNavButtons() {
-        prevButton.style.display = 'block';
-        nextButton.style.display = 'block';
-    }
+let hideTimeout;
 
-    function hideNavButtons() {
-        setTimeout(() => {
-            prevButton.style.display = 'none';
-            nextButton.style.display = 'none';
-        }, 2000);
-    }
+function showNavButtons() {
+    prevButton.style.display = 'block';
+    nextButton.style.display = 'block';
+}
 
-    window.addEventListener('scroll', () => {
-        showNavButtons();
-        hideNavButtons();
-    });
+function hideNavButtons() {
+    clearTimeout(hideTimeout);
+    hideTimeout = setTimeout(() => {
+        prevButton.style.display = 'none';
+        nextButton.style.display = 'none';
+    }, 3456);
+}
+
+window.addEventListener('scroll', () => {
+    showNavButtons();
+    hideNavButtons();
+});
+
+prevButton.addEventListener('mouseover', () => {
+    clearTimeout(hideTimeout);
+});
+
+prevButton.addEventListener('mouseout', () => {
+    hideNavButtons();
+});
+
+nextButton.addEventListener('mouseover', () => {
+    clearTimeout(hideTimeout);
+});
+
+nextButton.addEventListener('mouseout', () => {
+    hideNavButtons();
+});
+
 
     prevButton.addEventListener('click', () => changeMonth(-1));
     nextButton.addEventListener('click', () => changeMonth(1));

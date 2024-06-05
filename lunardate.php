@@ -476,6 +476,14 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
                 echo "【凶神：" . implode("，", $xsyq) . "】";
             }
 
+			if ($sy . $sm . $sd === $td) {
+                echo "<span class='click coll d-none' id='open{$day}'>【時辰吉凶宜忌：點我展開▼】</span><span class='click extend' id='close{$day}'>【時辰吉凶宜忌：點我收合▲】</span>";
+                echo "";
+            } else {
+                echo "<span class='click coll' id='open{$day}'>【時辰吉凶宜忌：點我展開▼】</span><span class='click extend d-none' id='close{$day}'>【時辰吉凶宜忌：點我收合▲】</span>";
+                echo "";
+            }
+			
             // 顯示詳細時辰信息
             if ($sy . $sm . $sd === $td) {
                 echo "<span class='extend' id='detail{$day}'>";
@@ -518,14 +526,6 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
             }
 
             echo "</span>";
-
-            if ($sy . $sm . $sd === $td) {
-                echo "<span class='click coll d-none' id='open{$day}'>【時辰吉凶宜忌：點我展開▼】</span>";
-                echo "<span class='click extend' id='close{$day}'><br/>【點我收合▲】</span>";
-            } else {
-                echo "<span class='click coll' id='open{$day}'>【時辰吉凶宜忌：點我展開▼】</span>";
-                echo "<span class='click extend d-none' id='close{$day}'><br/>【點我收合▲】</span>";
-            }
 
             $JieQi = $lunar->getJieQi();
 
@@ -613,7 +613,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 左右切換按鈕
     const prevButton = document.getElementById('prev-button');
     const nextButton = document.getElementById('next-button');
 
@@ -637,7 +636,6 @@ document.addEventListener('DOMContentLoaded', () => {
     prevButton.addEventListener('click', () => changeMonth(-1));
     nextButton.addEventListener('click', () => changeMonth(1));
 
-    // 监听键盘左右箭头键事件
     document.addEventListener('keydown', event => {
         if (event.keyCode === 37) {
             changeMonth(-1);
@@ -646,17 +644,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 全部展開
     const expandBtn = document.querySelector('#exall');
     const elementsToExpand = document.querySelectorAll('.extend');
     const elementsToCollapse = document.querySelectorAll('.coll');
+	const elementsDay = document.querySelectorAll('.day');
 
     expandBtn.addEventListener('click', () => {
         elementsToExpand.forEach(element => element.classList.remove('d-none'));
         elementsToCollapse.forEach(element => element.classList.add('d-none'));
+		elementsDay.forEach(element => element.classList.add('highlight'));
     });
 
-    // 切换页面标题
     const pageTitle = document.getElementById("page-title");
     const navbarBrand = document.querySelector(".navbar-brand");
 
@@ -685,6 +683,7 @@ function toggleDetailVisibility(day) {
 
     if (detailElement.classList.contains('d-none')) {
         detailElement.classList.remove('d-none');
+        detailElement.classList.add('fade-in');
         openElement.classList.add('d-none');
         closeElement.classList.remove('d-none');
         document.getElementById(day).classList.add('highlight');

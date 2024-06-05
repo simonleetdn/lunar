@@ -28,8 +28,8 @@
 	<div class="container">
     <div class="row">
       <div class="col-md-12">
-		  <h2>袁天罡稱骨算命</h2><hr/>
-<form class="form-inline ml-auto" id="daytime-form" method="get">
+		  <h2>袁天罡稱骨算命</h2>
+<p><form class="form-inline ml-auto" id="daytime-form" method="get">
     <label class="mr-2" for="daytime">【陽曆出生日期時間】</label>
     <div class="input-group">
     <input type="datetime-local" id="daytime" name="birthDateTime" class="form-control" 
@@ -39,7 +39,7 @@
     </div>
 </div>
 
-</form>
+		  </form></p>
 
 	  
 <?php
@@ -225,13 +225,13 @@ if (isset($_GET['birthDateTime'])) {
     $destweight = $resultyear + $resultmonth + $resultday + $resulttime;
     $destweightChinese = convertToChineseWeight($destweight);	
     
-    echo "<div id='result'><hr/>";
+    echo "<div id='result'>";
 	echo "<p>【農曆{$yearInGanZhi}{$yearShengXiao}年{$monthInChinese}月{$dayInChinese}日{$timeInChinese}生，";
     echo "此命重量合計{$destweightChinese}。其中，";
     echo "{$yearInGanZhi}年重{$resultyearChinese}，";
     echo "{$monthInChinese}月重{$resultmonthChinese}，";
     echo "{$dayInChinese}日重{$resultdayChinese}，";
-    echo "{$timeInChinese}重{$resulttimeChinese}。】</p><hr/>";
+    echo "{$timeInChinese}重{$resulttimeChinese}。】</p>";
     $result = $destinies[$destweight] ?? '查無對應命理結果';
     echo "<h3>【".$result."】</h3></div>";
 }
@@ -259,7 +259,7 @@ function getChineseTime($hour) {
     var resultDiv = document.getElementById('result');
 
     birthDateTimeInput.addEventListener('change', function() {
-        resultDiv.innerHTML = '<hr/><p>【日期已改變，請點擊進呈查看新結果。】</p>';
+        resultDiv.innerHTML = '<p>【日期已改變，請點擊進呈查看新結果。】</p>';
     });
 
     document.getElementById('submitBtn').addEventListener('click', function() {

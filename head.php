@@ -14,14 +14,24 @@ body {
   font-weight: 400;
   font-style: normal;
  padding-top: 70px;
+	font-size: 1.1rem;
+	color: #000;
 }	
-		
-h1, h2, h3, .navbar-brand, .card-title {
+
+h1, h2, h3, h4, h5, h6, .navbar-brand, .card-title {
   font-family: "Noto Serif TC", serif;
   font-weight: 700;
   font-style: normal;
-}	
-	
+}
+
+.text-danger {
+  color: #D70000 !important;
+}
+
+.bg-danger {
+  background-color: #D70000 !important;
+}
+
 .nav-link {
   cursor: pointer;
 }
@@ -60,7 +70,33 @@ overflow-y: auto;
 
 .nav-button:hover {
     background-color: rgba(0, 0, 0, 0.8);
+}
+	
+.highlight, .newyear {
+  border-left: 9px solid;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  padding-left: 6px;
+  margin-left: -15px;
+}
+
+	
+.highlight {
+border-color: #ffc107;
+}
+
+.newyear {
+border-color: #D70000;
 }	
+	
+hr {
+  border: none;
+  height: 1px;
+  background-color: black;
+  margin: 5px 0;
+}
+
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2428072621366113"
      crossorigin="anonymous"></script>

@@ -100,7 +100,7 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
             if (in_array("春節", $Festivallist)) {
                 include_once("dimujing.php");
                 include_once("springoxcon.php");
-                echo '<div id="newyear" class="alert alert-danger"><h3 class="float-left">';
+                echo '<div id="newyear" class="text-danger newyear"><h3 class="float-left">';
                 echo '【歲次' . $ly . '肖' . $ls . '】</h3>';
                 echo '【年太歲：' . $taishui_mapping[$ly] . '星君，' . $lunarYear->getPositionTaiSuiDesc() . '方】';
                 echo '【三元：' . $lunarYear->getYuan() . '】';
@@ -149,7 +149,7 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
             echo "<div class='day";
 
             if ($sy . $sm . $sd === $td) {
-                echo " alert alert-warning";
+                echo " highlight";
             }
             echo "' id='{$day}'>";
 
@@ -585,8 +585,8 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
 <script>
 <?php
 $currentYear = date('Y');
-$currentMonth = date('n'); // 不带前导零的月份
-$currentDay = date('j'); // 不带前导零的日期
+$currentMonth = date('n');
+$currentDay = date('j');
 
 $shouldScroll = ($sy == $currentYear && $sm == $currentMonth);
 ?>	
@@ -601,7 +601,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     <?php endif; ?>
 
-    // Add event listeners to all open and close elements
     document.querySelectorAll('[id^="open"]').forEach(element => {
         element.addEventListener('click', function() {
             toggleDetailVisibility(this.id.replace('open', ''));
@@ -688,12 +687,12 @@ function toggleDetailVisibility(day) {
         detailElement.classList.remove('d-none');
         openElement.classList.add('d-none');
         closeElement.classList.remove('d-none');
-        document.getElementById(day).classList.add('alert','alert-warning');
+        document.getElementById(day).classList.add('highlight');
     } else {
         detailElement.classList.add('d-none');
         openElement.classList.remove('d-none');
         closeElement.classList.add('d-none');
-        document.getElementById(day).classList.remove('alert','alert-warning');
+        document.getElementById(day).classList.remove('highlight');
     }
 }
 

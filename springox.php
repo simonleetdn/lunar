@@ -10,7 +10,10 @@ if (!empty($_GET['year'])) {
 <body>
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-danger">
 	  <div class="container-md">
-    <a class="navbar-brand" href="lunardate.php">農民曆</a>
+    <a class="navbar-brand" href="lunardate.php">
+		<img src="square.png" width="32" height="32" class="d-inline-block align-top" alt="洛書">
+		農民曆
+		  </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -22,6 +25,9 @@ if (!empty($_GET['year'])) {
 		  <li class="nav-item">
           <a id="yidate" class="nav-link" href="yidate.php">每年宜日速查</a>
         </li>
+		  <li class="nav-item">
+            <a id="calendar" class="nav-link" href="/calendar/">日曆(自動更新)</a>
+          </li>
 		<li class="nav-item">
           <a id="yuangang" class="nav-link" href="yuangang.php?birthDateTime=<?php echo date('Y-m-d\TH:i'); ?>">稱骨算命</a>
         </li>

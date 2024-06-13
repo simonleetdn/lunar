@@ -1,13 +1,15 @@
 <?php
 if(isset($_GET["year-yi"]) && !empty($_GET["year-yi"])) {
     list($year, $yi) = explode('-', $_GET["year-yi"]);
+	$description = "這裡列出農民曆" . $year . "年宜" . $yi . "的日子！我們提供精確的農民曆資訊，幫助您掌握日常生活和重要節日的日期。";
 } else {
     $year = date("Y");
 	$yi = "日查詢，請在清單選擇項目";
+	$description = "查詢整年的農民曆和宜日！我們提供精確的農民曆資訊，幫助您掌握日常生活和重要節日的日期，計劃您的全年活動。";
 }
 ?>
 <?php include 'metaseo.php'; ?>
-<meta name="description" content="查詢整年的農曆日期和宜日！我們提供精確的農民曆資訊，幫助您掌握日常生活和重要節日的日期，計劃您的全年活動。">
+<meta name="description" content="<?php echo $description; ?>">
 <link rel="canonical" href="https://lunar.ioi.tw/yidate.php" />
   <title>農民曆<?php echo $year."年宜".$yi."的日子"; ?></title>
 <?php include 'head.php'; ?>

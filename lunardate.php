@@ -3,14 +3,16 @@
 if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
     list($year, $month) = explode('-', $_GET["year-month"]);
     $title = $year . "年" . $month . "月農民曆";
+	$description = "在這裡查詢" . $year . "年" . $month . "月的農民曆！我們提供精確的農民曆資訊，幫助您掌握日常生活和重要節日的日期。";
 } else {
     $year = date("Y");
     $month = date("m");
     $title = "每月農民曆";
+	$description = "在這裡查詢每個月的農民曆！我們提供精確的農民曆資訊，幫助您掌握日常生活和重要節日的日期。";
 }
 ?>
 <?php include 'metaseo.php'; ?>
-<meta name="description" content="在這裡查詢每個月的農曆日期！我們提供精確的農民曆資訊，幫助您掌握日常生活和重要節日的日期。">
+<meta name="description" content="<?php echo $description; ?>">
 <link rel="canonical" href="https://lunar.ioi.tw/" />
 <title><?php echo $title; ?></title>
 <?php include 'head.php'; ?>

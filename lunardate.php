@@ -589,7 +589,6 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
       </div>
     </div>
   </div>
-<script>
 <?php
 $currentYear = date('Y');
 $currentMonth = date('n');
@@ -597,14 +596,16 @@ $currentDay = date('j');
 
 $shouldScroll = ($sy == $currentYear && $sm == $currentMonth);
 ?>	
+<script>
 document.addEventListener('DOMContentLoaded', () => {
     <?php if ($shouldScroll): ?>
         const targetElement = document.getElementById('<?php echo $currentDay; ?>');
         if (targetElement) {
-            const previousSibling = targetElement.previousElementSibling;
-            if (previousSibling && previousSibling.tagName === 'HR') {
-                previousSibling.scrollIntoView();
-            }
+            const navbarHeight = document.querySelector('.navbar').offsetHeight;
+            window.scrollTo({
+                top: targetElement.offsetTop - navbarHeight + 66,
+                behavior: 'smooth'
+            });
         }
     <?php endif; ?>
 

@@ -597,17 +597,43 @@ $currentDay = date('j');
 $shouldScroll = ($sy == $currentYear && $sm == $currentMonth);
 ?>	
 <script>
+function toggleDetailVisibility(day) {
+    const detailElement = document.getElementById('detail' + day);
+    const openElement = document.getElementById('open' + day);
+    const closeElement = document.getElementById('close' + day);
+
+    if (detailElement.classList.contains('d-none')) {
+        detailElement.classList.remove('d-none');
+        detailElement.classList.add('fade-in');
+        openElement.classList.add('d-none');
+        closeElement.classList.remove('d-none');
+        document.getElementById(day).classList.add('highlight');
+    } else {
+        detailElement.classList.add('d-none');
+        openElement.classList.remove('d-none');
+        closeElement.classList.add('d-none');
+        document.getElementById(day).classList.remove('highlight');
+    }
+}
+
+function changeMonth(offset) {
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentYearMonth = urlParams.get('year-month');
+    if (!currentYearMonth) {
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth() + 1;
+        currentYearMonth = `${currentYear}-${currentMonth.toString().padStart(2, '0')}`;
+    }
+    const currentDate = new Date(currentYearMonth);
+    currentDate.setMonth(currentDate.getMonth() + offset);
+    const newYear = currentDate.getFullYear();
+    const newMonth = currentDate.getMonth() + 1;
+    const newYearMonth = `${newYear}-${newMonth.toString().padStart(2, '0')}`;
+    window.location.href = `?year-month=${newYearMonth}`;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    <?php if ($shouldScroll): ?>
-        const targetElement = document.getElementById('<?php echo $currentDay; ?>');
-        if (targetElement) {
-            const navbarHeight = document.querySelector('.navbar').offsetHeight;
-            window.scrollTo({
-                top: targetElement.offsetTop - navbarHeight + 66,
-                behavior: 'smooth'
-            });
-        }
-    <?php endif; ?>
 
     document.querySelectorAll('[id^="open"]').forEach(element => {
         element.addEventListener('click', function() {
@@ -702,43 +728,18 @@ nextButton.addEventListener('mouseout', () => {
             }
         }
     });
+	
+	    <?php if ($shouldScroll): ?>
+        const targetElement = document.getElementById('<?php echo $currentDay; ?>');
+        if (targetElement) {
+            const navbarHeight = document.querySelector('.navbar').offsetHeight;
+            window.scrollTo({
+                top: targetElement.offsetTop - navbarHeight + 66,
+                behavior: 'smooth'
+            });
+        }
+    <?php endif; ?>
 });
-
-function toggleDetailVisibility(day) {
-    const detailElement = document.getElementById('detail' + day);
-    const openElement = document.getElementById('open' + day);
-    const closeElement = document.getElementById('close' + day);
-
-    if (detailElement.classList.contains('d-none')) {
-        detailElement.classList.remove('d-none');
-        detailElement.classList.add('fade-in');
-        openElement.classList.add('d-none');
-        closeElement.classList.remove('d-none');
-        document.getElementById(day).classList.add('highlight');
-    } else {
-        detailElement.classList.add('d-none');
-        openElement.classList.remove('d-none');
-        closeElement.classList.add('d-none');
-        document.getElementById(day).classList.remove('highlight');
-    }
-}
-
-function changeMonth(offset) {
-    const urlParams = new URLSearchParams(window.location.search);
-    let currentYearMonth = urlParams.get('year-month');
-    if (!currentYearMonth) {
-        const currentDate = new Date();
-        const currentYear = currentDate.getFullYear();
-        const currentMonth = currentDate.getMonth() + 1;
-        currentYearMonth = `${currentYear}-${currentMonth.toString().padStart(2, '0')}`;
-    }
-    const currentDate = new Date(currentYearMonth);
-    currentDate.setMonth(currentDate.getMonth() + offset);
-    const newYear = currentDate.getFullYear();
-    const newMonth = currentDate.getMonth() + 1;
-    const newYearMonth = `${newYear}-${newMonth.toString().padStart(2, '0')}`;
-    window.location.href = `?year-month=${newYearMonth}`;
-}
 </script>
 
 <?php include 'footer.php'; ?>	

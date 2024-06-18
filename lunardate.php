@@ -201,16 +201,16 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
             $jsyq = $lunar->getDayJiShen();
 
             $xiongShaCheck = [
-                "月破大耗日吉事少取" => ["月破", "大耗"],
-                "往亡日" => ["往亡"]
+                "【月破大耗日吉事少取】" => ["月破", "大耗"],
+                "【往亡日】" => ["往亡"]
             ];
 
             $jiShenCheck = [
-                "天赦日" => ["天赦"],
-                "天德合日" => ["天德合"],
-                "月德合日" => ["月德合"],
-                "天德日" => ["天德"],
-                "月德日" => ["月德"]
+                '<span class="text-danger">【天赦日】</span>' => ["天赦"],
+                "【天德合日】" => ["天德合"],
+                "【月德合日】" => ["月德合"],
+                "【天德日】" => ["天德"],
+                "【月德日】" => ["月德"]
             ];
 
             foreach ($xiongShaCheck as $message => $conditions) {
@@ -222,7 +222,7 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
                     }
                 }
                 if ($matched) {
-                    echo "【{$message}】";
+                    echo $message;
                 }
             }
 
@@ -261,7 +261,7 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
             foreach ($jiShenCheck as $message => $conditions) {
                 foreach ($conditions as $condition) {
                     if (in_array($condition, $jsyq)) {
-                        echo "【{$message}】";
+                        echo "{$message}";
                         break;
                     }
                 }
@@ -352,7 +352,7 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
                 '亥' => '甲申',
             ];
             if ($dayGanZhi === $zhengBaRules[$lyz]) {
-                echo "【正八座日】";
+                echo '<span class="text-danger">【正八座日】</span>';
             }
 
             // 月相資料

@@ -324,10 +324,10 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
                 echo "【刀砧日】";
             }
             if ($qiLin) {
-                echo "【麒麟日】";
+                echo '<span class="text-danger">【麒麟日】</span>';
             }
             if ($fengHuang) {
-                echo "【鳳凰日】";
+                echo '<span class="text-danger">【鳳凰日】</span>';
             }
 
             // 勿探病

@@ -1,3 +1,34 @@
+<?php
+date_default_timezone_set('Asia/Taipei');
+require '../Lunar.php';
+    use com\nlf\calendar\Lunar;
+    use com\nlf\calendar\Solar;
+	use com\nlf\calendar\LunarMonth;
+function updateCalendar() {
+    $date = new DateTime();
+    $solar = Solar::fromDate($date);
+    $lunar = $solar->getLunar();
+    
+    $lunarYear = $lunar->getYear();
+    $lunarMonth = $lunar->getMonth();
+    $solarYear = $solar->getYear();
+    $solarMonth = $solar->getMonth();
+    $solarDay = $solar->getDay();
+    $solarWeek = $solar->getWeekInChinese();
+	$lunarMonthObj = LunarMonth::fromYm($lunarYear, $lunarMonth);
+
+    $yearStemBranch = $lunar->getYearInGanZhi() . $lunar->getYearShengXiao() . '年';
+    $lunarDate = $lunar->getMonthInChinese() . '月' . $lunar->getDayInChinese() . '日';
+    $lunarMonthSize = $lunarMonthObj->getDayCount() > 29 ? '大' : '小';
+    $lunarBig = '農' . $lunarMonthSize;
+    $luckyActivities = '宜：' . implode('，', $lunar->getDayYi()) . '。';
+    $lunarWeek = '星期' . $solarWeek;
+
+    $luckyActivitiesWrapped = wordwrap($luckyActivities, 45, "\n", true);
+    $lines = explode("\n", $luckyActivitiesWrapped);
+
+    ob_start();
+?>
 <!DOCTYPE html>
 <html lang="zh-TW">
 	<head>
@@ -39,6 +70,13 @@
 
         .st0 { fill: none; }
         .st1 { fill: #1D2088; }
+<?php
+	$fillColor = "#1D2088"; 
+if ($solarWeek === "六" || $solarWeek === "日") {
+    $fillColor = "#D70000";
+}
+echo ".st1 { fill: $fillColor; }";
+?>
         
         /* 合并Noto Serif TC字体样式 */
         .noto-serif {
@@ -72,37 +110,6 @@
     </style>
 </head>
 <body>
-<?php
-date_default_timezone_set('Asia/Taipei');
-require '../Lunar.php';
-    use com\nlf\calendar\Lunar;
-    use com\nlf\calendar\Solar;
-	use com\nlf\calendar\LunarMonth;
-function updateCalendar() {
-    $date = new DateTime();
-    $solar = Solar::fromDate($date);
-    $lunar = $solar->getLunar();
-    
-    $lunarYear = $lunar->getYear();
-    $lunarMonth = $lunar->getMonth();
-    $solarYear = $solar->getYear();
-    $solarMonth = $solar->getMonth();
-    $solarDay = $solar->getDay();
-    $solarWeek = $solar->getWeekInChinese();
-	$lunarMonthObj = LunarMonth::fromYm($lunarYear, $lunarMonth);
-
-    $yearStemBranch = $lunar->getYearInGanZhi() . $lunar->getYearShengXiao() . '年';
-    $lunarDate = $lunar->getMonthInChinese() . '月' . $lunar->getDayInChinese() . '日';
-    $lunarMonthSize = $lunarMonthObj->getDayCount() > 29 ? '大' : '小';
-    $lunarBig = '農' . $lunarMonthSize;
-    $luckyActivities = '宜：' . implode('，', $lunar->getDayYi()) . '。';
-    $lunarWeek = '星期' . $solarWeek;
-
-    $luckyActivitiesWrapped = wordwrap($luckyActivities, 45, "\n", true);
-    $lines = explode("\n", $luckyActivitiesWrapped);
-
-    ob_start();
-    ?>
     <svg version="1.1" id="calendar" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
          viewBox="0 0 306.14 285.04" style="enable-background:new 0 0 306.14 378.04;" xml:space="preserve">
         <rect x="5.67" y="11.89" class="st0" width="60.14" height="23.63"/>

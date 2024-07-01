@@ -1,6 +1,5 @@
 <?php include 'metaseo.php'; ?>
 <meta name="description" content="探索不同年份的春牛芒神服色及其象徵意義，了解每一年圖中描繪的豐收預兆和文化內涵，感受中國傳統藝術的魅力。">
-<link rel="canonical" href="https://lunar.ioi.tw/springox.php" />
   <title><?php
 if (!empty($_GET['year'])) {
     echo htmlspecialchars($_GET['year']) . "年";

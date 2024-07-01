@@ -10,7 +10,6 @@ if(isset($_GET["year-yi"]) && !empty($_GET["year-yi"])) {
 ?>
 <?php include 'metaseo.php'; ?>
 <meta name="description" content="<?php echo $description; ?>">
-<link rel="canonical" href="https://lunar.ioi.tw/yidate.php" />
   <title>農民曆<?php echo $year."年宜".$yi."的日子"; ?></title>
 <?php include 'head.php'; ?>
 <body>

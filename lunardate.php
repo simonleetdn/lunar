@@ -13,7 +13,6 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
 ?>
 <?php include 'metaseo.php'; ?>
 <meta name="description" content="<?php echo $description; ?>">
-<link rel="canonical" href="https://lunar.ioi.tw/" />
 <title><?php echo $title; ?></title>
 <?php include 'head.php'; ?>
 <body>

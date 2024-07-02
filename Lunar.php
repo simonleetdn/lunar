@@ -915,7 +915,7 @@ class TaoUtil
     new TaoFestival('蕭府王爺千秋 （蕭太傅）'),
 ),
 '5-18' => array(
-    new TaoFestival('呂洞賓得道日*'),
+    new TaoFestival('呂洞賓得道日'),
     new TaoFestival('張天師聖誕'),
     new TaoFestival('蓮生活佛聖誕'),
 ),
@@ -923,11 +923,11 @@ class TaoUtil
     new TaoFestival('九天馬恩師聖誕'),
 ),
 '6-1' => array(
-    new TaoFestival('南無彌勒佛陀成佛日*'),
+    new TaoFestival('南無彌勒佛陀成佛日'),
     new TaoFestival('南極長生帝君千秋'),
 ),
 '6-3' => array(
-    new TaoFestival('韋馱護法佛誕*'),
+    new TaoFestival('韋馱護法佛誕'),
 ),
 '6-6' => array(
     new TaoFestival('虎爺聖誕'),

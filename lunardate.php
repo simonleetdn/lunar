@@ -523,10 +523,10 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
                 $jiList = $lunarhour->getTimeJi();
 
                 echo "<br/>【" . ($lunarhour->getTimeTianShenLuck() === "吉" ? '<span class="text-danger">' : '') . $timePeriod . "時(" . sprintf('%02d', $hours[0]) . "-" . sprintf('%02d', $hours[1]) . ")" . $lunarhour->getTimeTianShenLuck();
-                echo "◈天神：" . $lunarhour->getTimeTianShen() . "◈";
-                echo "宜：" . implode('，', $yiList) . ($lunarhour->getTimeTianShenLuck() === "吉" ? '</span>' : '') . "◈";
-                echo "忌：" . implode('，', $jiList) . "◈";
-                echo "沖：" . $timechong . "◈";
+                echo " ◈ 天神：" . $lunarhour->getTimeTianShen() . " ◈ ";
+                echo "宜：" . implode('，', $yiList) . ($lunarhour->getTimeTianShenLuck() === "吉" ? '</span>' : '') . " ◈ ";
+                echo "忌：" . implode('，', $jiList) . " ◈ ";
+                echo "沖：" . $timechong . " ◈ ";
                 echo "煞：" . $timesha;
                 echo "】";
             }

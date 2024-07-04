@@ -1,4 +1,4 @@
 User-agent: *
-Disallow:
+Disallow: /yuangang.php?
 
 Sitemap: https://lunar.ioi.tw/sitemap.php

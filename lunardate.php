@@ -78,16 +78,16 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
         // 迭代每一天
         for ($day = 1; $day <= $daysInMonth; $day++) {
             $gregorianDate = new DateTime("{$year}-{$month}-{$day}");
-            $lunar = Lunar::fromDate($gregorianDate);
             $solar = Solar::fromDate($gregorianDate);
+			$lunar = $solar->getLunar();
+			$foto = Foto::fromLunar($lunar);
+            $tao = Tao::fromLunar($lunar->next(1));
             $sy = $solar->getYear();
             $sm = $solar->getMonth();
             $szm = sprintf('%02d', $solar->getMonth());
             $szd = sprintf('%02d', $solar->getDay());
             $sd = $solar->getDay();
             $td = date('Ynj');
-            $foto = Foto::fromLunar($lunar);
-            $tao = Tao::fromLunar($lunar);
             $ly = $lunar->getYearInGanZhi();
             $lyg = $lunar->getYearGan();
             $lyz = $lunar->getYearZhi();

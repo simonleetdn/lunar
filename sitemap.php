@@ -39,6 +39,13 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
   </url>
 	
   <url>
+    <loc>https://lunar.ioi.tw/ziwei.php</loc>
+    <lastmod>2024-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
     <loc>https://lunar.ioi.tw/calendar/</loc>
     <lastmod>2024-06-03</lastmod>
     <changefreq>daily</changefreq>

@@ -1,0 +1,288 @@
+/* 檔案：ziwei-style.css
+  注意：已移除 body 和 h1 樣式，它們由 ziwei.php 中的 <style> 標籤統一管理。
+*/
+
+/* 控制項樣式 */
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.controls label {
+    font-weight: bold;
+    margin-bottom: 0; /* 覆蓋 bootstrap 預設 margin */
+}
+
+/* 覆蓋 bootstrap 預設樣式，使其更貼合 */
+.controls input[type="date"],
+.controls input[type="text"],
+.controls select,
+.controls button {
+    /* 使用 bootstrap 的 form-control 樣式基礎 */
+    display: inline-block;
+    width: auto; /* 讓寬度自動 */
+    vertical-align: middle;
+    /* 統一樣式 */
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem; /* 配合範本的 1.1rem */
+}
+
+.controls button {
+    background-color: #5a4a78;
+    color: white;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+.controls button:hover {
+    background-color: #43355e;
+}
+
+#chart-container {
+    display: none; /* 預設隱藏，完全不佔空間 */
+}
+
+
+/* 命盤 12 宮格 (核心) */
+#chart-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, auto);
+    gap: 5px;
+    border: 2px solid #5a4a78;
+    background: #fff;
+    max-width: 1200px;
+    margin: 0 auto;
+grid-template-areas:
+        "si   wu   wei  shen"  /* 巳, 午, 未, 申 */
+        "chen center center you"   /* 辰, 中, 中, 酉 */
+        "mao  center center xu"   /* 卯, 中, 中, 戌 */
+        "yin  chou zi   hai"; /* 寅, 丑, 子, 亥 */
+}
+
+/* 命盤基本資料 (中宮) */
+#chart-info {
+    grid-area: center;
+    background: #fff;
+    padding: 20px;
+    margin: 0;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+    border: 1px dashed #ccc;
+}
+/* 調整中宮內的 p 標籤行距 */
+#chart-info p {
+    margin: 5px 0;
+    font-size: 1rem; /* 縮小一點字體，避免中宮太擠 */
+}
+#chart-info h3 {
+    margin-bottom: 15px; /* 增加 h3 下方間距 */
+}
+
+
+.palace {
+    border: 1px solid #ccc;
+    padding: 10px;
+    min-height: 150px;
+    background-color: #fafafa;
+    position: relative;
+    font-size: 14px;
+}
+
+/* 宮位名稱 (命宮、兄弟宮...) */
+.palace-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #5a4a78;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+/* 天干地支 */
+.palace-heavenly-stem {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #999;
+}
+.palace-earthly-branch {
+    position: absolute;
+    bottom: 5px;
+    left: 10px;
+    font-size: 1.2em;
+    color: #999;
+    font-weight: bold;
+}
+
+/* 大限 */
+.palace-decade {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    color: #333;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+/* 星曜 */
+.stars {
+    min-height: 80px;
+}
+
+.star {
+    display: inline-block;
+    margin: 2px;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.star.major { color: #c0392b; }
+.star.minor { color: #2980b9; }
+.star.adjective {
+    color: #27ae60; 
+    font-weight: normal;
+    font-size: 0.9em;
+}
+
+.other-stars {
+    margin-top: 5px;
+    padding-top: 5px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-top: 1px dotted #eee;
+    font-size: 0.9em;
+}
+
+.star.dr-star {
+    display: inline-block;
+    margin-right: 8px;
+    color: #7f8c8d;
+}
+
+/* PNG 下載按鈕 */
+#downloadImageButton {
+    display: none; 
+    background-color: #27ae60;
+}
+#downloadImageButton:hover {
+    background-color: #229954;
+}
+
+/* AI 分析區塊樣式 */
+#ai-analysis-container {
+    display: none; 
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border: 1px solid #eee;
+}
+
+#ai-analysis-container h2 {
+    text-align: center;
+    color: #5a4a78;
+    margin-top: 0;
+}
+
+#ai-analysis-container p {
+    text-align: center;
+    font-size: 1em;
+    color: #666;
+}
+
+#generateAiButton {
+    display: block; 
+    margin: 15px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #3498db; 
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+#generateAiButton:hover {
+    background-color: #2980b9;
+}
+
+#ai-loading {
+    text-align: center;
+    font-weight: bold;
+    color: #666;
+    padding: 20px 0;
+}
+
+#ai-result {
+    position: relative;
+}
+
+/* 一鍵複製按鈕樣式 */
+#copyPromptButton {
+    position: absolute;
+    top: 20px; 
+    right: 20px;
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: #ff9800; 
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#copyPromptButton:hover {
+    background-color: #e68900;
+}
+
+#ai-result pre {
+    background-color: #f4f4f4;
+    padding: 15px;
+    padding-top: 50px; /* 留出空間給按鈕 */
+    border-radius: 5px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    position: relative;
+}
+
+#ai-result h3, #ai-result p {
+    padding-right: 150px; 
+}
+
+
+/* 12 宮位佈局 */
+.palace-yin  { grid-area: yin; }
+.palace-mao  { grid-area: mao; }
+.palace-chen { grid-area: chen; }
+.palace-si   { grid-area: si; }
+.palace-wu   { grid-area: wu; }
+.palace-wei  { grid-area: wei; }
+.palace-shen { grid-area: shen; }
+.palace-you  { grid-area: you; }
+.palace-xu   { grid-area: xu; }
+.palace-hai  { grid-area: hai; }
+.palace-zi   { grid-area: zi; }
+.palace-chou { grid-area: chou; }

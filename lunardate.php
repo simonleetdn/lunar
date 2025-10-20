@@ -38,6 +38,9 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
           <li class="nav-item">
             <a id="yuangang" class="nav-link" href="yuangang.php?birthDateTime=<?php echo date('Y-m-d\TH:i'); ?>">稱骨算命</a>
           </li>
+                     <li class="nav-item">
+             <a id="ziwei" class="nav-link" href="ziwei.php">紫微斗數</a>
+           </li>
           <li class="nav-item">
             <a id="exall" class="nav-link">展開全部</a>
           </li>

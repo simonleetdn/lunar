@@ -23,7 +23,10 @@
         </li>
 		 <li class="nav-item">
             <a id="calendar" class="nav-link" href="/calendar/">日曆(自動更新)</a>
-          </li> 
+          </li>
+           <li class="nav-item">
+             <a id="ziwei" class="nav-link" href="ziwei.php">紫微斗數</a>
+           </li> 
       </ul>
     </div>
 	</div>	  

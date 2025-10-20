@@ -49,7 +49,7 @@ body {
             echo $year.'年'.$month.'月農民曆</a><br/>';
             echo '<a href="yidate.php" class="btn btn-warning mb-4">每年宜日速查</a><br/>';
 			echo '<a href="/calendar/" class="btn btn-warning mb-4">每日自動更新的日曆</a><br/>';
-            echo '<a href="yuangang.php" class="btn btn-warning">袁天罡稱骨算命</a><br/>';
+            echo '<a href="yuangang.php" class="btn btn-warning mb-4">袁天罡稱骨算命</a><br/>';
             echo '<a href="ziwei.php" class="btn btn-warning">紫微斗數線上排盤</a><br/>';
             ?>
           </div>

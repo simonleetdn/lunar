@@ -135,7 +135,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/iztro/dist/iztro.min.js"></script>
 
-<script src="ziwei-app.js?v=1.2" defer></script> 
+<script src="ziwei-app.js?v=1.3" defer></script> 
 
 </body> 
 </html>

@@ -1,15 +1,11 @@
-// 檔案: ziwei-app.js (Bootstrap 深度整合版)
-
 document.addEventListener('DOMContentLoaded', () => {
 
-    // (地支 Pinyin 對照表 - 不變)
     const branchPinyinMap = {
         '寅': 'yin', '卯': 'mao', '辰': 'chen', '巳': 'si',
         '午': 'wu', '未': 'wei', '申': 'shen', '酉': 'you',
         '戌': 'xu', '亥': 'hai', '子': 'zi', '丑': 'chou'
     };
     
-    // (獲取所有 HTML 元素 - 不變)
     const nameInput = document.getElementById('name');
     const birthDateInput = document.getElementById('birthDate');
     const birthTimeInput = document.getElementById('birthTime');
@@ -26,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentAstrolabe = null; 
 
-    // (calculateButton 監聽器 - 不變)
     calculateButton.addEventListener('click', () => {
         const name = nameInput.value || '（未輸入姓名）';
         const solarDate = birthDateInput.value;
@@ -64,12 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    /**
-     * *** 修改：renderChartInfo ***
-     * 將中宮資訊格式化為 Bootstrap Card Body
-     */
     function renderChartInfo(astrolabe, name) {
-        // 使用 .card-body 和 .card-title
         const infoHtml = `
         <div class="card-body text-center">
             <h4 class="card-title">${name} 的命盤</h4>
@@ -85,10 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
         chartInfoDiv.innerHTML = infoHtml;
     }
 
-    /**
-     * *** 修改：renderChartGrid ***
-     * (這個函式在上一步已經 Bootstrap 化了，無需變更)
-     */
     function renderChartGrid(astrolabe) {
         astrolabe.palaces.forEach(palace => {
             const palaceDiv = document.createElement('div');
@@ -134,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // (downloadImageButton 監聽器 - 不變)
     downloadImageButton.addEventListener('click', () => {
         if (!currentAstrolabe) {
             alert('請先排盤！');
@@ -157,7 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // (formatStarsForAI 函式 - 不變)
     function formatStarsForAI(stars) {
         if (!stars || stars.length === 0) {
             return '無';
@@ -174,10 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }).join('、');
     }
 
-    /**
-     * *** 修改：generateAiButton 監聽器 ***
-     * 將 AI 結果的 HTML 也改為 Bootstrap 樣式
-     */
     generateAiButton.addEventListener('click', () => {
         if (!currentAstrolabe) {
             alert('請先排盤！');
@@ -192,7 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
             aiLoading.style.display = 'none';
             generateAiButton.style.display = 'block';
 
-            // (prompt 產生邏輯 - 不變)
             let prompt = `
 # 角色
 你是一位精通現代紫微斗數的命理大師，擅長用友善、鼓勵且易於理解的語言來分析命盤。
@@ -231,17 +210,17 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             prompt += `
 # 分析要求
-(分析要求內容不變...)
-1.  **[總論]**：...
-2.  **[性格與才能]**：...
-3.  **[事業與工作]**：...
-4.  **[財富與理財]**：...
-5.  **[感情與人際]**：...
-6.  **[健康與關注重點]**：...
-7.  **[總結建議]**：...
+請根據以上完整的命盤資料，為我分析以下幾個面向：
+
+1.  **[總論]**：我的整體格局是什麼？（例如：殺破狼、機月同梁等），我的命宮和身宮組合，揭示了我的先天性格與後天發展的核心特質是什麼？
+2.  **[性格與才能]**：深入分析我的命宮與福德宮，我的優點和缺點分別是什麼？我有哪些潛在的天賦？
+3.  **[事業與工作]**：分析我的官祿宮與財帛宮，我適合從事哪方面的工作？（例如：創業、穩定上班、技術型、管理型等）。我未來事業發展的潛力如何？
+4.  **[財富與理財]**：分析我的財帛宮與田宅宮，我的財運如何？我適合哪種理財或投資方式？
+5.  **[感情與人際]**：分析我的夫妻宮與僕役宮（朋友宮），我的感情觀是什麼？我適合什麼樣的伴侶？我的人際關係狀況如何？
+6.  **[健康與關注重點]**：分析我的疾厄宮與父母宮（相貌宮），我需要注意哪些先天的健康問題？
+7.  **[總結建議]**：綜合以上所有分析，請給我 3 個最關鍵的人生建議，幫助我揚長避短。
 `;
             
-            // *** 修改：AI 結果的 HTML ***
             aiResult.innerHTML = `
                 <button id="copyPromptButton" class="btn btn-secondary btn-sm" style="position: absolute; top: 1rem; right: 1rem;">複製提示詞</button>
                 
@@ -256,13 +235,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 <pre class="pre-scrollable bg-light p-3" style="max-height: 400px;"><code>${prompt.trim()}</code></pre>
             `;
 
-        }, 1500); // 模擬 1.5 秒的生成時間
+        }, 1500);
     });
 
 
-    // (aiAnalysisContainer 監聽器，用於 "一鍵複製" - 不變)
     aiAnalysisContainer.addEventListener('click', (event) => {
-        // 監聽 ID，所以按鈕樣式改變不影響
         if (event.target.id === 'copyPromptButton') {
             const preBlock = aiResult.querySelector('pre');
             if (preBlock) {
@@ -271,7 +248,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     .then(() => {
                         const button = event.target;
                         button.textContent = '已複製！';
-                        // 改為 Bootstrap 成功樣式
                         button.classList.remove('btn-secondary');
                         button.classList.add('btn-success');
                         

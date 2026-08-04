@@ -31,7 +31,7 @@
             </div>
             <div class="col-md-3">
                     
-                    <a class="text-light" href="springox.php">春牛芒神服色</a>
+                    <a class="text-light" href="springox.php?year=<?php echo date('Y'); ?>">春牛芒神服色</a>
 
             </div>
             </div>

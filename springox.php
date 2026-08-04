@@ -24,6 +24,9 @@ if (!empty($_GET['year'])) {
 		  <li class="nav-item">
           <a id="yidate" class="nav-link" href="yidate.php">每年宜日速查</a>
         </li>
+        		  <li class="nav-item">
+            <a id="jieqi" class="nav-link" href="jieqi.php">節氣速查</a>
+          </li>
 		  <li class="nav-item">
             <a id="calendar" class="nav-link" href="/calendar/">日曆(自動更新)</a>
           </li>

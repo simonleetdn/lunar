@@ -64,7 +64,23 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <?php
+        
+      </div>
+    </div>
+  </div>
+  <div class="sticky-top" style="top: 50px; background-color: white; z-index: 1020;">
+    <div class="container">
+      <div class="row">
+      <div class="col-md-12">
+        <h2 id='page-title' class='mt-3 mb-3'><?php echo "{$year}年 {$month}月"; ?></h2>
+      </div>
+    </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+      <?php
         // 引入 Lunar.php 所需的類別
         require 'Lunar.php';
         use com\nlf\calendar\Foto;
@@ -72,9 +88,6 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
         use com\nlf\calendar\LunarYear;
         use com\nlf\calendar\Lunar;
         use com\nlf\calendar\Solar;
-
-        echo "<h2 id='page-title' class='mt-6'>{$year}年 {$month}月</h2>";
-
         // 獲取當月天數
         $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 
@@ -711,25 +724,7 @@ nextButton.addEventListener('mouseout', () => {
 		elementsDay.forEach(element => element.classList.add('highlight'));
     });
 
-    const pageTitle = document.getElementById("page-title");
-    const navbarBrand = document.querySelector(".navbar-brand");
 
-    window.addEventListener("scroll", () => {
-        const pageTitleRect = pageTitle.getBoundingClientRect();
-        if (pageTitleRect.top < 0 && pageTitleRect.bottom < 0) {
-            if (!navbarBrand.querySelector(".scroll-title")) {
-                const scrollTitle = document.createElement("span");
-                scrollTitle.className = "scroll-title";
-                scrollTitle.textContent = " " + pageTitle.textContent;
-                navbarBrand.appendChild(scrollTitle);
-            }
-        } else if (pageTitleRect.top >= 0 && pageTitleRect.bottom >= 0) {
-            const scrollTitle = navbarBrand.querySelector(".scroll-title");
-            if (scrollTitle) {
-                scrollTitle.remove();
-            }
-        }
-    });
 	
 	    <?php if ($shouldScroll): ?>
         const targetElement = document.getElementById('<?php echo $currentDay; ?>');

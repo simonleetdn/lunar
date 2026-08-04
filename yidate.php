@@ -95,8 +95,20 @@ require 'Lunar.php';
 use com\nlf\calendar\Lunar;
 use com\nlf\calendar\Solar;
 
-echo "<h2>【" . $year . "年<span id='page-title'>宜" . $yi . "的日子</span>】</h2>";
-
+      </div>
+    </div>
+  </div>
+  <div class="sticky-top" style="top: 50px; background-color: white; z-index: 1020;">
+    <div class="container">
+      <div class="row">
+      <div class="col-md-12">
+        <h2 class='mt-3 mb-3'>【<?php echo $year . "年<span id='page-title'>宜" . $yi . "的日子</span>】"; ?></h2>
+      </div>
+    </div>
+    </div>
+  </div>
+  <div class="container"><div class="row"><div class="col-md-12">
+<?php
 // 開始日期
 $startDate = new DateTime("$year-01-01");
 
@@ -216,29 +228,6 @@ document.getElementById('year').addEventListener('keypress', function(event) {
     handleYearChange(); // 呼叫跳轉函數
   }
 });
-
-document.addEventListener("DOMContentLoaded", function() {
-  var pageTitle = document.getElementById("page-title");
-  var navbarBrand = document.querySelector(".navbar-brand");
-  
-  window.addEventListener("scroll", function() {
-    var pageTitleRect = pageTitle.getBoundingClientRect();
-    
-    if (pageTitleRect.top < 0 && pageTitleRect.bottom < 0) {
-      if (!navbarBrand.querySelector(".scroll-title")) {
-        var scrollTitle = document.createElement("span");
-        scrollTitle.className = "scroll-title";
-        scrollTitle.textContent = pageTitle.textContent;
-        navbarBrand.appendChild(scrollTitle);
-      }
-    } else if (pageTitleRect.top >= 0 && pageTitleRect.bottom >= 0) {
-      var scrollTitle = navbarBrand.querySelector(".scroll-title");
-      if (scrollTitle) {
-        scrollTitle.remove();
-      }
-    }
-  });
-});	
 </script>
 	
 <?php include 'footer.php'; ?>	    	

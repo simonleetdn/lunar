@@ -11,6 +11,7 @@
             <div class="col-md-3">
                     <a class="text-light" href="lunardate.php">農民曆首頁</a><br>
                     <a class="text-light" href="yidate.php">每年宜日速查</a><br>
+                    <a class="text-light" href="jieqi.php">節氣速查</a><br>
                     
             </div>
             <div class="col-md-3">

@@ -95,9 +95,9 @@ require 'Lunar.php';
 use com\nlf\calendar\Lunar;
 use com\nlf\calendar\Solar;
 
+?>
       </div>
     </div>
-  </div>
   <div class="sticky-top" style="top: 50px; background-color: white; z-index: 1020;">
     <div class="container">
       <div class="row">

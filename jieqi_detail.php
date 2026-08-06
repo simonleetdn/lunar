@@ -26,12 +26,14 @@ $jieqi_info = [
     '大寒' => ['度數' => '300', '意義' => '天氣寒冷極致，寒冷的頂峰'],
 ];
 
-$jieqiTable = $lunar->getJieQiTable();
-$jieqiSolar = null;
-foreach ($jieqiTable as $name => $solarDate) {
-    if (convertJieQiName($name) === $JieQi) {
-        $jieqiSolar = $solarDate;
-        break;
+$jieqiSolar = isset($jieqiSolar) ? $jieqiSolar : null;
+if ($jieqiSolar === null) {
+    $jieqiTable = $lunar->getJieQiTable();
+    foreach ($jieqiTable as $name => $solarDate) {
+        if (convertJieQiName($name) === $JieQi) {
+            $jieqiSolar = $solarDate;
+            break;
+        }
     }
 }
 

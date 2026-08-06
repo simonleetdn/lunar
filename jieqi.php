@@ -68,13 +68,47 @@ $description = "查詢" . $year . "年二十四節氣的準確日期時間。";
         require 'Lunar.php';
         use com\nlf\calendar\Lunar;
 
+        // 將節氣的英文/拼音 key 轉換為中文名稱
+        if (!function_exists('convertJieQiName')) {
+            function convertJieQiName($name) {
+                $map = [
+                    'DONG_ZHI' => '冬至', 'DA_HAN' => '大寒', 'XIAO_HAN' => '小寒',
+                    'LI_CHUN' => '立春', 'DA_XUE' => '大雪', 'YU_SHUI' => '雨水',
+                    'JING_ZHE' => '驚蟄', 'CHUN_FEN' => '春分', 'QING_MING' => '清明',
+                    'GU_YU' => '穀雨', 'LI_XIA' => '立夏', 'XIAO_MAN' => '小滿',
+                    'MANG_ZHONG' => '芒種', 'XIA_ZHI' => '夏至', 'XIAO_SHU' => '小暑',
+                    'DA_SHU' => '大暑', 'LI_QIU' => '立秋', 'CHU_SHU' => '處暑',
+                    'BAI_LU' => '白露', 'QIU_FEN' => '秋分', 'HAN_LU' => '寒露',
+                    'SHUANG_JIANG' => '霜降', 'LI_DONG' => '立冬', 'XIAO_XUE' => '小雪',
+                    'DA_XUE' => '大雪'
+                ];
+                if (array_key_exists($name, $map)) {
+                    return $map[$name];
+                }
+                return $name;
+            }
+        }
+
         // 獲取該年的第一個農曆物件以取得節氣表
         $lunar = Lunar::fromYmd($year, 1, 1);
         $jieqiTable = $lunar->getJieQiTable();
 
-        // 確保節氣按時間順序顯示
-        uksort($jieqiTable, function($a, $b) use ($jieqiTable) {
-            return $jieqiTable[$a]->getJulianDay() <=> $jieqiTable[$b]->getJulianDay();
+        // 只保留該公曆年份內的節氣，並以中文名稱去重，避免同一節氣被英文/中文別名重複顯示
+        $filteredJieqiTable = [];
+        foreach ($jieqiTable as $jieqiName => $solar) {
+            if ($solar->getYear() != $year) {
+                continue;
+            }
+
+            $displayName = convertJieQiName($jieqiName);
+            if (!isset($filteredJieqiTable[$displayName])) {
+                $filteredJieqiTable[$displayName] = $solar;
+            }
+        }
+
+        // Ensure filteredJieqiTable is sorted by time
+        uksort($filteredJieqiTable, function($a, $b) use ($filteredJieqiTable) {
+            return $filteredJieqiTable[$a]->getJulianDay() <=> $filteredJieqiTable[$b]->getJulianDay();
         });
 
         // 找到當前的節氣
@@ -82,7 +116,7 @@ $description = "查詢" . $year . "年二十四節氣的準確日期時間。";
         if ($year == date("Y")) {
             $now = new DateTime();
             $previousSolar = null;
-            foreach ($jieqiTable as $jieqiName => $solar) {
+             foreach ($filteredJieqiTable as $jieqiName => $solar) {
                 $solarDateTime = new DateTime($solar->toYmdHms());
                 if ($solarDateTime > $now) {
                     break;
@@ -91,23 +125,7 @@ $description = "查詢" . $year . "年二十四節氣的準確日期時間。";
             }
         }
 
-        // 將節氣的英文/拼音 key 轉換為中文名稱
-        if (!function_exists('convertJieQiName')) {
-            function convertJieQiName($name) {
-                $map = [
-                    'DONG_ZHI' => '冬至', 'DA_HAN' => '大寒', 'XIAO_HAN' => '小寒',
-                    'LI_CHUN' => '立春', 'DA_XUE' => '大雪', 'YU_SHUI' => '雨水',
-                    'JING_ZHE' => '驚蟄'
-                ];
-                if (array_key_exists($name, $map)) {
-                    return $map[$name];
-                }
-                // 如果不在 map 中，表示它本身就是中文
-                return $name;
-            }
-        }
-
-        foreach ($jieqiTable as $jieqiName => $solar) {
+        foreach ($filteredJieqiTable as $jieqiName => $solar) {
             $JieQi = convertJieQiName($jieqiName);
             $isCurrent = ($currentJieQiName === $jieqiName);
             if ($isCurrent) {
@@ -118,6 +136,7 @@ $description = "查詢" . $year . "年二十四節氣的準確日期時間。";
             // 使用我們在上方定義的 convertJieQiName 函數
             $lunarDate = $solar->getLunar(); // 獲取農曆日期以供顯示
             echo '<div class="row"><div class="col-md-12"><h3 class="float-left">【' . $JieQi . '】</h3>【農曆：' . $lunarDate->getMonthInChinese() . '月' . $lunarDate->getDayInChinese() . '】';
+            $jieqiSolar = $solar;
             include 'jieqi_detail.php';
 echo '</div></div>';
             if ($isCurrent) {

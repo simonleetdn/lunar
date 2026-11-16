@@ -38,7 +38,7 @@
             <div class="row mt-4">
             <div class="col-md-12">
                 <p>
-                    網站設計：<a href="mailto:simon@ioi.tw" class="text-light">Simon Lee</a> . <a href="https://ioi.tw/#donate" target="_blank" rel="noopener">請喝飲料</a>
+                    網站設計：<a href="mailto:simon@ioi.tw" class="text-light">Simon Lee</a> . <a class="text-light" href="https://ioi.tw/#donate" target="_blank" rel="noopener">請喝飲料</a>
                 </p>
             </div>
         </div>

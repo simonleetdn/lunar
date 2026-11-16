@@ -488,7 +488,12 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
 
             echo "<span class='$textColor'>【宜：" . implode("，", $yiList) . "】</span>";
             echo "【忌：" . implode("，", $jiList) . "】";
-            echo "【沖：" . $lunar->getDayChongDesc() . "】【煞：" . $lunar->getDaySha() . "】";
+// 計算沖煞歲數（虛歲）
+$jiaZi = ['甲子','乙丑','丙寅','丁卯','戊辰','己巳','庚午','辛未','壬申','癸酉','甲戌','乙亥','丙子','丁丑','戊寅','己卯','庚辰','辛巳','壬午','癸未','甲申','乙酉','丙戌','丁亥','戊子','己丑','庚寅','辛卯','壬辰','癸巳','甲午','乙未','丙申','丁酉','戊戌','己亥','庚子','辛丑','壬寅','癸卯','甲辰','乙巳','丙午','丁未','戊申','己酉','庚戌','辛亥','壬子','癸丑','甲寅','乙卯','丙辰','丁巳','戊午','己未','庚申','辛酉','壬戌','癸亥'];
+$age1 = (array_search($ly, $jiaZi) - array_search($lunar->getDayChongGan() . $lunar->getDayChong(), $jiaZi) + 60) % 60 + 1;
+$ageText = ($age1 + 60 <= 105) ? "{$age1}," . ($age1 + 60) . "歲" : "{$age1}歲";
+
+echo "【沖：" . $lunar->getDayChongDesc() . " " . $ageText . "】【煞：" . $lunar->getDaySha() . "】";
             echo "【胎神：" . $lunar->getDayPositionTai() . "】";
             echo "【財神：" . $lunar->getDayPositionCaiDesc() . "】";
             echo "【喜神：" . $lunar->getPositionXiDesc() . "】";

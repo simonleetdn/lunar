@@ -78,7 +78,17 @@ if (!function_exists('parseSpringOx')) {
 }
 
 $oxData = parseSpringOx($oxcontent);
-$gzTitle = $ly ?? ($ganZhiYear ?? '');
+$gzTitle = '';
+if (!empty($ly)) {
+    $gzTitle = $ly;
+} elseif (!empty($ganZhiYear)) {
+    $gzTitle = $ganZhiYear;
+} elseif (isset($lunar) && method_exists($lunar, 'getYearInGanZhi')) {
+    $gzTitle = $lunar->getYearInGanZhi();
+}
+$gzChars = preg_split('//u', $gzTitle, -1, PREG_SPLIT_NO_EMPTY);
+$gz1 = $gzChars[0] ?? '';
+$gz2 = $gzChars[1] ?? '';
 $uid = 'ox_' . uniqid(); // 避免同頁面多次載入時 ID 衝突
 ?>
 
@@ -136,8 +146,8 @@ $uid = 'ox_' . uniqid(); // 避免同頁面多次載入時 ID 衝突
     <g transform="translate(598, 30)">
       <rect x="0" y="0" width="48" height="156" fill="#FAF2DF" stroke="#9E2A22" stroke-width="2"/>
       <rect x="3" y="3" width="42" height="150" fill="none" stroke="#9E2A22" stroke-width="0.8"/>
-      <text x="24" y="26" text-anchor="middle" font-family="'Noto Serif TC', 'PMingLiU', serif" font-size="18" font-weight="bold" fill="#2B1B12"><?php echo mb_substr($gzTitle, 0, 1); ?></text>
-      <text x="24" y="50" text-anchor="middle" font-family="'Noto Serif TC', 'PMingLiU', serif" font-size="18" font-weight="bold" fill="#2B1B12"><?php echo mb_substr($gzTitle, 1, 1); ?></text>
+      <text x="24" y="26" text-anchor="middle" font-family="'Noto Serif TC', 'PMingLiU', serif" font-size="18" font-weight="bold" fill="#2B1B12"><?php echo htmlspecialchars($gz1); ?></text>
+      <text x="24" y="50" text-anchor="middle" font-family="'Noto Serif TC', 'PMingLiU', serif" font-size="18" font-weight="bold" fill="#2B1B12"><?php echo htmlspecialchars($gz2); ?></text>
       <text x="24" y="74" text-anchor="middle" font-family="'Noto Serif TC', 'PMingLiU', serif" font-size="18" font-weight="bold" fill="#2B1B12">年</text>
       <text x="24" y="98" text-anchor="middle" font-family="'Noto Serif TC', 'PMingLiU', serif" font-size="18" font-weight="bold" fill="#9E2A22">春</text>
       <text x="24" y="122" text-anchor="middle" font-family="'Noto Serif TC', 'PMingLiU', serif" font-size="18" font-weight="bold" fill="#9E2A22">牛</text>

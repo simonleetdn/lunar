@@ -19,6 +19,7 @@ if (!function_exists('parseSpringOx')) {
             return $default;
         };
 
+        // 1. 春牛顏色與狀態
         $oxHead  = $getColor('/牛頭([青綠绿紅红赤黃黄白黑皂])/u', '#C83228');
         $oxBody  = $getColor('/牛身([青綠绿紅红赤黃黄白黑皂])/u', '#C83228');
         $oxBelly = $getColor('/牛腹([青綠绿紅红赤黃黄白黑皂])/u', '#2B2927');
@@ -30,6 +31,7 @@ if (!function_exists('parseSpringOx')) {
         $mouthOpen = (mb_strpos($text, '牛口開') !== false || mb_strpos($text, '牛口开') !== false);
         $tailDir   = (mb_strpos($text, '牛尾右繳') !== false || mb_strpos($text, '牛尾右缴') !== false) ? 'right' : 'left';
 
+        // 2. 芒神服色、髮飾與鞋履
         $msClothes = $getColor('/([青綠绿紅红赤黃黄白黑皂])衣/u', '#C83228');
         $msBelt    = $getColor('/繫([青綠绿紅红赤黃黄白黑皂])腰帶/u', '#2B2927');
 
@@ -49,13 +51,28 @@ if (!function_exists('parseSpringOx')) {
             mb_strpos($text, '赤腳') === false
         );
 
-        $posX = 95;
-        if (mb_strpos($text, '牛後') !== false || mb_strpos($text, '牛后') !== false || mb_strpos($text, '晚閒') !== false || mb_strpos($text, '晚闲') !== false) {
-            $posX = 505;
-        } elseif (mb_strpos($text, '並肩') !== false || mb_strpos($text, '并肩') !== false || mb_strpos($text, '平立') !== false || mb_strpos($text, '牛中') !== false) {
-            $posX = 300;
+        // 3. 芒神六方位精準站位（左/右 × 前/中/後）
+        // 春牛朝左站立：「牛左」在前景（近側），「牛右」在背景（遠側，被牛身遮擋）
+        $side = (mb_strpos($text, '牛右') !== false) ? 'right' : 'left';
+        $zone = 'front';
+
+        if (mb_strpos($text, '牛後') !== false || mb_strpos($text, '牛后') !== false || mb_strpos($text, '牛左後') !== false || mb_strpos($text, '牛右後') !== false || mb_strpos($text, '晚閒') !== false || mb_strpos($text, '晚闲') !== false) {
+            $zone = 'back';
+        } elseif (mb_strpos($text, '並肩') !== false || mb_strpos($text, '并肩') !== false || mb_strpos($text, '平立') !== false || mb_strpos($text, '牛中') !== false || mb_strpos($text, '牛左中') !== false || mb_strpos($text, '牛右中') !== false) {
+            $zone = 'middle';
         }
 
+        $posMap = [
+            'front_left'   => 95,   // 牛左前邊（牛頭前方、前景）
+            'front_right'  => 145,  // 牛右前邊（牛頭後方、遠景）
+            'middle_left'  => 295,  // 牛左中（牛腹前方、前景並肩）
+            'middle_right' => 295,  // 牛右中（牛背後方、遠景露上半身）
+            'back_left'    => 495,  // 牛左後邊（牛尾前方、前景）
+            'back_right'   => 485   // 牛右後邊（牛尾後方、遠景）
+        ];
+        $posX = $posMap[$zone . '_' . $side] ?? 95;
+
+        // 4. 芒神年齡相貌
         $age = 'young';
         if (mb_strpos($text, '老人') !== false) {
             $age = 'old';
@@ -71,13 +88,100 @@ if (!function_exists('parseSpringOx')) {
             ],
             'mangshen' => [
                 'clothes' => $msClothes, 'belt' => $msBelt, 'earCover' => $earCover,
-                'hasShoes' => $hasShoes, 'posX' => $posX, 'age' => $age
+                'hasShoes' => $hasShoes, 'posX' => $posX, 'side' => $side, 'age' => $age
             ]
         ];
     }
 }
 
+if (!function_exists('renderMangshenSvg')) {
+    function renderMangshenSvg($oxData) {
+        $isRight = ($oxData['mangshen']['side'] === 'right');
+        $baseScale = ($oxData['mangshen']['age'] === 'child') ? 0.86 : 1.0;
+        $msScale = $isRight ? ($baseScale * 0.93) : $baseScale;
+        $msY = $isRight ? 116 : (($oxData['mangshen']['age'] === 'child') ? 162 : 132);
+        $ec = $oxData['mangshen']['earCover'];
+        ?>
+        <g transform="translate(<?php echo $oxData['mangshen']['posX']; ?>, <?php echo $msY; ?>) scale(<?php echo $msScale; ?>)">
+          <!-- 褲管 -->
+          <path d="M 34 156 L 32 198 L 46 198 L 48 160 Z" fill="#3B4D59" stroke="#2B1B12" stroke-width="2.2"/>
+          <path d="M 52 160 L 54 198 L 68 198 L 66 156 Z" fill="#3B4D59" stroke="#2B1B12" stroke-width="2.2"/>
+
+          <!-- 鞋履或赤腳 -->
+          <?php if (!$oxData['mangshen']['hasShoes']): ?>
+            <path d="M 33 198 L 24 212 L 45 214 L 45 198 Z" fill="#F2C8A2" stroke="#2B1B12" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M 55 198 L 55 214 L 76 212 L 67 198 Z" fill="#F2C8A2" stroke="#2B1B12" stroke-width="2" stroke-linejoin="round"/>
+          <?php else: ?>
+            <rect x="32" y="182" width="14" height="18" fill="#E8DEC8" stroke="#2B1B12" stroke-width="1.8"/>
+            <line x1="32" y1="188" x2="46" y2="191" stroke="#2B1B12" stroke-width="1.4"/>
+            <line x1="32" y1="194" x2="46" y2="197" stroke="#2B1B12" stroke-width="1.4"/>
+            <rect x="54" y="182" width="14" height="18" fill="#E8DEC8" stroke="#2B1B12" stroke-width="1.8"/>
+            <line x1="54" y1="188" x2="68" y2="191" stroke="#2B1B12" stroke-width="1.4"/>
+            <line x1="54" y1="194" x2="68" y2="197" stroke="#2B1B12" stroke-width="1.4"/>
+            <path d="M 32 200 L 21 213 L 46 215 L 46 200 Z" fill="#2B2927" stroke="#2B1B12" stroke-width="2"/>
+            <path d="M 54 200 L 54 215 L 79 213 L 68 200 Z" fill="#2B2927" stroke="#2B1B12" stroke-width="2"/>
+          <?php endif; ?>
+
+          <!-- 衣袍與腰帶 -->
+          <path d="M 34 58 L 66 58 L 84 88 L 74 104 L 68 92 L 74 166 L 26 166 L 32 92 L 26 104 L 16 88 Z" fill="<?php echo $oxData['mangshen']['clothes']; ?>" stroke="#2B1B12" stroke-width="2.5" stroke-linejoin="round"/>
+          <path d="M 38 58 L 54 84 M 62 58 L 44 88" stroke="#2B1B12" stroke-width="2" fill="none"/>
+          <path d="M 40 120 L 36 162 M 52 122 L 52 163 M 62 120 L 65 162" stroke="#2B1B12" stroke-width="1.5" opacity="0.45"/>
+
+          <rect x="31" y="104" width="38" height="10" rx="2" fill="<?php echo $oxData['mangshen']['belt']; ?>" stroke="#2B1B12" stroke-width="2"/>
+          <path d="M 45 114 L 41 152 L 47 148 L 50 114 M 53 114 L 58 150 L 52 147 L 50 114" fill="<?php echo $oxData['mangshen']['belt']; ?>" stroke="#2B1B12" stroke-width="1.6"/>
+
+          <circle cx="22" cy="98" r="5.5" fill="#F2C8A2" stroke="#2B1B12" stroke-width="1.8"/>
+          <circle cx="78" cy="98" r="5.5" fill="#F2C8A2" stroke="#2B1B12" stroke-width="1.8"/>
+
+          <!-- 頭部、雙髻與罨耳 -->
+          <path d="M 32 32 C 32 16, 68 16, 68 32 Z" fill="#2B2927"/>
+          <circle cx="38" cy="13" r="6.5" fill="#2B2927" stroke="#2B1B12" stroke-width="1.8"/>
+          <circle cx="62" cy="13" r="6.5" fill="#2B2927" stroke="#2B1B12" stroke-width="1.8"/>
+          <line x1="33" y1="17" x2="43" y2="17" stroke="#C83228" stroke-width="2"/>
+          <line x1="57" y1="17" x2="67" y2="17" stroke="#C83228" stroke-width="2"/>
+
+          <path d="M 33 28 C 33 48, 42 57, 50 57 C 58 57, 67 48, 67 28 C 67 21, 33 21, 33 28 Z" fill="#F2C8A2" stroke="#2B1B12" stroke-width="2.2"/>
+
+          <?php if ($ec === 'full' || $ec === 'lift_left'): ?>
+            <path d="M 33 26 L 26 28 L 26 46 L 33 44 Z" fill="#4A3B32" stroke="#2B1B12" stroke-width="1.8"/>
+          <?php elseif ($ec === 'lift_right'): ?>
+            <path d="M 33 28 L 24 22 L 28 12 L 35 20 Z" fill="#4A3B32" stroke="#2B1B12" stroke-width="1.8"/>
+          <?php endif; ?>
+
+          <?php if ($ec === 'full' || $ec === 'lift_right'): ?>
+            <path d="M 67 26 L 74 28 L 74 46 L 67 44 Z" fill="#4A3B32" stroke="#2B1B12" stroke-width="1.8"/>
+          <?php elseif ($ec === 'lift_left'): ?>
+            <path d="M 67 28 L 76 22 L 72 12 L 65 20 Z" fill="#4A3B32" stroke="#2B1B12" stroke-width="1.8"/>
+          <?php endif; ?>
+
+          <!-- 五官與鬍鬚 -->
+          <path d="M 38 31 Q 42 28 46 31 M 54 31 Q 58 28 62 31" stroke="#2B1B12" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <circle cx="42" cy="35" r="2" fill="#2B1B12"/>
+          <circle cx="58" cy="35" r="2" fill="#2B1B12"/>
+          <path d="M 50 35 L 48 43 L 52 43" stroke="#2B1B12" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+          <path d="M 46 49 Q 50 51 54 49" stroke="#9E2A22" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+          <?php if ($oxData['mangshen']['age'] === 'old'): ?>
+            <path d="M 42 52 C 40 68, 46 82, 50 86 C 54 82, 60 68, 58 52 Q 50 56 42 52 Z" fill="#F4EFE4" stroke="#7A736B" stroke-width="1.5"/>
+          <?php endif; ?>
+
+          <!-- 柳枝鞭杖與五色絲結 -->
+          <path d="M 78 96 Q 98 62 112 24" stroke="#6E4726" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M 96 62 Q 108 54 114 60 Q 104 65 96 62 Z" fill="#4E6E38"/>
+          <path d="M 105 42 Q 94 34 89 40 Q 98 45 105 42 Z" fill="#4E6E38"/>
+          <path d="M 112 24 C 122 32, 124 44, 118 52" stroke="#2B6E4B" stroke-width="2" fill="none"/>
+          <path d="M 112 24 C 126 28, 130 40, 125 48" stroke="#C83228" stroke-width="2" fill="none"/>
+          <path d="M 112 24 C 118 36, 116 48, 110 55" stroke="#E5A922" stroke-width="2" fill="none"/>
+          <path d="M 112 24 C 128 22, 134 32, 131 42" stroke="#F4EFE4" stroke-width="2" fill="none"/>
+          <path d="M 112 24 C 114 38, 110 48, 104 54" stroke="#2B2927" stroke-width="1.8" fill="none"/>
+        </g>
+        <?php
+    }
+}
+
 $oxData = parseSpringOx($oxcontent);
+
+// 安全取得干支年份（支援 $ly / $ganZhiYear / $lunar）
 $gzTitle = '';
 if (!empty($ly)) {
     $gzTitle = $ly;
@@ -89,13 +193,13 @@ if (!empty($ly)) {
 $gzChars = preg_split('//u', $gzTitle, -1, PREG_SPLIT_NO_EMPTY);
 $gz1 = $gzChars[0] ?? '';
 $gz2 = $gzChars[1] ?? '';
-$uid = 'ox_' . uniqid(); // 避免同頁面多次載入時 ID 衝突
+$uid = 'ox_' . uniqid();
 ?>
 
 <style>
   .springox-widget-box {
     width: 100%;
-    max-width: 460px; /* 控制圖片在桌面版的寬度，可依喜好調整 */
+    max-width: 460px;
     margin: 12px auto;
     background: #FAF3E3;
     border: 2px solid #9E2A22;
@@ -103,11 +207,10 @@ $uid = 'ox_' . uniqid(); // 避免同頁面多次載入時 ID 衝突
     padding: 8px;
     box-shadow: 0 3px 10px rgba(60, 35, 15, 0.12);
   }
-  /* 螢幕寬度大於 768px 時，圖片靠右並讓文字環繞在左側 */
   @media (min-width: 768px) {
     .springox-widget-box {
       float: right;
-      margin: 4px 0 12px 20px; /* 上 4px、右 0、下 12px、左 20px（與左側文字保持間距） */
+      margin: 4px 0 12px 20px;
     }
   }
   .springox-widget-box svg {
@@ -163,6 +266,9 @@ $uid = 'ox_' . uniqid(); // 避免同頁面多次載入時 ID 衝突
       <text x="24" y="179" text-anchor="middle" font-family="'Noto Serif TC', serif" font-size="10" font-weight="bold" fill="#FAF2DF">迎春</text>
       <text x="24" y="190" text-anchor="middle" font-family="'Noto Serif TC', serif" font-size="10" font-weight="bold" fill="#FAF2DF">大吉</text>
     </g>
+
+    <!-- 遠側圖層：若芒神立於牛右邊，先畫芒神 -->
+    <?php if ($oxData['mangshen']['side'] === 'right') renderMangshenSvg($oxData); ?>
 
     <!-- 春牛圖層 -->
     <g transform="translate(230, 128)">
@@ -228,85 +334,8 @@ $uid = 'ox_' . uniqid(); // 避免同頁面多次載入時 ID 衝突
       <circle cx="-58" cy="126" r="5" fill="<?php echo $oxData['ox']['rope']; ?>" stroke="#2B1B12" stroke-width="1.5"/>
     </g>
 
-    <!-- 芒神圖層 -->
-    <?php
-      $msScale = ($oxData['mangshen']['age'] === 'child') ? 0.86 : 1.0;
-      $msY = ($oxData['mangshen']['age'] === 'child') ? 162 : 132;
-      $ec = $oxData['mangshen']['earCover'];
-    ?>
-    <g transform="translate(<?php echo $oxData['mangshen']['posX']; ?>, <?php echo $msY; ?>) scale(<?php echo $msScale; ?>)">
-      <!-- 褲管 -->
-      <path d="M 34 156 L 32 198 L 46 198 L 48 160 Z" fill="#3B4D59" stroke="#2B1B12" stroke-width="2.2"/>
-      <path d="M 52 160 L 54 198 L 68 198 L 66 156 Z" fill="#3B4D59" stroke="#2B1B12" stroke-width="2.2"/>
-
-      <!-- 鞋履或赤腳 -->
-      <?php if (!$oxData['mangshen']['hasShoes']): ?>
-        <path d="M 33 198 L 24 212 L 45 214 L 45 198 Z" fill="#F2C8A2" stroke="#2B1B12" stroke-width="2" stroke-linejoin="round"/>
-        <path d="M 55 198 L 55 214 L 76 212 L 67 198 Z" fill="#F2C8A2" stroke="#2B1B12" stroke-width="2" stroke-linejoin="round"/>
-      <?php else: ?>
-        <rect x="32" y="182" width="14" height="18" fill="#E8DEC8" stroke="#2B1B12" stroke-width="1.8"/>
-        <line x1="32" y1="188" x2="46" y2="191" stroke="#2B1B12" stroke-width="1.4"/>
-        <line x1="32" y1="194" x2="46" y2="197" stroke="#2B1B12" stroke-width="1.4"/>
-        <rect x="54" y="182" width="14" height="18" fill="#E8DEC8" stroke="#2B1B12" stroke-width="1.8"/>
-        <line x1="54" y1="188" x2="68" y2="191" stroke="#2B1B12" stroke-width="1.4"/>
-        <line x1="54" y1="194" x2="68" y2="197" stroke="#2B1B12" stroke-width="1.4"/>
-        <path d="M 32 200 L 21 213 L 46 215 L 46 200 Z" fill="#2B2927" stroke="#2B1B12" stroke-width="2"/>
-        <path d="M 54 200 L 54 215 L 79 213 L 68 200 Z" fill="#2B2927" stroke="#2B1B12" stroke-width="2"/>
-      <?php endif; ?>
-
-      <!-- 衣袍與腰帶 -->
-      <path d="M 34 58 L 66 58 L 84 88 L 74 104 L 68 92 L 74 166 L 26 166 L 32 92 L 26 104 L 16 88 Z" fill="<?php echo $oxData['mangshen']['clothes']; ?>" stroke="#2B1B12" stroke-width="2.5" stroke-linejoin="round"/>
-      <path d="M 38 58 L 54 84 M 62 58 L 44 88" stroke="#2B1B12" stroke-width="2" fill="none"/>
-      <path d="M 40 120 L 36 162 M 52 122 L 52 163 M 62 120 L 65 162" stroke="#2B1B12" stroke-width="1.5" opacity="0.45"/>
-
-      <rect x="31" y="104" width="38" height="10" rx="2" fill="<?php echo $oxData['mangshen']['belt']; ?>" stroke="#2B1B12" stroke-width="2"/>
-      <path d="M 45 114 L 41 152 L 47 148 L 50 114 M 53 114 L 58 150 L 52 147 L 50 114" fill="<?php echo $oxData['mangshen']['belt']; ?>" stroke="#2B1B12" stroke-width="1.6"/>
-
-      <circle cx="22" cy="98" r="5.5" fill="#F2C8A2" stroke="#2B1B12" stroke-width="1.8"/>
-      <circle cx="78" cy="98" r="5.5" fill="#F2C8A2" stroke="#2B1B12" stroke-width="1.8"/>
-
-      <!-- 頭部、雙髻與罨耳 -->
-      <path d="M 32 32 C 32 16, 68 16, 68 32 Z" fill="#2B2927"/>
-      <circle cx="38" cy="13" r="6.5" fill="#2B2927" stroke="#2B1B12" stroke-width="1.8"/>
-      <circle cx="62" cy="13" r="6.5" fill="#2B2927" stroke="#2B1B12" stroke-width="1.8"/>
-      <line x1="33" y1="17" x2="43" y2="17" stroke="#C83228" stroke-width="2"/>
-      <line x1="57" y1="17" x2="67" y2="17" stroke="#C83228" stroke-width="2"/>
-
-      <path d="M 33 28 C 33 48, 42 57, 50 57 C 58 57, 67 48, 67 28 C 67 21, 33 21, 33 28 Z" fill="#F2C8A2" stroke="#2B1B12" stroke-width="2.2"/>
-
-      <?php if ($ec === 'full' || $ec === 'lift_left'): ?>
-        <path d="M 33 26 L 26 28 L 26 46 L 33 44 Z" fill="#4A3B32" stroke="#2B1B12" stroke-width="1.8"/>
-      <?php elseif ($ec === 'lift_right'): ?>
-        <path d="M 33 28 L 24 22 L 28 12 L 35 20 Z" fill="#4A3B32" stroke="#2B1B12" stroke-width="1.8"/>
-      <?php endif; ?>
-
-      <?php if ($ec === 'full' || $ec === 'lift_right'): ?>
-        <path d="M 67 26 L 74 28 L 74 46 L 67 44 Z" fill="#4A3B32" stroke="#2B1B12" stroke-width="1.8"/>
-      <?php elseif ($ec === 'lift_left'): ?>
-        <path d="M 67 28 L 76 22 L 72 12 L 65 20 Z" fill="#4A3B32" stroke="#2B1B12" stroke-width="1.8"/>
-      <?php endif; ?>
-
-      <!-- 五官與鬍鬚 -->
-      <path d="M 38 31 Q 42 28 46 31 M 54 31 Q 58 28 62 31" stroke="#2B1B12" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-      <circle cx="42" cy="35" r="2" fill="#2B1B12"/>
-      <circle cx="58" cy="35" r="2" fill="#2B1B12"/>
-      <path d="M 50 35 L 48 43 L 52 43" stroke="#2B1B12" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-      <path d="M 46 49 Q 50 51 54 49" stroke="#9E2A22" stroke-width="2" fill="none" stroke-linecap="round"/>
-
-      <?php if ($oxData['mangshen']['age'] === 'old'): ?>
-        <path d="M 42 52 C 40 68, 46 82, 50 86 C 54 82, 60 68, 58 52 Q 50 56 42 52 Z" fill="#F4EFE4" stroke="#7A736B" stroke-width="1.5"/>
-      <?php endif; ?>
-
-      <!-- 柳枝鞭杖與五色絲結 -->
-      <path d="M 78 96 Q 98 62 112 24" stroke="#6E4726" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <path d="M 96 62 Q 108 54 114 60 Q 104 65 96 62 Z" fill="#4E6E38"/>
-      <path d="M 105 42 Q 94 34 89 40 Q 98 45 105 42 Z" fill="#4E6E38"/>
-      <path d="M 112 24 C 122 32, 124 44, 118 52" stroke="#2B6E4B" stroke-width="2" fill="none"/>
-      <path d="M 112 24 C 126 28, 130 40, 125 48" stroke="#C83228" stroke-width="2" fill="none"/>
-      <path d="M 112 24 C 118 36, 116 48, 110 55" stroke="#E5A922" stroke-width="2" fill="none"/>
-      <path d="M 112 24 C 128 22, 134 32, 131 42" stroke="#F4EFE4" stroke-width="2" fill="none"/>
-      <path d="M 112 24 C 114 38, 110 48, 104 54" stroke="#2B2927" stroke-width="1.8" fill="none"/>
-    </g>
+    <!-- 近側圖層：若芒神立於牛左邊，畫在春牛前方 -->
+    <?php if ($oxData['mangshen']['side'] === 'left') renderMangshenSvg($oxData); ?>
 
     <!-- 朱砂雙層外框 -->
     <rect x="8" y="8" width="664" height="404" fill="none" stroke="#9E2A22" stroke-width="4"/>

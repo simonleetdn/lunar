@@ -94,14 +94,21 @@ $uid = 'ox_' . uniqid(); // 避免同頁面多次載入時 ID 衝突
 
 <style>
   .springox-widget-box {
-    max-width: 560px;
-    margin: 12px 0;
+    width: 100%;
+    max-width: 460px; /* 控制圖片在桌面版的寬度，可依喜好調整 */
+    margin: 12px auto;
     background: #FAF3E3;
     border: 2px solid #9E2A22;
     border-radius: 6px;
     padding: 8px;
     box-shadow: 0 3px 10px rgba(60, 35, 15, 0.12);
-    clear: both;
+  }
+  /* 螢幕寬度大於 768px 時，圖片靠右並讓文字環繞在左側 */
+  @media (min-width: 768px) {
+    .springox-widget-box {
+      float: right;
+      margin: 4px 0 12px 20px; /* 上 4px、右 0、下 12px、左 20px（與左側文字保持間距） */
+    }
   }
   .springox-widget-box svg {
     display: block;

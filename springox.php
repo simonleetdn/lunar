@@ -73,8 +73,8 @@ if (isset($_GET['year'])) {
 	$solar = $lunar->getSolar();
 		 
 include_once("springoxcon.php");
-echo '【'.$oxcontent.'】';
 include 'springox_widget.php';
+echo '【'.$oxcontent.'】';
 }
 ?>
 </div></div></div>

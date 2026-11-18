@@ -168,8 +168,8 @@ if (isset($_GET["year-month"]) && !empty($_GET["year-month"])) {
                 $canShiJiYe = convertToChinese($canLunar->getDay());
 
                 echo '【' . $lunarYear->getZhiShui() . '，' . $lunarYear->getDeJin() . '，' . $lunarYear->getGengTian() . '，' . $gubacanRules[$lyz] . '，蠶食' . $canShiJiYe . '葉】';
-                echo '【春牛芒神服色：' . $oxcontent . '】';
 				include 'springox_widget.php';
+                echo '【春牛芒神服色：' . $oxcontent . '】';
                 echo '</div><hr/>';
             }
 

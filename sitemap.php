@@ -65,6 +65,27 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>	
+  <url>
+    <loc>https://lunar.ioi.tw/dream.php</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://lunar.ioi.tw/sanfu.php</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://lunar.ioi.tw/omen.php</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
 <?php
 $currentYear = date('Y');
 $years = [

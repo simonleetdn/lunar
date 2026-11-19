@@ -52,6 +52,9 @@ body {
 			      echo '<a href="calendar/" class="btn btn-warning mb-4">每日自動更新的日曆</a><br/>';
             echo '<a href="yuangang.php" class="btn btn-warning mb-4">袁天罡稱骨算命</a><br/>';
             echo '<a href="ziwei.php" class="btn btn-warning">紫微斗數線上排盤</a><br/>';
+            echo '<a href="dream.php" class="btn btn-warning mb-4">周公解夢</a><br/>';
+            echo '<a href="sanfu.php" class="btn btn-warning mb-4">三伏天・三九天・數九寒天</a><br/>';
+            echo '<a href="omen.php" class="btn btn-warning mb-4">眼跳・耳鳴・噴嚏・心驚吉凶</a><br/>';
             ?>
           </div>
         </div>

@@ -1,7 +1,7 @@
 <?php include 'metaseo.php'; ?>
 <meta name="description" content="傳統農民曆三伏天、三九天與數九寒天自動推算工具，依據每年夏至、立秋與冬至節氣及天干庚日，精準計算初伏、中伏、末伏及一九至九九日期，提供三伏貼與三九貼養生參考。">
 <link rel="canonical" href="https://lunar.ioi.tw/sanfu.php" />
-<title>三伏天／三九天與數九寒天自動推算<?php echo isset($_GET['year']) ? "：".intval($_GET['year'])."年" : ''; ?></title>
+<title>三伏天、三九天與數九寒天自動推算<?php echo isset($_GET['year']) ? "：".intval($_GET['year'])."年" : ''; ?></title>
 <?php include 'head.php'; ?>
 <body>
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-danger">
@@ -34,7 +34,7 @@
 	<div class="container">
     <div class="row">
       <div class="col-md-12">
-		  <h2>三伏天／三九天與數九寒天自動推算</h2>
+		  <h2>三伏天、三九天與數九寒天自動推算</h2>
 <?php
 date_default_timezone_set('Asia/Taipei');
 require 'Lunar.php';

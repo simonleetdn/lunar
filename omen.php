@@ -1,7 +1,7 @@
 <?php include 'metaseo.php'; ?>
 <meta name="description" content="傳統民俗眼跳、耳鳴、噴嚏、心驚吉凶查詢，依照十二時辰與左右部位精準解析吉凶徵兆，提供最即時的農民曆占卜參考。">
 <link rel="canonical" href="https://lunar.ioi.tw/omen.php" />
-<title>眼跳／耳鳴／噴嚏／心驚吉凶查詢<?php echo isset($_GET['type']) && isset($_GET['time']) ? "：".htmlspecialchars($_GET['time']).htmlspecialchars($_GET['type']) : ''; ?></title>
+<title>眼跳、耳鳴、噴嚏、心驚吉凶查詢<?php echo isset($_GET['type']) && isset($_GET['time']) ? "：".htmlspecialchars($_GET['time']).htmlspecialchars($_GET['type']) : ''; ?></title>
 <?php include 'head.php'; ?>
 <body>
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-danger">
@@ -34,7 +34,7 @@
 	<div class="container">
     <div class="row">
       <div class="col-md-12">
-		  <h2>眼跳／耳鳴／噴嚏／心驚吉凶查詢</h2>
+		  <h2>眼跳、耳鳴、噴嚏、心驚吉凶查詢</h2>
 <?php
 date_default_timezone_set('Asia/Taipei');
 
